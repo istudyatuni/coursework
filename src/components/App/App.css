@@ -5,21 +5,55 @@
 }
 
 .Ruler > p > span {
-	padding: 5px;
-}
-
-.Ruler > p > span:hover {
-	background-color: #DC6F65;
+	padding: 0 5px 2px;
+	margin-right: 5px;
+	background-color: #E85B42;
 	border-radius: 4px;
 }
 
+.Ruler > p > span:hover {
+	background-color: #E32121;
+}
+
 .Ruler {
-	background-color: #F47B70;
 	border-radius: 6px;
+	background-color: #F47B70;
+	box-shadow: 5px 5px 5px grey;
+
 	padding: 1.5em;
+	padding-left: 2.5em;
+	text-align: left;
+
 	position: fixed;
 	top: 2em;
 	left: 2em;
+	min-width: 18em;
+}
+
+.Ruler:hover, .logBox:hover {
+	background-color: #EC776C;
+}
+
+.Ruler > p {
+	margin: 5px;
+	font-size: 1.2em;
+}
+
+.logBox {
+	background-color: #F47B70;
+	border-radius: 6px;
+
+	padding: 0 2em;
+	text-align: left;
+	font-size: 1.3em;
+
+	position: fixed;
+	bottom: 2em;
+	left: 2em;
+}
+
+.logBox > p {
+	margin-top: 1em;
 }
 
 .App-logo {
