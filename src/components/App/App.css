@@ -40,7 +40,7 @@
 }
 
 .logBox {
-	background-color: #F47B70;
+	list-style-type: none;
 	border-radius: 6px;
 
 	padding: 0 2em;
@@ -50,43 +50,25 @@
 	position: fixed;
 	bottom: 2em;
 	left: 2em;
+	cursor: pointer;
+}
+
+.logBox:active {
+	background-color: #FF3;
 }
 
 .logBox > p {
 	margin-top: 1em;
 }
 
-.App-logo {
-	height: 40vmin;
-	pointer-events: none;
+.logBox li {
+	background-color: #F47B70;
+	margin-bottom: 3px;
+	padding: 3px 13px 5px;
+	border-radius: 4px;
+	max-width: 15em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-	.App-logo {
-		animation: App-logo-spin infinite 20s linear;
-	}
-}
-
-.App-header {
-	background-color: #282c34;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	font-size: calc(10px + 2vmin);
-	color: white;
-}
-
-.App-link {
-	color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+.logBox:active li {
+	background-color: #EE2;
 }

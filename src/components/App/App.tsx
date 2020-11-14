@@ -26,11 +26,25 @@ function App() {
 	const [rotX, setRotX] = useState(0)
 	const [rotY, setRotY] = useState(0)
 
+	function resetAll() {
+		setPosX(0)
+		setPosY(0)
+		setRotX(0)
+		setRotY(0)
+	}
+
 	// for non-console log
-	const [logMsg, writeLog] = useState('Log')
+	const [logMsg, writeLog] = useState([<li>Log</li>])
 	function log(msg: string, delay: number = 1000) {
-		writeLog(msg)
-		setTimeout(function(){ writeLog('Log') }, delay)
+		let tmp = [...logMsg]
+		if(tmp.length >= 7) {
+			tmp = tmp.slice(1)
+		}
+		writeLog([...tmp, <li>{msg}</li>])
+	}
+
+	function resetLog() {
+		writeLog([<li>Log</li>])
 	}
 
 	// rotate
@@ -44,6 +58,8 @@ function App() {
 	useKeypress('a', () => setPosX(posX => posX - 10));
 	useKeypress('s', () => setPosY(posY => posY + 10));
 	useKeypress('d', () => setPosX(posX => posX + 10));
+
+	useKeypress(' ', resetAll)
 
 	const setup = (p5: p5Types, canvasParentRef: Element) => {
 		let w = p5.windowWidth
@@ -75,16 +91,14 @@ function App() {
 				<p><span onClick={()=>setRotX(0)}>reset</span><b>X: </b> {rotX}</p>
 				<p><span onClick={()=>setRotY(0)}>reset</span><b>Y: </b> {rotY}</p>
 				<br/>
-				<p><span onClick={()=>{
-					setPosX(0)
-					setPosY(0)
-					setRotX(0)
-					setRotY(0)
-				}}>Reset all</span></p>
+				<p><span onClick={resetAll}>Reset all</span> <code>Space</code></p>
 			</div>
-			<div className="logBox">
-				<p>{logMsg}</p>
-			</div>
+			{
+				(!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ?
+				(<div className="logBox" onClick={resetLog}>
+					<dl>{logMsg}</dl>
+				</div>) : (<div></div>)
+			}
 		</div>
 	);
 }
