@@ -9,7 +9,7 @@ import p5Types from "p5"; //Import this for typechecking and intellisense
 function useKeypress(key: string, action: ()=>void) {
 	useEffect(()=>{
 		function onKeydown(e: any) {
-			if(e.key === key) {
+			if(e.key === key && !e.ctrlKey) {
 				e.preventDefault()
 				action()
 			}
