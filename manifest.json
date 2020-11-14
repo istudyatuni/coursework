@@ -1,0 +1,15 @@
+{
+  "short_name": "Coursework",
+  "name": "Coursework with p5.js",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "33x33",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
