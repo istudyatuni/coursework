@@ -1,15 +1,26 @@
 "use strict";
 
-function setupListeners(updatePosition, width, height) {
+function setupListeners(updatePosition, resetPosition, width, height, step = 10) {
 	document.addEventListener('keydown', (e) => {
 		if(e.code === 'ArrowUp') {
-			updatePosition(1, -10, height)
+			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3
+
+			updatePosition(1, -1 * step * a, height)
 		} else if(e.code === 'ArrowDown') {
-			updatePosition(1, 10, height)
+			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3
+
+			updatePosition(1, step * a, height)
 		} else if(e.code === 'ArrowRight') {
-			updatePosition(0, 10, width)
+			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3
+
+			updatePosition(0, step * a, width)
 		} else if(e.code === 'ArrowLeft') {
-			updatePosition(0, -10, width)
+			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3
+
+			updatePosition(0, -1 * step * a, width)
+		} else if(e.keyCode === 32) {
+			e.preventDefault()
+			resetPosition()
 		}
 	})
 }
@@ -62,11 +73,22 @@ function main() {
 		drawScene();
 	}
 
-	setupListeners(updatePosition, gl.canvas.width, gl.canvas.height)
+	function resetPosition() {
+		translation = [20, 20]
+		drawTranslationValue(translation)
+		drawScene();
+	}
+
+	setupListeners(updatePosition, resetPosition, gl.canvas.width, gl.canvas.height)
 
 	// Draw a the scene.
 	function drawScene() {
-		webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+    const clientWidth  = gl.canvas.clientWidth * 1 | 0
+    const clientHeight = gl.canvas.clientHeight * 1 | 0
+    if (gl.canvas.width !== clientWidth || gl.canvas.height !== clientHeight) {
+      gl.canvas.width = clientWidth
+      gl.canvas.height = clientHeight
+    }
 
 		// Tell WebGL how to convert from clip space to pixels
 		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
