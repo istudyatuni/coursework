@@ -1,104 +1,129 @@
-/* eslint no-console:0 consistent-return:0 */
 "use strict";
 
-function createShader(gl, type, source) {
-	let shader = gl.createShader(type);   // создание шейдера
-	gl.shaderSource(shader, source);      // устанавливаем шейдеру его программный код
-	gl.compileShader(shader);             // компилируем шейдер
-	let success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-	if (success) {                        // если компиляция прошла успешно - возвращаем шейдер
-		return shader;
-	}
-
-	console.log(gl.getShaderInfoLog(shader));
-	gl.deleteShader(shader);
+function setupListeners(updatePosition, width, height) {
+	document.addEventListener('keydown', (e) => {
+		if(e.code === 'ArrowUp') {
+			updatePosition(1, -10, height)
+		} else if(e.code === 'ArrowDown') {
+			updatePosition(1, 10, height)
+		} else if(e.code === 'ArrowRight') {
+			updatePosition(0, 10, width)
+		} else if(e.code === 'ArrowLeft') {
+			updatePosition(0, -10, width)
+		}
+	})
 }
 
-function createProgram(gl, vertexShader, fragmentShader) {
-	let program = gl.createProgram();
-	gl.attachShader(program, vertexShader);
-	gl.attachShader(program, fragmentShader);
-	gl.linkProgram(program);
-	let success = gl.getProgramParameter(program, gl.LINK_STATUS);
-	if (success) {
-		return program;
-	}
-
-	console.log(gl.getProgramInfoLog(program));
-	gl.deleteProgram(program);
+function drawTranslationValue(translation) {
+	let div = document.getElementById('translation')
+	div.innerHTML = 'x: ' + translation[0] + '<br>y: ' + translation[1]
 }
 
 function main() {
 	// Get A WebGL context
-	let canvas = document.querySelector("#c");
+	/** @type {HTMLCanvasElement} */
+	let canvas = document.querySelector("#canvas");
 	let gl = canvas.getContext("webgl");
 	if (!gl) {
 		return;
 	}
 
-	// Get the strings for our GLSL shaders
-	let vertexShaderSource = document.querySelector("#vertex-shader-2d").text;
-	let fragmentShaderSource = document.querySelector("#fragment-shader-2d").text;
-
-	// create GLSL shaders, upload the GLSL source, compile the shaders
-	let vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-	let fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-
-	// Link the two shaders into a program
-	let program = createProgram(gl, vertexShader, fragmentShader);
+	// setup GLSL program
+	let program = webglUtils.createProgramFromScripts(gl, ["vertex-shader-2d", "fragment-shader-2d"]);
 
 	// look up where the vertex data needs to go.
-	let positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+	let positionLocation = gl.getAttribLocation(program, "a_position");
 
-	// Create a buffer and put three 2d clip space points in it
+	// lookup uniforms
+	let resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+	let colorLocation = gl.getUniformLocation(program, "u_color");
+
+	// Create a buffer to put positions in
 	let positionBuffer = gl.createBuffer();
 
 	// Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
 	gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-	// три двумерных точки
-	let positions = [
-		0, 0,
-		0, 0.5,
-		0.7, 0,
-	];
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+	let translation = [0, 0];
+	let width = 200;
+	let height = 300;
+	let color = [Math.random(), Math.random(), Math.random(), 1];
 
-	// code above this line is initialization code.
-	// code below this line is rendering code.
+	drawScene();
 
-	webglUtils.resizeCanvasToDisplaySize(gl.canvas);
+	function updatePosition(index, value, max_value) {
+		translation[index] = (translation[index] + value) % max_value;
+		if(translation[index] < 0) {
+			translation[index] += max_value
+		}
+		drawTranslationValue(translation)
+		drawScene();
+	}
 
-	// Tell WebGL how to convert from clip space to pixels
-	gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+	setupListeners(updatePosition, gl.canvas.width, gl.canvas.height)
 
-	// очищаем canvas
-	gl.clearColor(0, 0, 0, 0);
-	gl.clear(gl.COLOR_BUFFER_BIT);
+	// Draw a the scene.
+	function drawScene() {
+		webglUtils.resizeCanvasToDisplaySize(gl.canvas);
 
-	// говорим использовать нашу программу (пару шейдеров)
-	gl.useProgram(program);
+		// Tell WebGL how to convert from clip space to pixels
+		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-	// Turn on the attribute
-	gl.enableVertexAttribArray(positionAttributeLocation);
+		// Clear the canvas.
+		gl.clear(gl.COLOR_BUFFER_BIT);
 
-	// Привязываем буфер положений
-	gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+		// Tell it to use our program (pair of shaders)
+		gl.useProgram(program);
 
-	// Указываем атрибуту, как получать данные от positionBuffer (ARRAY_BUFFER)
-	let size = 2;          // 2 компоненты на итерацию
-	let type = gl.FLOAT;   // наши данные - 32-битные числа с плавающей точкой
-	let normalize = false; // не нормализовать данные
-	let stride = 0;        // 0 = перемещаться на size * sizeof(type) каждую итерацию для получения следующего положения
-	let offset = 0;        // начинать с начала буфера
-	gl.vertexAttribPointer(
-			positionAttributeLocation, size, type, normalize, stride, offset);
+		// Turn on the attribute
+		gl.enableVertexAttribArray(positionLocation);
 
-	// draw
-	let primitiveType = gl.TRIANGLES;
-	offset = 0;
-	let count = 3;
-	gl.drawArrays(primitiveType, offset, count);
+		// Bind the position buffer.
+		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+		// Setup a rectangle
+		setRectangle(gl, translation[0], translation[1], width, height);
+
+		// Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
+		let size = 2;          // 2 components per iteration
+		let type = gl.FLOAT;   // the data is 32bit floats
+		let normalize = false; // don't normalize the data
+		let stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
+		let offset = 0;        // start at the beginning of the buffer
+		gl.vertexAttribPointer(
+				positionLocation, size, type, normalize, stride, offset);
+
+		// set the resolution
+		gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
+
+		// set the color
+		gl.uniform4fv(colorLocation, color);
+
+		// Draw the rectangle.
+		let primitiveType = gl.TRIANGLES;
+		offset = 0;
+		let count = 6;
+		gl.drawArrays(primitiveType, offset, count);
+	}
+}
+
+// Fill the buffer with the values that define a rectangle.
+function setRectangle(gl, x, y, width, height) {
+	let x1 = x;
+	let x2 = x + width;
+	let y1 = y;
+	let y2 = y + height;
+	gl.bufferData(
+		gl.ARRAY_BUFFER,
+		new Float32Array([
+			x1, y1,
+			x2, y1,
+			x1, y2,
+			x1, y2,
+			x2, y1,
+			x2, y2,
+		]),
+		gl.STATIC_DRAW);
 }
 
 main();

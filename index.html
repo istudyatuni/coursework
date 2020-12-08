@@ -1,28 +1,40 @@
 <title>WebGL test</title>
-<canvas id="c"></canvas>
-	<script  id="vertex-shader-2d" type="notjs">
-		// атрибут, который будет получать данные из буфера
-		attribute vec4 a_position;
+<link rel="stylesheet" href="style.css">
+<canvas id="canvas"></canvas>
+<div class="canvas-name">CANVAS</div>
+<div class="infobox">
+	<div id="translation">x: 0<br>y: 0</div>
+	<p>↑ ↓ ← → -  move</p>
+	<p>space - reset position</p>
+</div>
+<!-- vertex shader -->
+<script  id="vertex-shader-2d" type="x-shader/x-vertex">
+attribute vec2 a_position;
 
-		// все шейдеры имеют функцию main
-		void main() {
+uniform vec2 u_resolution;
 
-		// gl_Position - специальная переменная вершинного шейдера,
-		// которая отвечает за установку положения
-		gl_Position = a_position;
-	}
-	</script>
-	<script id="fragment-shader-2d" type="notjs">
-		// фрагментные шейдеры не имеют точности по умолчанию, поэтому нам необходимо её
-		// указать. mediump подойдёт для большинства случаев. Он означает "средняя точность"
-		precision mediump float;
+void main() {
+	// convert the rectangle points from pixels to 0.0 to 1.0
+	vec2 zeroToOne = a_position / u_resolution;
 
-		void main() {
-		// gl_FragColor - специальная переменная фрагментного шейдера.
-		// Она отвечает за установку цвета.
-		gl_FragColor = vec4(1, 0, 0.5, 1); // вернёт красновато-фиолетовый
-	}
+	// convert from 0->1 to 0->2
+	vec2 zeroToTwo = zeroToOne * 2.0;
 
+	// convert from 0->2 to -1->+1 (clipspace)
+	vec2 clipSpace = zeroToTwo - 1.0;
+
+	gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+}
+</script>
+<!-- fragment shader -->
+<script  id="fragment-shader-2d" type="x-shader/x-fragment">
+precision mediump float;
+
+uniform vec4 u_color;
+
+void main() {
+	gl_FragColor = u_color;
+}
 </script><!--
 for most samples webgl-utils only provides shader compiling/linking and
 canvas resizing because why clutter the examples with code that's the same in every sample.
@@ -31,4 +43,5 @@ and https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
 for webgl-utils, m3, m4, and webgl-lessons-ui.
 -->
 <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
-<script type="text/javascript" src="main.js"></script>
+<script src="https://webglfundamentals.org/webgl/resources/webgl-lessons-ui.js"></script>
+<script src="main.js"></script>
