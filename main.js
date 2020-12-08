@@ -25,6 +25,8 @@ function main() {
 	let canvas = document.querySelector("#canvas");
 	let gl = canvas.getContext("webgl");
 	if (!gl) {
+		let not_supported = document.querySelector('.canvas-bottom')
+		not_supported.classList.remove('hide')
 		return;
 	}
 
@@ -44,7 +46,7 @@ function main() {
 	// Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
 	gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-	let translation = [0, 0];
+	let translation = [20, 20];
 	let width = 200;
 	let height = 300;
 	let color = [Math.random(), Math.random(), Math.random(), 1];

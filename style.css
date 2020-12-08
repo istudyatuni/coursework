@@ -15,9 +15,23 @@ body {
 	font-size: 10em;
 	left: 50%;
 	top: 50%;
+	opacity: 0.3;
+	position: fixed;
+	transform: translate(-50%, -50%);
+}
+
+.canvas-bottom {
+	color: #444;
+	font-size: 2em;
+	left: 50%;
+	top: 63%;
 	opacity: 0.5;
 	position: fixed;
 	transform: translate(-50%, -50%);
+}
+
+.hide {
+	display: none;
 }
 
 .infobox {
@@ -25,7 +39,13 @@ body {
 	top: 1em;
 	left: 10px;
 }
- .infobox > p {
- 	font-family: monospace;
- 	font-size: 1.2em;
- }
+.infobox > p {
+	font-family: monospace;
+	font-size: 1.2em;
+}
+
+.gh-link {
+	color: blue;
+	text-decoration: none;
+	margin-top: 2em;
+}
