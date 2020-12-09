@@ -1,82 +1,7 @@
 "use strict";
-
+import { createShader, createProgram } from './gl-utils.js'
+import { setupListeners, drawTranslationValue, setTheme } from './helper.js'
 const start_position = 300;
-
-function createShader(gl, type, source) {
-	let shader = gl.createShader(type);   // создание шейдера
-	gl.shaderSource(shader, source);      // устанавливаем шейдеру его программный код
-	gl.compileShader(shader);             // компилируем шейдер
-	let success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-	if (success) {                        // если компиляция прошла успешно - возвращаем шейдер
-		return shader;
-	}
-
-	console.log(gl.getShaderInfoLog(shader));
-	gl.deleteShader(shader);
-}
-
-function createProgram(gl, vertexShaderID, fragmentShaderID) {
-	// Get the strings for our GLSL shaders
-	let vertexShaderSource = document.querySelector(vertexShaderID).text;
-	let fragmentShaderSource = document.querySelector(fragmentShaderID).text;
-
-	// create GLSL shaders, upload the GLSL source, compile the shaders
-	let vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-	let fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-
-	let program = gl.createProgram();
-	gl.attachShader(program, vertexShader);
-	gl.attachShader(program, fragmentShader);
-	gl.linkProgram(program);
-	let success = gl.getProgramParameter(program, gl.LINK_STATUS);
-	if (success) {
-		return program;
-	}
-
-	console.log(gl.getProgramInfoLog(program));
-	gl.deleteProgram(program);
-}
-
-function setupListeners(updatePosition, resetPosition, width, height, step = 10) {
-	document.addEventListener('keydown', (e) => {
-		if(e.code === 'ArrowUp') {
-			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3;
-
-			updatePosition(1, -1 * step * a, height)
-		} else if(e.code === 'ArrowDown') {
-			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3;
-
-			updatePosition(1, step * a, height)
-		} else if(e.code === 'ArrowRight') {
-			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3;
-
-			updatePosition(0, step * a, width)
-		} else if(e.code === 'ArrowLeft') {
-			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3;
-
-			updatePosition(0, -1 * step * a, width)
-		} else if(e.keyCode === 32) {
-			e.preventDefault()
-			resetPosition()
-		} else if(e.code === 'Escape') {
-			alert('What are you want?')
-		}
-	})
-}
-
-function drawTranslationValue(translation) {
-	let div = document.getElementById('translation')
-	div.innerHTML = 'x: ' + translation[0] + '<br>y: ' + translation[1]
-}
-
-function setTheme() {
-	let currentTime = new Date().getHours();
-	if (document.body) {
-		if (7 >= currentTime || currentTime >= 16) {
-			document.body.className = 'dark'
-		}
-	}
-}
 
 function main() {
 	// Get A WebGL context
@@ -101,15 +26,19 @@ function main() {
 	let resolutionLocation = gl.getUniformLocation(program, "u_resolution");
 	let colorLocation = gl.getUniformLocation(program, "u_color");
 	let translationLocation = gl.getUniformLocation(program, 'u_translation')
+	let rotationLocation = gl.getUniformLocation(program, 'u_rotation')
 
 	// Create a buffer to put positions in
 	let positionBuffer = gl.createBuffer();
 
 	// Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
 	gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
 	setGeometry(gl)
 
 	let translation = [start_position, start_position];
+	let angle = 0
+	let rotation = [Math.sin(angle), Math.cos(angle)]
 	let width = 200;
 	let height = 300;
 	let color = [Math.random(), Math.random(), Math.random(), 1];
@@ -126,13 +55,20 @@ function main() {
 		drawScene();
 	}
 
+	function rotatePosition(value) {
+		angle += value * Math.PI / 180
+		rotation = [Math.sin(angle), Math.cos(angle)]
+		drawScene();
+	}
+
 	function resetPosition() {
 		translation = [start_position, start_position]
+		rotation = [0, 1]
 		drawTranslationValue(translation)
 		drawScene();
 	}
 
-	setupListeners(updatePosition, resetPosition, gl.canvas.width, gl.canvas.height)
+	setupListeners(updatePosition, rotatePosition, resetPosition, gl.canvas.width, gl.canvas.height)
 
 	// Draw a the scene.
 	function drawScene() {
@@ -174,6 +110,9 @@ function main() {
 
 		// Set the translation.
 		gl.uniform2fv(translationLocation, translation);
+
+		// Set the rotation
+		gl.uniform2fv(rotationLocation, rotation)
 
 		// Draw the geometry.
 		let primitiveType = gl.TRIANGLES;

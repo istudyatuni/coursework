@@ -12,7 +12,9 @@
 	<div class="canvas-bottom hide">WebGL NOT SUPPORTED</div>
 	<div class="infobox">
 		<div id="translation">x:<br>y:</div>
-		<p>↑ ↓ ← → -  move, press Ctrl for fast move</p>
+		<p>↑ ↓ ← → -  move</p>
+		<p>a d - rotation</p>
+		<p>press Ctrl for fast move</p>
 		<p>space - reset position</p>
 		<a href="https://github.com/istudyatuni/coursework/tree/gh-pages" class="gh-link" target="blank" title="GitHub">Source code</a>
 	</div>
@@ -24,10 +26,16 @@ attribute vec2 a_position;
 
 uniform vec2 u_resolution;
 uniform vec2 u_translation;
+uniform vec2 u_rotation;
 
 void main() {
-	// добавляем перенос
-	vec2 position = a_position + u_translation;
+	// поворот вершины
+	vec2 rotatedPosition = vec2(
+		a_position.x * u_rotation.y + a_position.y * u_rotation.x,
+		a_position.y * u_rotation.y - a_position.x * u_rotation.x);
+
+	// затем перенос
+	vec2 position = rotatedPosition + u_translation;
 
 	// convert the rectangle points from pixels to 0.0 to 1.0
 	vec2 zeroToOne = position / u_resolution;
@@ -51,7 +59,7 @@ void main() {
 	gl_FragColor = u_color;
 }
 </script>
-<script src="main.js"></script>
+<script type="module" src="main.js"></script>
 
 <!--
 for most samples webgl-utils only provides shader compiling/linking and
