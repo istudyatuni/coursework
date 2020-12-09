@@ -1,12 +1,27 @@
+:root {
+	--bg-color: #eee;
+	--text-color: #000;
+	--big-text-color: #444;
+	--link-color: blue;
+}
+
+.dark {
+	--bg-color: #333;
+	--text-color: #aaa;
+	--big-text-color: #bbb;
+	--link-color: #425CFF;
+}
+
 canvas {
-	background-color: #eee;
 	height: 100%;
 	width: 100%;
 }
 
 body {
+	background-color: var(--bg-color);
 	font-family: sans-serif;
 	margin: 0;
+	height: 100%;
 	user-select: none;
 }
 
@@ -21,7 +36,7 @@ body {
 }
 
 .canvas-bottom {
-	color: #444;
+	color: var(--big-text-color);
 	font-size: 2em;
 	left: 50%;
 	top: 63%;
@@ -35,6 +50,7 @@ body {
 }
 
 .infobox {
+	color: var(--text-color);
 	position: fixed;
 	top: 1em;
 	left: 10px;
@@ -45,7 +61,7 @@ body {
 }
 
 .gh-link {
-	color: blue;
+	color: var(--link-color);
 	text-decoration: none;
 	margin-top: 2em;
 }

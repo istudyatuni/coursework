@@ -1,24 +1,36 @@
-<link rel="stylesheet" href="style.css">
-<link rel="shortcut icon" type="image/ico" href="favicon.ico"/>
-<title>WebGL test</title>
-<canvas id="canvas"></canvas>
-<div class="canvas-name">CANVAS</div>
-<div class="canvas-bottom hide">WebGL NOT SUPPORTED</div>
-<div class="infobox">
-	<div id="translation">x: 20<br>y: 20</div>
-	<p>↑ ↓ ← → -  move, press Ctrl for fast move</p>
-	<p>space - reset position</p>
-	<a href="https://github.com/istudyatuni/coursework/tree/gh-pages" class="gh-link" target="blank" title="GitHub">Source code</a>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="style.css">
+	<link rel="shortcut icon" type="image/ico" href="favicon.ico"/>
+	<title>WebGL test</title>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<div class="canvas-name">CANVAS</div>
+	<div class="canvas-bottom hide">WebGL NOT SUPPORTED</div>
+	<div class="infobox">
+		<div id="translation">x:<br>y:</div>
+		<p>↑ ↓ ← → -  move, press Ctrl for fast move</p>
+		<p>space - reset position</p>
+		<a href="https://github.com/istudyatuni/coursework/tree/gh-pages" class="gh-link" target="blank" title="GitHub">Source code</a>
+	</div>
+</body>
+</html>
 <!-- vertex shader -->
 <script  id="vertex-shader-2d" type="x-shader/x-vertex">
 attribute vec2 a_position;
 
 uniform vec2 u_resolution;
+uniform vec2 u_translation;
 
 void main() {
+	// добавляем перенос
+	vec2 position = a_position + u_translation;
+
 	// convert the rectangle points from pixels to 0.0 to 1.0
-	vec2 zeroToOne = a_position / u_resolution;
+	vec2 zeroToOne = position / u_resolution;
 
 	// convert from 0->1 to 0->2
 	vec2 zeroToTwo = zeroToOne * 2.0;
@@ -38,13 +50,17 @@ uniform vec4 u_color;
 void main() {
 	gl_FragColor = u_color;
 }
-</script><!--
+</script>
+<script src="main.js"></script>
+
+<!--
 for most samples webgl-utils only provides shader compiling/linking and
 canvas resizing because why clutter the examples with code that's the same in every sample.
 See https://webglfundamentals.org/webgl/lessons/webgl-boilerplate.html
 and https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
 for webgl-utils, m3, m4, and webgl-lessons-ui.
+
+It's no need more, but i will not delete it
 -->
 <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
 <script src="https://webglfundamentals.org/webgl/resources/webgl-lessons-ui.js"></script>
-<script src="main.js"></script>
