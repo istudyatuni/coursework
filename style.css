@@ -55,8 +55,7 @@ body {
 	top: 1em;
 	left: 10px;
 }
-.infobox > p {
-	font-family: monospace;
+.infobox code {
 	font-size: 1.2em;
 }
 

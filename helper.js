@@ -1,32 +1,45 @@
-export function setupListeners(updatePosition, rotatePosition, resetPosition, width, height, step = 10) {
+export function setupListeners(updatePosition, rotatePosition, scalePosition, resetPosition, width, height, step = 10) {
 	document.addEventListener('keydown', (e) => {
+		let a = 1;
+		function defaultAction() {
+			e.preventDefault(); if(e.ctrlKey) a = 3;
+		}
 		if(e.code === 'ArrowUp') {
-			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3;
-
+			defaultAction()
 			updatePosition(1, -1 * step * a, height)
 		} else if(e.code === 'ArrowDown') {
-			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3;
-
+			defaultAction()
 			updatePosition(1, step * a, height)
 		} else if(e.code === 'ArrowRight') {
-			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3;
-
+			defaultAction()
 			updatePosition(0, step * a, width)
 		} else if(e.code === 'ArrowLeft') {
-			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3;
-
+			defaultAction()
 			updatePosition(0, -1 * step * a, width)
 		} else if(e.key === 'a') {
-			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3;
-
+			defaultAction()
 			rotatePosition(2 * a)
 		} else if(e.key === 'd') {
-			e.preventDefault(); let a = 1; if(e.ctrlKey) a = 3;
-
+			defaultAction()
 			rotatePosition(-2 * a)
-		} else if(e.keyCode === 32) {
-			e.preventDefault()
+		}
 
+		else if(e.key === '8') {
+			defaultAction()
+			scalePosition(1, -0.03 * a)
+		} else if(e.key === '4') {
+			defaultAction()
+			scalePosition(0, -0.03 * a)
+		} else if(e.key === '6') {
+			defaultAction()
+			scalePosition(0, 0.03 * a)
+		} else if(e.key === '2') {
+			defaultAction()
+			scalePosition(1, 0.03 * a)
+		}
+
+		else if(e.keyCode === 32) {
+			defaultAction()
 			resetPosition()
 		} else if(e.code === 'Escape') {
 			alert('What are you want?')

@@ -27,6 +27,7 @@ function main() {
 	let colorLocation = gl.getUniformLocation(program, "u_color");
 	let translationLocation = gl.getUniformLocation(program, 'u_translation')
 	let rotationLocation = gl.getUniformLocation(program, 'u_rotation')
+	let scaleLocation = gl.getUniformLocation(program, 'u_scale')
 
 	// Create a buffer to put positions in
 	let positionBuffer = gl.createBuffer();
@@ -37,8 +38,12 @@ function main() {
 	setGeometry(gl)
 
 	let translation = [start_position, start_position];
-	let angle = 0
-	let rotation = [Math.sin(angle), Math.cos(angle)]
+
+	let rad = 0
+	let rotation = [Math.sin(rad), Math.cos(rad)]
+
+	let scale = [1, 1]
+
 	let width = 200;
 	let height = 300;
 	let color = [Math.random(), Math.random(), Math.random(), 1];
@@ -56,19 +61,29 @@ function main() {
 	}
 
 	function rotatePosition(value) {
-		angle += value * Math.PI / 180
-		rotation = [Math.sin(angle), Math.cos(angle)]
+		rad += value * 0.1
+		rotation = [Math.sin(rad), Math.cos(rad)]
 		drawScene();
+	}
+
+	function scalePosition(index, value) {
+		scale[index] += value
+		drawScene()
 	}
 
 	function resetPosition() {
 		translation = [start_position, start_position]
-		rotation = [0, 1]
+
+		rad = 0
+		rotation = [Math.sin(rad), Math.cos(rad)]
+
+		scale = [1, 1]
+
 		drawTranslationValue(translation)
 		drawScene();
 	}
 
-	setupListeners(updatePosition, rotatePosition, resetPosition, gl.canvas.width, gl.canvas.height)
+	setupListeners(updatePosition, rotatePosition, scalePosition, resetPosition, gl.canvas.width, gl.canvas.height)
 
 	// Draw a the scene.
 	function drawScene() {
@@ -113,6 +128,9 @@ function main() {
 
 		// Set the rotation
 		gl.uniform2fv(rotationLocation, rotation)
+
+		// Scale
+		gl.uniform2fv(scaleLocation, scale)
 
 		// Draw the geometry.
 		let primitiveType = gl.TRIANGLES;

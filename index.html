@@ -12,10 +12,11 @@
 	<div class="canvas-bottom hide">WebGL NOT SUPPORTED</div>
 	<div class="infobox">
 		<div id="translation">x:<br>y:</div>
-		<p>↑ ↓ ← → -  move</p>
-		<p>a d - rotation</p>
+		<p><code>↑ ↓ ← →</code> - move</p>
+		<p><code>a d</code> - rotation</p>
+		<p><code>Numpad</code> - scale</p>
 		<p>press Ctrl for fast move</p>
-		<p>space - reset position</p>
+		<p><code>space</code> - reset position</p>
 		<a href="https://github.com/istudyatuni/coursework/tree/gh-pages" class="gh-link" target="blank" title="GitHub">Source code</a>
 	</div>
 </body>
@@ -27,12 +28,16 @@ attribute vec2 a_position;
 uniform vec2 u_resolution;
 uniform vec2 u_translation;
 uniform vec2 u_rotation;
+uniform vec2 u_scale;
 
 void main() {
+	// масштабирование
+	vec2 scaledPosition = a_position * u_scale;
+
 	// поворот вершины
 	vec2 rotatedPosition = vec2(
-		a_position.x * u_rotation.y + a_position.y * u_rotation.x,
-		a_position.y * u_rotation.y - a_position.x * u_rotation.x);
+		scaledPosition.x * u_rotation.y + scaledPosition.y * u_rotation.x,
+		scaledPosition.y * u_rotation.y - scaledPosition.x * u_rotation.x);
 
 	// затем перенос
 	vec2 position = rotatedPosition + u_translation;
