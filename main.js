@@ -3,14 +3,57 @@ import { createShader, createProgram } from './gl-utils.js'
 import { setupListeners, drawTranslationValue, setTheme } from './helper.js'
 const start_position = 300;
 
+let m3 = {
+	translation: function (tx, ty) {
+		return [
+			1, 0, 0,
+			0, 1, 0,
+			tx, ty, 1,
+		]
+	},
+	rotation: function (rad) {
+		let c = Math.cos(rad)
+		let s = Math.sin(rad)
+		return [
+			c, -s, 0,
+			s, c, 0,
+			0, 0, 1,
+		]
+	},
+	scaling: function (sx, sy) {
+		return [
+			sx, 0, 0,
+			0, sy, 0,
+			0, 0, 1,
+		]
+	},
+	/**
+	 * Matrix multiplication
+	 *
+	 * A * B = C
+	 * C[i][j] = sum(A[i][k] * B[k][j], k=0..2)
+	 * 0 <= i, j < 3
+	 */
+	multiply: function(a, b) {
+		let c = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+		for (var i = 0; i < 3; i++) {
+			for (var j = 0; j < 3; j++) {
+				for (var k = 0; k < 3; k++) {
+					c[i * 3 + j] += a[i * 3 + k] * b[k * 3 + j]
+				}
+			}
+		}
+		return c
+	},
+}
+
 function main() {
 	// Get A WebGL context
 	/** @type {HTMLCanvasElement} */
 	let canvas = document.getElementById('canvas');
 	let gl = canvas.getContext("webgl");
 	if (!gl) {
-		let not_supported = document.querySelector('.canvas-bottom')
-		not_supported.classList.remove('hide')
+		document.querySelector('.canvas-bottom').classList.remove('hide')
 		return;
 	}
 
@@ -25,9 +68,7 @@ function main() {
 	// lookup uniforms
 	let resolutionLocation = gl.getUniformLocation(program, "u_resolution");
 	let colorLocation = gl.getUniformLocation(program, "u_color");
-	let translationLocation = gl.getUniformLocation(program, 'u_translation')
-	let rotationLocation = gl.getUniformLocation(program, 'u_rotation')
-	let scaleLocation = gl.getUniformLocation(program, 'u_scale')
+	let matrixLocation = gl.getUniformLocation(program, "u_matrix")
 
 	// Create a buffer to put positions in
 	let positionBuffer = gl.createBuffer();
@@ -123,14 +164,16 @@ function main() {
 		// set the color
 		gl.uniform4fv(colorLocation, color);
 
-		// Set the translation.
-		gl.uniform2fv(translationLocation, translation);
+		// Создаём матрицы
+		let translationMatrix = m3.translation(translation[0], translation[1]);
+		let rotationMatrix = m3.rotation(rad);
+		let scaleMatrix = m3.scaling(scale[0], scale[1]);
 
-		// Set the rotation
-		gl.uniform2fv(rotationLocation, rotation)
+		// умножаем матрицы
+		let matrix = m3.multiply(translationMatrix, rotationMatrix)
+		matrix = m3.multiply(matrix, scaleMatrix)
 
-		// Scale
-		gl.uniform2fv(scaleLocation, scale)
+		gl.uniformMatrix3fv(matrixLocation, false, matrix)
 
 		// Draw the geometry.
 		let primitiveType = gl.TRIANGLES;

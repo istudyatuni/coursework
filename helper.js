@@ -1,5 +1,8 @@
 export function setupListeners(updatePosition, rotatePosition, scalePosition, resetPosition, width, height, step = 10) {
 	document.addEventListener('keydown', (e) => {
+		if (e.altKey) {
+			return;
+		}
 		let a = 1;
 		function defaultAction() {
 			e.preventDefault(); if(e.ctrlKey) a = 3;
