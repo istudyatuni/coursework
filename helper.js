@@ -63,3 +63,43 @@ export function setTheme() {
 		}
 	}
 }
+
+export function increaseColor(color) {
+	let ind = Math.floor(Math.random() * 3)
+	color[ind] += (1 / 10)
+	if(color[ind] > 1) {
+		color[ind] -= 1
+	}
+	return color
+}
+
+export function setGeometry(gl) {
+	gl.bufferData(
+		gl.ARRAY_BUFFER,
+		new Float32Array([
+			// вертикальный столб
+			0, 0,
+			30, 0,
+			0, 150,
+			0, 150,
+			30, 0,
+			30, 150,
+
+			// верхняя перекладина
+			30, 0,
+			100, 0,
+			30, 30,
+			30, 30,
+			100, 0,
+			100, 30,
+
+			// перекладина посередине
+			30, 60,
+			67, 60,
+			30, 90,
+			30, 90,
+			67, 60,
+			67, 90,
+		]),
+		gl.STATIC_DRAW);
+}

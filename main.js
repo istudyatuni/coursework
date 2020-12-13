@@ -1,59 +1,10 @@
 "use strict";
 import { createShader, createProgram } from './gl-utils.js'
-import { setupListeners, drawTranslationValue, setTheme } from './helper.js'
+import { setupListeners, drawTranslationValue, setTheme, increaseColor, setGeometry } from './helper.js'
+import { mat3 } from './matrix.js'
+
 const start_position = 300;
 const center = [-50, -75]
-
-let mat3 = {
-	translation: function (tx, ty) {
-		return [
-			1, 0, 0,
-			0, 1, 0,
-			tx, ty, 1,
-		]
-	},
-	rotation: function (rad) {
-		let c = Math.cos(rad)
-		let s = Math.sin(rad)
-		return [
-			c, -s, 0,
-			s, c, 0,
-			0, 0, 1,
-		]
-	},
-	scaling: function (sx, sy) {
-		return [
-			sx, 0, 0,
-			0, sy, 0,
-			0, 0, 1,
-		]
-	},
-	/**
-	 * Matrix multiplication
-	 *
-	 * A * B = C
-	 * C[i][j] = sum(A[i][k] * B[k][j], k=0..2)
-	 * 0 <= i, j < 3
-	 */
-	multiply: function(a, b) {
-		let c = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-		for (var i = 0; i < 3; i++) {
-			for (var j = 0; j < 3; j++) {
-				for (var k = 0; k < 3; k++) {
-					c[i * 3 + j] += a[i * 3 + k] * b[k * 3 + j]
-				}
-			}
-		}
-		return c
-	},
-	identity: function () {
-		return [
-			1, 0, 0,
-			0, 1, 0,
-			0, 0, 1,
-		]
-	},
-}
 
 function main() {
 	// Get A WebGL context
@@ -74,7 +25,6 @@ function main() {
 	let positionLocation = gl.getAttribLocation(program, "a_position");
 
 	// lookup uniforms
-	let resolutionLocation = gl.getUniformLocation(program, "u_resolution");
 	let colorLocation = gl.getUniformLocation(program, "u_color");
 	let matrixLocation = gl.getUniformLocation(program, "u_matrix")
 
@@ -166,26 +116,26 @@ function main() {
 		let offset = 0;        // start at the beginning of the buffer
 		gl.vertexAttribPointer(positionLocation, size, type, normalize, stride, offset);
 
-		// set the resolution
-		gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
-
 		// set the color
+		color = increaseColor(color)
 		gl.uniform4fv(colorLocation, color);
 
 		// Создаём матрицы
 		let translationMatrix = mat3.translation(translation[0], translation[1]);
 		let rotationMatrix = mat3.rotation(rad);
 		let scaleMatrix = mat3.scaling(scale[0], scale[1]);
+
+		let projectionMatrix = mat3.projection(gl.canvas.clientWidth, gl.canvas.clientHeight)
 		let moveOriginMatrix = mat3.translation(center[0], center[1])
 
 		let matrix = mat3.identity()
 
 		// умножаем матрицы
-		// сначала смещаем центр преобразования
-		matrix = mat3.multiply(matrix, moveOriginMatrix)
-		matrix = mat3.multiply(matrix, scaleMatrix)
-		matrix = mat3.multiply(matrix, rotationMatrix)
 		matrix = mat3.multiply(matrix, translationMatrix)
+		matrix = mat3.multiply(matrix, rotationMatrix)
+		matrix = mat3.multiply(matrix, scaleMatrix)
+		matrix = mat3.multiply(matrix, moveOriginMatrix)
+		matrix = mat3.multiply(matrix, projectionMatrix)
 
 		gl.uniformMatrix3fv(matrixLocation, false, matrix)
 
@@ -195,37 +145,6 @@ function main() {
 		let count = 18;  // 6 triangles in the 'F', 3 points per triangle
 		gl.drawArrays(primitiveType, offset, count);
 	}
-}
-
-function setGeometry(gl) {
-	gl.bufferData(
-		gl.ARRAY_BUFFER,
-		new Float32Array([
-			// вертикальный столб
-			0, 0,
-			30, 0,
-			0, 150,
-			0, 150,
-			30, 0,
-			30, 150,
-
-			// верхняя перекладина
-			30, 0,
-			100, 0,
-			30, 30,
-			30, 30,
-			100, 0,
-			100, 30,
-
-			// перекладина посередине
-			30, 60,
-			67, 60,
-			30, 90,
-			30, 90,
-			67, 60,
-			67, 90,
-		]),
-		gl.STATIC_DRAW);
 }
 
 main();
