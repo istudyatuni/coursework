@@ -1,11 +1,11 @@
-export function setupListeners(updatePosition, rotatePosition, scalePosition, resetPosition, width, height, step = 10) {
+export function setupListeners(updatePosition, rotatePosition, scalePosition, resetPosition, width, height, step = 5) {
 	document.addEventListener('keydown', (e) => {
 		if (e.altKey) {
 			return;
 		}
 		let a = 1;
 		function defaultAction() {
-			e.preventDefault(); if(e.ctrlKey) a = 3;
+			e.preventDefault(); if(e.ctrlKey) a = 4;
 		}
 		if(e.code === 'ArrowUp') {
 			defaultAction()
@@ -50,9 +50,9 @@ export function setupListeners(updatePosition, rotatePosition, scalePosition, re
 	})
 }
 
-export function drawTranslationValue(translation) {
+export function drawTranslationValue(translation, center) {
 	let div = document.getElementById('translation')
-	div.innerHTML = 'x: ' + translation[0] + '<br>y: ' + translation[1]
+	div.innerHTML = 'x: ' + (translation[0] + center[0]) + '<br>y: ' + (translation[1] + center[1])
 }
 
 export function setTheme() {

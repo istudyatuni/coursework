@@ -2,8 +2,9 @@
 import { createShader, createProgram } from './gl-utils.js'
 import { setupListeners, drawTranslationValue, setTheme } from './helper.js'
 const start_position = 300;
+const center = [-50, -75]
 
-let m3 = {
+let mat3 = {
 	translation: function (tx, ty) {
 		return [
 			1, 0, 0,
@@ -44,6 +45,13 @@ let m3 = {
 			}
 		}
 		return c
+	},
+	identity: function () {
+		return [
+			1, 0, 0,
+			0, 1, 0,
+			0, 0, 1,
+		]
 	},
 }
 
@@ -90,14 +98,14 @@ function main() {
 	let color = [Math.random(), Math.random(), Math.random(), 1];
 
 	drawScene();
-	drawTranslationValue(translation);
+	drawTranslationValue(translation, center);
 
 	function updatePosition(index, value, max_value) {
 		translation[index] = (translation[index] + value) % max_value;
 		if(translation[index] < 0) {
 			translation[index] += max_value
 		}
-		drawTranslationValue(translation)
+		drawTranslationValue(translation, center)
 		drawScene();
 	}
 
@@ -165,13 +173,19 @@ function main() {
 		gl.uniform4fv(colorLocation, color);
 
 		// Создаём матрицы
-		let translationMatrix = m3.translation(translation[0], translation[1]);
-		let rotationMatrix = m3.rotation(rad);
-		let scaleMatrix = m3.scaling(scale[0], scale[1]);
+		let translationMatrix = mat3.translation(translation[0], translation[1]);
+		let rotationMatrix = mat3.rotation(rad);
+		let scaleMatrix = mat3.scaling(scale[0], scale[1]);
+		let moveOriginMatrix = mat3.translation(center[0], center[1])
+
+		let matrix = mat3.identity()
 
 		// умножаем матрицы
-		let matrix = m3.multiply(translationMatrix, rotationMatrix)
-		matrix = m3.multiply(matrix, scaleMatrix)
+		// сначала смещаем центр преобразования
+		matrix = mat3.multiply(matrix, moveOriginMatrix)
+		matrix = mat3.multiply(matrix, scaleMatrix)
+		matrix = mat3.multiply(matrix, rotationMatrix)
+		matrix = mat3.multiply(matrix, translationMatrix)
 
 		gl.uniformMatrix3fv(matrixLocation, false, matrix)
 
@@ -185,33 +199,33 @@ function main() {
 
 function setGeometry(gl) {
 	gl.bufferData(
-			gl.ARRAY_BUFFER,
-			new Float32Array([
-					// вертикальный столб
-					0, 0,
-					30, 0,
-					0, 150,
-					0, 150,
-					30, 0,
-					30, 150,
+		gl.ARRAY_BUFFER,
+		new Float32Array([
+			// вертикальный столб
+			0, 0,
+			30, 0,
+			0, 150,
+			0, 150,
+			30, 0,
+			30, 150,
 
-					// верхняя перекладина
-					30, 0,
-					100, 0,
-					30, 30,
-					30, 30,
-					100, 0,
-					100, 30,
+			// верхняя перекладина
+			30, 0,
+			100, 0,
+			30, 30,
+			30, 30,
+			100, 0,
+			100, 30,
 
-					// перекладина посередине
-					30, 60,
-					67, 60,
-					30, 90,
-					30, 90,
-					67, 60,
-					67, 90,
-			]),
-			gl.STATIC_DRAW);
+			// перекладина посередине
+			30, 60,
+			67, 60,
+			30, 90,
+			30, 90,
+			67, 60,
+			67, 90,
+		]),
+		gl.STATIC_DRAW);
 }
 
 main();
