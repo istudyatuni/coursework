@@ -54,5 +54,14 @@ export const mat3 = {
 			0, -2 / height, 0,
 			-1, 1, 1,
 		]
+	},
+	translate: function (m, tx, ty) {
+		return mat3.multiply(m, mat3.translation(tx, ty))
+	},
+	rotate: function (m, rad) {
+		return mat3.multiply(m, mat3.rotation(rad))
+	},
+	scale: function (m, sx, sy) {
+		return mat3.multiply(m, mat3.scaling(sx, sy))
 	}
 }

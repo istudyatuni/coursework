@@ -121,20 +121,15 @@ function main() {
 		gl.uniform4fv(colorLocation, color);
 
 		// Создаём матрицы
-		let translationMatrix = mat3.translation(translation[0], translation[1]);
-		let rotationMatrix = mat3.rotation(rad);
-		let scaleMatrix = mat3.scaling(scale[0], scale[1]);
-
 		let projectionMatrix = mat3.projection(gl.canvas.clientWidth, gl.canvas.clientHeight)
-		let moveOriginMatrix = mat3.translation(center[0], center[1])
 
-		let matrix = mat3.identity()
+		let matrix = mat3.translate(mat3.identity(), translation[0], translation[1])
+		matrix = mat3.rotate(matrix, rad)
+		matrix = mat3.scale(matrix, scale[0], scale[1])
 
-		// умножаем матрицы
-		matrix = mat3.multiply(matrix, translationMatrix)
-		matrix = mat3.multiply(matrix, rotationMatrix)
-		matrix = mat3.multiply(matrix, scaleMatrix)
-		matrix = mat3.multiply(matrix, moveOriginMatrix)
+		// move origin to center
+		matrix = mat3.translate(matrix, center[0], center[1])
+
 		matrix = mat3.multiply(matrix, projectionMatrix)
 
 		gl.uniformMatrix3fv(matrixLocation, false, matrix)

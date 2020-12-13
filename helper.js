@@ -64,11 +64,15 @@ export function setTheme() {
 	}
 }
 
+let coeff = 1
+
 export function increaseColor(color) {
 	let ind = Math.floor(Math.random() * 3)
-	color[ind] += (1 / 10)
+	color[ind] += (coeff / 10)
 	if(color[ind] > 1) {
-		color[ind] -= 1
+		coeff = -1
+	} else if(color[ind] < 0) {
+		coeff = 1
 	}
 	return color
 }
