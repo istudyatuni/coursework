@@ -130,7 +130,7 @@ function main() {
 		// Draw the geometry.
 		let primitiveType = gl.TRIANGLES;
 		offset = 0;
-		let count = 18;  // 6 triangles in the 'F', 3 points per triangle
+		let count = 16 * 6;
 		gl.drawArrays(primitiveType, offset, count);
 	}
 }
