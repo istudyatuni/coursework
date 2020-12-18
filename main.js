@@ -1,7 +1,7 @@
 "use strict";
 import { createShader, createProgram } from './gl-utils.js'
 import { setupListeners, drawTranslationValue, setTheme, increaseColor, setGeometry } from './helper.js'
-import { mat3 } from './matrix.js'
+import { mat4 } from './matrix.js'
 
 const start_position = 300;
 const center = [-50, -75]
@@ -19,7 +19,7 @@ function main() {
 	setTheme()
 
 	// Link the two shaders into a program
-	let program = createProgram(gl, '#vertex-shader-2d', '#fragment-shader-2d');
+	let program = createProgram(gl, '#vertex-shader-3d', '#fragment-shader-3d');
 
 	// look up where the vertex data needs to go.
 	let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -36,12 +36,12 @@ function main() {
 
 	setGeometry(gl)
 
-	let translation = [start_position, start_position];
+	let translation = [start_position, start_position, 0];
 
 	let rad = 0
-	let rotation = [Math.sin(rad), Math.cos(rad)]
+	let rotation = [rad, rad, 1.6]
 
-	let scale = [1, 1]
+	let scale = [1, 1, 1]
 
 	let width = 200;
 	let height = 300;
@@ -59,30 +59,29 @@ function main() {
 		drawScene();
 	}
 
-	function rotatePosition(value) {
-		rad += value * 0.1
-		rotation = [Math.sin(rad), Math.cos(rad)]
+	function updateRotation(index, value) {
+		rotation[index] += value * 0.1
 		drawScene();
 	}
 
-	function scalePosition(index, value) {
+	function updateScale(index, value) {
 		scale[index] += value
 		drawScene()
 	}
 
-	function resetPosition() {
-		translation = [start_position, start_position]
+	function resetAll() {
+		translation = [start_position, start_position, 0]
 
 		rad = 0
-		rotation = [Math.sin(rad), Math.cos(rad)]
+		rotation = [rad, rad, 0]
 
-		scale = [1, 1]
+		scale = [1, 1, 1]
 
 		drawTranslationValue(translation)
 		drawScene();
 	}
 
-	setupListeners(updatePosition, rotatePosition, scalePosition, resetPosition, gl.canvas.width, gl.canvas.height)
+	setupListeners(updatePosition, updateRotation, updateScale, resetAll, gl.canvas.width, gl.canvas.height)
 
 	// Draw a the scene.
 	function drawScene() {
@@ -109,7 +108,7 @@ function main() {
 		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
 		// Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-		let size = 2;          // 2 components per iteration
+		let size = 3;          // 3 components per iteration
 		let type = gl.FLOAT;   // the data is 32bit floats
 		let normalize = false; // don't normalize the data
 		let stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
@@ -121,18 +120,17 @@ function main() {
 		gl.uniform4fv(colorLocation, color);
 
 		// Создаём матрицы
-		let projectionMatrix = mat3.projection(gl.canvas.clientWidth, gl.canvas.clientHeight)
+		let projectionMatrix = mat4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400)
 
-		let matrix = mat3.translate(mat3.identity(), translation[0], translation[1])
-		matrix = mat3.rotate(matrix, rad)
-		matrix = mat3.scale(matrix, scale[0], scale[1])
+		let matrix = mat4.translate(mat4.identity(), translation[0], translation[1], translation[2])
+		matrix = mat4.xRotate(matrix, rotation[0])
+		matrix = mat4.yRotate(matrix, rotation[1])
+		matrix = mat4.zRotate(matrix, rotation[2])
+		matrix = mat4.scale(matrix, scale[0], scale[1] ,scale[2])
+		// matrix = mat4.translate(matrix, center[0], center[1]) // move origin to center
+		matrix = mat4.multiply(matrix, projectionMatrix)
 
-		// move origin to center
-		matrix = mat3.translate(matrix, center[0], center[1])
-
-		matrix = mat3.multiply(matrix, projectionMatrix)
-
-		gl.uniformMatrix3fv(matrixLocation, false, matrix)
+		gl.uniformMatrix4fv(matrixLocation, false, matrix)
 
 		// Draw the geometry.
 		let primitiveType = gl.TRIANGLES;

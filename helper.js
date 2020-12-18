@@ -1,4 +1,4 @@
-export function setupListeners(updatePosition, rotatePosition, scalePosition, resetPosition, width, height, step = 5) {
+export function setupListeners(updatePosition, updateRotation, updateScale, resetAll, width, height, step = 5) {
 	document.addEventListener('keydown', (e) => {
 		if (e.altKey) {
 			return;
@@ -21,29 +21,29 @@ export function setupListeners(updatePosition, rotatePosition, scalePosition, re
 			updatePosition(0, -1 * step * a, width)
 		} else if(e.key === 'a') {
 			defaultAction()
-			rotatePosition(2 * a)
+			updateRotation(2 * a)
 		} else if(e.key === 'd') {
 			defaultAction()
-			rotatePosition(-2 * a)
+			updateRotation(-2 * a)
 		}
 
 		else if(e.key === '8') {
 			defaultAction()
-			scalePosition(1, -0.03 * a)
+			updateScale(1, -0.03 * a)
 		} else if(e.key === '4') {
 			defaultAction()
-			scalePosition(0, -0.03 * a)
+			updateScale(0, -0.03 * a)
 		} else if(e.key === '6') {
 			defaultAction()
-			scalePosition(0, 0.03 * a)
+			updateScale(0, 0.03 * a)
 		} else if(e.key === '2') {
 			defaultAction()
-			scalePosition(1, 0.03 * a)
+			updateScale(1, 0.03 * a)
 		}
 
 		else if(e.keyCode === 32) {
 			defaultAction()
-			resetPosition()
+			resetAll()
 		} else if(e.code === 'Escape') {
 			alert('What are you want?')
 		}
@@ -51,8 +51,8 @@ export function setupListeners(updatePosition, rotatePosition, scalePosition, re
 }
 
 export function drawTranslationValue(translation, center) {
-	let div = document.getElementById('translation')
-	div.innerHTML = 'x: ' + (translation[0] + center[0]) + '<br>y: ' + (translation[1] + center[1])
+	let translationBox = document.getElementById('translation')
+	translationBox.innerHTML = 'x: ' + (translation[0] + center[0]) + '<br>y: ' + (translation[1] + center[1])
 }
 
 export function setTheme() {
@@ -76,34 +76,34 @@ export function increaseColor(color) {
 	}
 	return color
 }
-
+// Fill the buffer with the values that define a letter 'F'.
 export function setGeometry(gl) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
 		new Float32Array([
 			// вертикальный столб
-			0, 0,
-			30, 0,
-			0, 150,
-			0, 150,
-			30, 0,
-			30, 150,
+			0, 0, 0,
+			30, 0, 0,
+			0, 150, 0,
+			0, 150, 0,
+			30, 0, 0,
+			30, 150, 0,
 
 			// верхняя перекладина
-			30, 0,
-			100, 0,
-			30, 30,
-			30, 30,
-			100, 0,
-			100, 30,
+			30, 0, 0,
+			100, 0, 0,
+			30, 30, 0,
+			30, 30, 0,
+			100, 0, 0,
+			100, 30, 0,
 
 			// перекладина посередине
-			30, 60,
-			67, 60,
-			30, 90,
-			30, 90,
-			67, 60,
-			67, 90,
+			30, 60, 0,
+			67, 60, 0,
+			30, 90, 0,
+			30, 90, 0,
+			67, 60, 0,
+			67, 90, 0
 		]),
 		gl.STATIC_DRAW);
 }

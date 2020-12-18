@@ -1,25 +1,48 @@
-export const mat3 = {
-	translation: function (tx, ty) {
+export const mat4 = {
+	translation: function (tx, ty, tz) {
 		return [
-			1, 0, 0,
-			0, 1, 0,
-			tx, ty, 1,
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			tx, ty, tz, 1,
 		]
 	},
-	rotation: function (rad) {
+	xRotation: function (rad) {
 		let c = Math.cos(rad)
 		let s = Math.sin(rad)
 		return [
-			c, -s, 0,
-			s, c, 0,
-			0, 0, 1,
+			1, 0, 0, 0,
+			0, c, s, 0,
+			0, -s, c, 0,
+			0, 0, 0, 1
 		]
 	},
-	scaling: function (sx, sy) {
+	yRotation: function (rad) {
+		let c = Math.cos(rad)
+		let s = Math.sin(rad)
 		return [
-			sx, 0, 0,
-			0, sy, 0,
-			0, 0, 1,
+			c, 0, -s, 0,
+			0, 1, 0, 0,
+			s, 0, c, 0,
+			0, 0, 0, 1
+		]
+	},
+	zRotation: function (rad) {
+		let c = Math.cos(rad)
+		let s = Math.sin(rad)
+		return [
+			c, s, 0, 0,
+			-s, c, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		]
+	},
+	scaling: function (sx, sy, sz) {
+		return [
+			sx, 0, 0, 0,
+			0, sy, 0, 0,
+			0, 0, sz, 0,
+			0, 0, 0, 1,
 		]
 	},
 	/**
@@ -30,11 +53,12 @@ export const mat3 = {
 	 * 0 <= i, j < 3
 	 */
 	multiply: function(a, b) {
-		let c = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-		for (var i = 0; i < 3; i++) {
-			for (var j = 0; j < 3; j++) {
-				for (var k = 0; k < 3; k++) {
-					c[i * 3 + j] += a[i * 3 + k] * b[k * 3 + j]
+		let dimemsion = 4
+		let c = Array(dimemsion * dimemsion).fill(0)
+		for (var i = 0; i < dimemsion; i++) {
+			for (var j = 0; j < dimemsion; j++) {
+				for (var k = 0; k < dimemsion; k++) {
+					c[i * dimemsion + j] += a[i * dimemsion + k] * b[k * dimemsion + j]
 				}
 			}
 		}
@@ -47,21 +71,28 @@ export const mat3 = {
 			0, 0, 1,
 		]
 	},
-	projection: function (width, height) {
+	projection: function (width, height, depth) {
 		// переворачивает Y, чтобы 0 был наверху
 		return [
-			2 / width, 0, 0,
-			0, -2 / height, 0,
-			-1, 1, 1,
+			2 / width, 0, 0, 0,
+			0, -2 / height, 0, 0,
+			0, 0, 2 / depth, 0,
+			-1, 1, 0, 1,
 		]
 	},
-	translate: function (m, tx, ty) {
-		return mat3.multiply(m, mat3.translation(tx, ty))
+	translate: function (m, tx, ty, tz) {
+		return mat4.multiply(m, mat4.translation(tx, ty, tz))
 	},
-	rotate: function (m, rad) {
-		return mat3.multiply(m, mat3.rotation(rad))
+	xRotate: function (m, rad) {
+		return mat4.multiply(m, mat4.xRotation(rad))
 	},
-	scale: function (m, sx, sy) {
-		return mat3.multiply(m, mat3.scaling(sx, sy))
+	yRotate: function (m, rad) {
+		return mat4.multiply(m, mat4.yRotation(rad))
+	},
+	zRotate: function (m, rad) {
+		return mat4.multiply(m, mat4.zRotation(rad))
+	},
+	scale: function (m, sx, sy, sz) {
+		return mat4.multiply(m, mat4.scaling(sx, sy, sz))
 	}
 }
