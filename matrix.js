@@ -66,9 +66,10 @@ export const mat4 = {
 	},
 	identity: function () {
 		return [
-			1, 0, 0,
-			0, 1, 0,
-			0, 0, 1,
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
 		]
 	},
 	projection: function (width, height, depth) {
@@ -81,18 +82,18 @@ export const mat4 = {
 		]
 	},
 	translate: function (m, tx, ty, tz) {
-		return mat4.multiply(m, mat4.translation(tx, ty, tz))
+		return mat4.multiply(mat4.translation(tx, ty, tz), m)
 	},
 	xRotate: function (m, rad) {
-		return mat4.multiply(m, mat4.xRotation(rad))
+		return mat4.multiply(mat4.xRotation(rad), m)
 	},
 	yRotate: function (m, rad) {
-		return mat4.multiply(m, mat4.yRotation(rad))
+		return mat4.multiply(mat4.yRotation(rad), m)
 	},
 	zRotate: function (m, rad) {
-		return mat4.multiply(m, mat4.zRotation(rad))
+		return mat4.multiply(mat4.zRotation(rad), m)
 	},
 	scale: function (m, sx, sy, sz) {
-		return mat4.multiply(m, mat4.scaling(sx, sy, sz))
+		return mat4.multiply(mat4.scaling(sx, sy, sz), m)
 	}
 }

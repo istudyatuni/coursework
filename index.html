@@ -11,13 +11,20 @@
 	<div class="canvas-name">CANVAS</div>
 	<div class="canvas-bottom hide">WebGL NOT SUPPORTED</div>
 	<div class="infobox">
-		<div id="translation">x:<br>y:</div>
-		<p><code>↑ ↓ ← →</code> - move</p>
-		<p><code>a d</code> - rotation</p>
-		<p><code>Numpad</code> - scale</p>
-		<p>press <code>Ctrl</code> for fast move</p>
-		<p><code>space</code> - reset position</p>
-		<a href="https://github.com/istudyatuni/coursework/tree/webgl2d" class="gh-link" target="blank" title="GitHub">Source code</a>
+		<div id="translation">x:<br>y:<br>z:</div>
+		<ol>
+			<li><code>↑ ↓ ← →</code> - scale x, y</li>
+			<li><code>x y z</code> - rotation about the corresponding axis</li>
+			<li><code>Numpad</code> - move</li>
+			<ul>
+				<li><code>8, 2</code> - up, down</li>
+				<li><code>4, 6</code> - left, right</li>
+				<li><code>5, ctrl+5</code> - axis Z+, Z-</li>
+			</ul>
+			<li>press <code>Ctrl</code> for fast move</li>
+			<li><code>space</code> - reset position</li>
+		</ol>
+		<a href="https://github.com/istudyatuni/coursework/tree/webgl3d" class="gh-link" target="blank" title="GitHub">Source code</a>
 	</div>
 </body>
 </html>

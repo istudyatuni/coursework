@@ -2,6 +2,7 @@
 import { createShader, createProgram } from './gl-utils.js'
 import { setupListeners, drawTranslationValue, setTheme, increaseColor, setGeometry } from './helper.js'
 import { mat4 } from './matrix.js'
+import { RAD } from './math.js'
 
 const start_position = 300;
 const center = [-50, -75]
@@ -34,17 +35,14 @@ function main() {
 	// Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
 	gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
+	// Put geometry data into buffer
 	setGeometry(gl)
 
 	let translation = [start_position, start_position, 0];
-
-	let rad = 0
-	let rotation = [rad, rad, 1.6]
+	let rotation = [40 * RAD, 25 * RAD, 325 * RAD]
 
 	let scale = [1, 1, 1]
 
-	let width = 200;
-	let height = 300;
 	let color = [Math.random(), Math.random(), Math.random(), 1];
 
 	drawScene();
@@ -72,8 +70,7 @@ function main() {
 	function resetAll() {
 		translation = [start_position, start_position, 0]
 
-		rad = 0
-		rotation = [rad, rad, 0]
+		rotation = [40 * RAD, 25 * RAD, 325 * RAD]
 
 		scale = [1, 1, 1]
 
@@ -83,7 +80,7 @@ function main() {
 
 	setupListeners(updatePosition, updateRotation, updateScale, resetAll, gl.canvas.width, gl.canvas.height)
 
-	// Draw a the scene.
+	// Draw the scene.
 	function drawScene() {
 		const clientWidth  = gl.canvas.clientWidth * 1 | 0
 		const clientHeight = gl.canvas.clientHeight * 1 | 0
@@ -120,16 +117,14 @@ function main() {
 		gl.uniform4fv(colorLocation, color);
 
 		// Создаём матрицы
-		let projectionMatrix = mat4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400)
-
-		let matrix = mat4.translate(mat4.identity(), translation[0], translation[1], translation[2])
+		let matrix = mat4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400)
+		matrix = mat4.translate(matrix, translation[0], translation[1], translation[2])
 		matrix = mat4.xRotate(matrix, rotation[0])
 		matrix = mat4.yRotate(matrix, rotation[1])
 		matrix = mat4.zRotate(matrix, rotation[2])
-		matrix = mat4.scale(matrix, scale[0], scale[1] ,scale[2])
-		// matrix = mat4.translate(matrix, center[0], center[1]) // move origin to center
-		matrix = mat4.multiply(matrix, projectionMatrix)
+		matrix = mat4.scale(matrix, scale[0], scale[1], scale[2])
 
+		// Set the matrix.
 		gl.uniformMatrix4fv(matrixLocation, false, matrix)
 
 		// Draw the geometry.

@@ -1,58 +1,73 @@
-export function setupListeners(updatePosition, updateRotation, updateScale, resetAll, width, height, step = 5) {
+import { RAD } from './math.js'
+
+function onKeydown(key, action, ctrl_coeff = 1, coeff = 1) {
 	document.addEventListener('keydown', (e) => {
 		if (e.altKey) {
 			return;
 		}
-		let a = 1;
-		function defaultAction() {
-			e.preventDefault(); if(e.ctrlKey) a = 4;
-		}
-		if(e.code === 'ArrowUp') {
-			defaultAction()
-			updatePosition(1, -1 * step * a, height)
-		} else if(e.code === 'ArrowDown') {
-			defaultAction()
-			updatePosition(1, step * a, height)
-		} else if(e.code === 'ArrowRight') {
-			defaultAction()
-			updatePosition(0, step * a, width)
-		} else if(e.code === 'ArrowLeft') {
-			defaultAction()
-			updatePosition(0, -1 * step * a, width)
-		} else if(e.key === 'a') {
-			defaultAction()
-			updateRotation(2 * a)
-		} else if(e.key === 'd') {
-			defaultAction()
-			updateRotation(-2 * a)
-		}
-
-		else if(e.key === '8') {
-			defaultAction()
-			updateScale(1, -0.03 * a)
-		} else if(e.key === '4') {
-			defaultAction()
-			updateScale(0, -0.03 * a)
-		} else if(e.key === '6') {
-			defaultAction()
-			updateScale(0, 0.03 * a)
-		} else if(e.key === '2') {
-			defaultAction()
-			updateScale(1, 0.03 * a)
-		}
-
-		else if(e.keyCode === 32) {
-			defaultAction()
-			resetAll()
-		} else if(e.code === 'Escape') {
-			alert('What are you want?')
+		if(e.key === key) {
+			e.preventDefault()
+			let a = coeff
+			if(e.ctrlKey) {
+				a = ctrl_coeff
+			}
+			action(a)
 		}
 	})
 }
 
-export function drawTranslationValue(translation, center) {
+export function setupListeners(updatePosition, updateRotation, updateScale, resetAll, width, height, step = 5) {
+	// move
+	onKeydown('6', (coeff) => {
+		updatePosition(0, step * coeff, width)
+	}, 4)
+	onKeydown('4', (coeff) => {
+		updatePosition(0, -1 * step * coeff, width)
+	}, 4)
+	onKeydown('8', (coeff) => {
+		updatePosition(1, -1 * step * coeff, height)
+	}, 4)
+	onKeydown('2', (coeff) => {
+		updatePosition(1, step * coeff, height)
+	}, 4)
+	onKeydown('5', (coeff) => {
+		updatePosition(2, step * coeff, 400)
+	}, -4, 4)
+
+	// rotate
+	onKeydown('x', (coeff) => {
+		updateRotation(0, 2 * coeff * RAD)
+	}, -10, 10)
+	onKeydown('y', (coeff) => {
+		updateRotation(1, 2 * coeff * RAD)
+	}, -10, 10)
+	onKeydown('z', (coeff) => {
+		updateRotation(2, 2 * coeff * RAD)
+	}, -10, 10)
+
+	// scale
+	onKeydown('ArrowLeft', (coeff) => {
+		updateScale(0, -0.03 * coeff)
+	})
+	onKeydown('ArrowRight', (coeff) => {
+		updateScale(0, 0.03 * coeff)
+	})
+	onKeydown('ArrowUp', (coeff) => {
+		updateScale(1, -0.03 * coeff)
+	})
+	onKeydown('ArrowDown', (coeff) => {
+		updateScale(1, 0.03 * coeff)
+	})
+
+	// reset
+	onKeydown(' ', (coeff) => {
+		resetAll()
+	})
+}
+
+export function drawTranslationValue(translation) {
 	let translationBox = document.getElementById('translation')
-	translationBox.innerHTML = 'x: ' + (translation[0] + center[0]) + '<br>y: ' + (translation[1] + center[1])
+	translationBox.innerHTML = 'x: ' + translation[0] + '<br>y: ' + translation[1] + '<br>z: ' + translation[2]
 }
 
 export function setTheme() {
