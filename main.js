@@ -99,6 +99,10 @@ function main() {
 		// Clear the canvas.
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
+		// Turn on culling. By default backfacing triangles
+		// will be culled.
+		gl.enable(gl.CULL_FACE);
+
 		// Tell it to use our program (pair of shaders)
 		gl.useProgram(program);
 
