@@ -1,11 +1,20 @@
 import { RAD } from './math.js'
 
+function drawPressedKey(key) {
+	if(key === ' ') {
+		key = 'Spacebar'
+	}
+	document.getElementById('pressed-key').innerHTML = key
+}
+
 function onKeydown(key, action, ctrl_coeff = 1, coeff = 1) {
 	document.addEventListener('keydown', (e) => {
 		if (e.altKey) {
 			return;
 		}
 		if(e.key === key) {
+			drawPressedKey(key)
+
 			e.preventDefault()
 			let a = coeff
 			if(e.ctrlKey) {
@@ -48,16 +57,16 @@ export function setupListeners(updatePosition, updateRotation, updateScale, rese
 	// scale
 	onKeydown('ArrowLeft', (coeff) => {
 		updateScale(0, -0.03 * coeff)
-	})
+	}, 3)
 	onKeydown('ArrowRight', (coeff) => {
 		updateScale(0, 0.03 * coeff)
-	})
+	}, 3)
 	onKeydown('ArrowUp', (coeff) => {
 		updateScale(1, -0.03 * coeff)
-	})
+	}, 3)
 	onKeydown('ArrowDown', (coeff) => {
 		updateScale(1, 0.03 * coeff)
-	})
+	}, 3)
 
 	// reset
 	onKeydown(' ', (coeff) => {
@@ -145,12 +154,12 @@ export function setGeometry(gl) {
 			67,  90,  30,
 
 			// top
-			  0, 0,  0,
+			0,   0,  0,
 			100, 0,  0,
 			100, 0, 30,
-			  0, 0,  0,
+			0,   0,  0,
 			100, 0, 30,
-			  0, 0, 30,
+			0,   0, 30,
 
 			// top rung right
 			100,   0,   0,
