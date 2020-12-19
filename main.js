@@ -1,6 +1,7 @@
 "use strict";
 import { createShader, createProgram } from './gl-utils.js'
-import { setupListeners, drawTranslationValue, setTheme, setGeometry, setColors } from './helper.js'
+import { setupListeners, drawTranslationValue, setTheme } from './helper.js'
+import { setGeometry, setColors } from './gl-data.js'
 import { mat4 } from './matrix.js'
 import { RAD } from './math.js'
 
