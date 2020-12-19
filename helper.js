@@ -95,7 +95,7 @@ export function setupListeners(updatePosition, updateRotation, updateScale, rese
 	}, 3)
 
 	// reset
-	onKeydown([' '], (coeff) => {
+	onKeydown([' '], () => {
 		resetAll()
 	})
 }

@@ -141,7 +141,11 @@ function main() {
 		gl.vertexAttribPointer(colorLocation, size, type, normalize, stride, offset)
 
 		// Создаём матрицы
-		let matrix = mat4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400)
+		let left = 0, right = gl.canvas.clientWidth
+		let bottom = gl.canvas.clientHeight, top = 0
+		let near = 400, far = -400
+		let matrix = mat4.orthographic(left, right, bottom, top, near, far)
+
 		matrix = mat4.translate(matrix, translation[0], translation[1], translation[2])
 		matrix = mat4.xRotate(matrix, rotation[0])
 		matrix = mat4.yRotate(matrix, rotation[1])
