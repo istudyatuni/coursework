@@ -7,69 +7,95 @@ function drawPressedKey(key) {
 	document.getElementById('pressed-key').innerHTML = key
 }
 
-function onKeydown(key, action, ctrl_coeff = 1, coeff = 1) {
+/**
+ * Wrapper for document keydown listener
+ * @param  {String[]}                keys       array with trigger keys
+ * @param  {(coeff: Number) => void} action     function for action
+ * @param  {Number}                  ctrl_coeff multiplier when ctrl pressed with key
+ * @param  {Number}                  coeff      multiplier when pressed only key without ctrl
+ * @return {Void}
+ *
+ * Examples:
+ *   // move faster when ctrl key pressed
+ *   onKeydown(['m'], (coeff) => {
+ *     move(5 * coeff)
+ *   }, 5)
+ *
+ *   // move slower when ctrl key pressed
+ *   onKeydown(['m'], (coeff) => {
+ *     move(5 * coeff)
+ *   }, 1, 5)
+ *
+ *   // move only when ctrl key pressed
+ *   onKeydown(['m'], (coeff) => {
+ *     move(5 * coeff)
+ *   }, 1, null)
+ *
+ *   // without multiplier
+ *   onKeydown(['m'], () => {
+ *     move(5)
+ *   })
+ */
+function onKeydown(keys, action, ctrl_coeff = 1, coeff = 1) {
 	document.addEventListener('keydown', (e) => {
 		if (e.altKey) {
 			return;
 		}
-		if(e.key === key) {
-			drawPressedKey(key)
+		if(keys.includes(e.key)) {
+			drawPressedKey(keys[0])
 
 			e.preventDefault()
-			let a = coeff
-			if(e.ctrlKey) {
-				a = ctrl_coeff
-			}
-			action(a)
+			action(e.ctrlKey ? ctrl_coeff : coeff)
 		}
 	})
 }
 
 export function setupListeners(updatePosition, updateRotation, updateScale, resetAll, width, height, step = 5) {
 	// move
-	onKeydown('6', (coeff) => {
+	onKeydown(['6'], (coeff) => {
 		updatePosition(0, step * coeff, width)
 	}, 4)
-	onKeydown('4', (coeff) => {
+	onKeydown(['4'], (coeff) => {
 		updatePosition(0, -1 * step * coeff, width)
 	}, 4)
-	onKeydown('8', (coeff) => {
+	onKeydown(['8'], (coeff) => {
 		updatePosition(1, -1 * step * coeff, height)
 	}, 4)
-	onKeydown('2', (coeff) => {
+	onKeydown(['2'], (coeff) => {
 		updatePosition(1, step * coeff, height)
 	}, 4)
-	onKeydown('5', (coeff) => {
+	onKeydown(['5'], (coeff) => {
 		updatePosition(2, step * coeff, 400)
 	}, -4, 4)
 
 	// rotate
-	onKeydown('x', (coeff) => {
+	// key[1] here is ru keyboard layout
+	onKeydown(['x', 'ч'], (coeff) => {
 		updateRotation(0, 2 * coeff * RAD)
 	}, -10, 10)
-	onKeydown('y', (coeff) => {
+	onKeydown(['y', 'н'], (coeff) => {
 		updateRotation(1, 2 * coeff * RAD)
 	}, -10, 10)
-	onKeydown('z', (coeff) => {
+	onKeydown(['z', 'я'], (coeff) => {
 		updateRotation(2, 2 * coeff * RAD)
 	}, -10, 10)
 
 	// scale
-	onKeydown('ArrowLeft', (coeff) => {
+	onKeydown(['ArrowLeft'], (coeff) => {
 		updateScale(0, -0.03 * coeff)
 	}, 3)
-	onKeydown('ArrowRight', (coeff) => {
+	onKeydown(['ArrowRight'], (coeff) => {
 		updateScale(0, 0.03 * coeff)
 	}, 3)
-	onKeydown('ArrowUp', (coeff) => {
+	onKeydown(['ArrowUp'], (coeff) => {
 		updateScale(1, -0.03 * coeff)
 	}, 3)
-	onKeydown('ArrowDown', (coeff) => {
+	onKeydown(['ArrowDown'], (coeff) => {
 		updateScale(1, 0.03 * coeff)
 	}, 3)
 
 	// reset
-	onKeydown(' ', (coeff) => {
+	onKeydown([' '], (coeff) => {
 		resetAll()
 	})
 }
