@@ -32,22 +32,29 @@
 <!-- vertex shader -->
 <script  id="vertex-shader-3d" type="x-shader/x-vertex">
 attribute vec4 a_position;
+attribute vec4 a_color;
 
 uniform mat4 u_matrix;
+
+varying vec4 v_color;
 
 void main() {
 	// умножаем коородинаты на матрицу
 	gl_Position = u_matrix * a_position;
+
+	// передаем во фрагментный шейдер
+	v_color = a_color;
 }
 </script>
 <!-- fragment shader -->
 <script  id="fragment-shader-3d" type="x-shader/x-fragment">
 precision mediump float;
 
-uniform vec4 u_color;
+// передается из вершинного шейдера
+varying vec4 v_color;
 
 void main() {
-	gl_FragColor = u_color;
+	gl_FragColor = v_color;
 }
 </script>
 <script type="module" src="main.js"></script>

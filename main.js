@@ -1,6 +1,6 @@
 "use strict";
 import { createShader, createProgram } from './gl-utils.js'
-import { setupListeners, drawTranslationValue, setTheme, increaseColor, setGeometry } from './helper.js'
+import { setupListeners, drawTranslationValue, setTheme, setGeometry, setColors } from './helper.js'
 import { mat4 } from './matrix.js'
 import { RAD } from './math.js'
 
@@ -26,7 +26,7 @@ function main() {
 	let positionLocation = gl.getAttribLocation(program, "a_position");
 
 	// lookup uniforms
-	let colorLocation = gl.getUniformLocation(program, "u_color");
+	let colorLocation = gl.getAttribLocation(program, "a_color");
 	let matrixLocation = gl.getUniformLocation(program, "u_matrix")
 
 	// Create a buffer to put positions in
@@ -38,12 +38,16 @@ function main() {
 	// Put geometry data into buffer
 	setGeometry(gl)
 
+	// Создаём буфер для цветов
+	let colorBuffer = gl.createBuffer()
+	gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer)
+	// Заполняем буфер цветами
+	setColors(gl)
+
 	let translation = [start_position, start_position, 0];
 	let rotation = [40 * RAD, 25 * RAD, 325 * RAD]
 
 	let scale = [1, 1, 1]
-
-	let color = [Math.random(), Math.random(), Math.random(), 1];
 
 	drawScene();
 	drawTranslationValue(translation, center);
@@ -113,8 +117,20 @@ function main() {
 		gl.vertexAttribPointer(positionLocation, size, type, normalize, stride, offset);
 
 		// set the color
-		color = increaseColor(color)
-		gl.uniform4fv(colorLocation, color);
+
+		// Включаем атрибут цвета
+		gl.enableVertexAttribArray(colorLocation)
+
+		// привязываем буфер цветов
+		gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer)
+
+		// Указываем атрибуту, как получать данные от colorBuffer (ARRAY_BUFFER)
+		size = 3;                 // 3 компоненты на итерацию
+		type = gl.UNSIGNED_BYTE;  // данные - 8-битные беззнаковые целые
+		normalize = true;         // нормализовать данные (конвертировать из 0-255 в 0-1)
+		stride = 0;               // 0 = перемещаться на size * sizeof(type) каждую итерацию для получения следующего положения
+		offset = 0;               // начинать с начала буфера
+		gl.vertexAttribPointer(colorLocation, size, type, normalize, stride, offset)
 
 		// Создаём матрицы
 		let matrix = mat4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400)
