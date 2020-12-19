@@ -96,12 +96,15 @@ function main() {
 		// Tell WebGL how to convert from clip space to pixels
 		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-		// Clear the canvas.
-		gl.clear(gl.COLOR_BUFFER_BIT);
+		// Clear the canvas and depth buffer.
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 		// Turn on culling. By default backfacing triangles
 		// will be culled.
 		gl.enable(gl.CULL_FACE);
+
+		// Enable the depth buffer
+		gl.enable(gl.DEPTH_TEST);
 
 		// Tell it to use our program (pair of shaders)
 		gl.useProgram(program);
