@@ -1,9 +1,7 @@
 import { RAD } from './math.js'
 
 function drawPressedKey(key) {
-	if(key === ' ') {
-		key = 'Spacebar'
-	}
+	key === ' ' ? key = 'Spacebar' : {}
 	document.getElementById('pressed-key').innerHTML = key
 }
 

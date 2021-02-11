@@ -49,8 +49,8 @@ export const mat4 = {
 	 * Matrix multiplication
 	 *
 	 * A * B = C
-	 * C[i][j] = sum(A[i][k] * B[k][j], k=0..2)
-	 * 0 <= i, j < 3
+	 * C[i][j] = sum(A[i][k] * B[k][j], k=0..3)
+	 * 0 <= i, j < 4
 	 */
 	multiply: function(a, b) {
 		let dimemsion = 4

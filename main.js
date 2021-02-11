@@ -87,8 +87,8 @@ function main() {
 
 	// Draw the scene.
 	function drawScene() {
-		const clientWidth  = gl.canvas.clientWidth * 1 | 0
-		const clientHeight = gl.canvas.clientHeight * 1 | 0
+		const clientWidth  = gl.canvas.clientWidth
+		const clientHeight = gl.canvas.clientHeight
 		if (gl.canvas.width !== clientWidth || gl.canvas.height !== clientHeight) {
 			gl.canvas.width = clientWidth
 			gl.canvas.height = clientHeight
@@ -141,8 +141,8 @@ function main() {
 		gl.vertexAttribPointer(colorLocation, size, type, normalize, stride, offset)
 
 		// Создаём матрицы
-		let left = 0, right = gl.canvas.clientWidth
-		let bottom = gl.canvas.clientHeight, top = 0
+		let left = 0, right = gl.canvas.width
+		let bottom = gl.canvas.height, top = 0
 		let near = 400, far = -400
 		let matrix = mat4.orthographic(left, right, bottom, top, near, far)
 

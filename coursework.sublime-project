@@ -3,13 +3,25 @@
 	[
 		{
 			"path": "."
+		},
+		{
+			"path": "~/scripts/file-merger"
+		}
+	],
+	"build_systems":
+	[
+		{
+			"name": "Build whole file",
+			"linux": {
+				"shell_cmd": "python ~/scripts/file-merger/file_merger.py -f $file_path"
+			}
 		}
 	],
 	"settings":
 	{
+		"ensure_newline_at_eof_on_save": true,
 		"tab_size": 2,
 		"translate_tabs_to_spaces": false,
-		"trim_trailing_white_space_on_save": true,
-		"ensure_newline_at_eof_on_save": true
+		"trim_trailing_white_space_on_save": true
 	}
 }
