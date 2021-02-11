@@ -13,7 +13,7 @@
 		{
 			"name": "Build whole file",
 			"linux": {
-				"shell_cmd": "python ~/scripts/file-merger/file_merger.py -f $file_path"
+				"shell_cmd": "python ~/scripts/file-merger/file_merger.py -f $project_path -c config/file-merger.yml"
 			}
 		}
 	],

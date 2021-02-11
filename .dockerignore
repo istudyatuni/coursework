@@ -1,0 +1,6 @@
+.git
+.gitignore
+*.sublime-*
+config.yml
+README.md
+result.txt

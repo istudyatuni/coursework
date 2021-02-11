@@ -1,0 +1,14 @@
+files:
+  - index.html
+  - js/main.js
+  - js/math.js
+  - js/helper.js
+  - js/matrix.js
+  - js/gl-utils.js
+  # - js/gl-data.js
+  # - style/style.css
+
+ask_overwrite: false
+output: result.txt
+add_file_names: true
+file_label: "Файл: "
