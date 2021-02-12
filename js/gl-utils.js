@@ -1,3 +1,5 @@
+import { getShaderSource } from './shaders/getShader.js'
+
 export function createShader(gl, type, source) {
 	let shader = gl.createShader(type);   // создание шейдера
 	gl.shaderSource(shader, source);      // устанавливаем шейдеру его программный код
@@ -11,10 +13,9 @@ export function createShader(gl, type, source) {
 	gl.deleteShader(shader);
 }
 
-export function createProgram(gl, vertexShaderID, fragmentShaderID) {
-	// Get the strings for our GLSL shaders
-	let vertexShaderSource = document.querySelector(vertexShaderID).text;
-	let fragmentShaderSource = document.querySelector(fragmentShaderID).text;
+export async function createProgram(gl, vertexShaderName, fragmentShaderName) {
+	let vertexShaderSource = await getShaderSource(vertexShaderName)
+	let fragmentShaderSource = await getShaderSource(fragmentShaderName)
 
 	// create GLSL shaders, upload the GLSL source, compile the shaders
 	let vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);

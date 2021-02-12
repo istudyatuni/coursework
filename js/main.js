@@ -8,7 +8,7 @@ import { RAD } from './math.js'
 const start_position = 300;
 const center = [-50, -75]
 
-function main() {
+async function main() {
 	// Get A WebGL context
 	/** @type {HTMLCanvasElement} */
 	let canvas = document.getElementById('canvas');
@@ -21,7 +21,7 @@ function main() {
 	setTheme()
 
 	// Link the two shaders into a program
-	let program = createProgram(gl, '#vertex-shader-3d', '#fragment-shader-3d');
+	let program = await createProgram(gl, 'vertex.glsl', 'fragment.glsl');
 
 	// look up where the vertex data needs to go.
 	let positionLocation = gl.getAttribLocation(program, "a_position");
