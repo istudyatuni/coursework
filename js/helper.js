@@ -1,46 +1,52 @@
 import { RAD } from './math.js'
 
 function drawPressedKey(key) {
-	key === ' ' ? key = 'Spacebar' : {}
 	document.getElementById('pressed-key').innerHTML = key
 }
 
 /**
  * Wrapper for document keydown listener
- * @param  {String[]}                keys       array with trigger keys
+ * @param  {String}                  code       code of trigger key
  * @param  {(coeff: Number) => void} action     function for action
  * @param  {Number}                  ctrl_coeff multiplier when ctrl pressed with key
  * @param  {Number}                  coeff      multiplier when pressed only key without ctrl
  * @return {Void}
  *
+ * code param:
+ *   https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values
+ *   Examples:
+ *     digits: 'Digit5' or 'Digit9', etc
+ *     keys: 'KeyM' or 'KeyQ', etc
+ *     numpad digits: 'Numpad7'
+ *
  * Examples:
  *   // move faster when ctrl key pressed
- *   onKeydown(['m'], (coeff) => {
+ *   onKeydown('KeyM', (coeff) => {
  *     move(5 * coeff)
  *   }, 5)
  *
  *   // move slower when ctrl key pressed
- *   onKeydown(['m'], (coeff) => {
+ *   onKeydown('KeyM', (coeff) => {
  *     move(5 * coeff)
  *   }, 1, 5)
  *
  *   // move only when ctrl key pressed
- *   onKeydown(['m'], (coeff) => {
+ *   onKeydown('KeyM', (coeff) => {
  *     move(5 * coeff)
  *   }, 1, null)
  *
  *   // without multiplier
- *   onKeydown(['m'], () => {
+ *   onKeydown('KeyM', () => {
  *     move(5)
  *   })
  */
-function onKeydown(keys, action, ctrl_coeff = 1, coeff = 1) {
+function onKeydown(code, action, ctrl_coeff = 1, coeff = 1) {
 	document.addEventListener('keydown', (e) => {
 		if (e.altKey) {
 			return;
 		}
-		if(keys.includes(e.key)) {
-			drawPressedKey(keys[0])
+		if(e.code === code) {
+			drawPressedKey(e.code)
 
 			e.preventDefault()
 			action(e.ctrlKey ? ctrl_coeff : coeff)
@@ -50,50 +56,49 @@ function onKeydown(keys, action, ctrl_coeff = 1, coeff = 1) {
 
 export function setupListeners(updatePosition, updateRotation, updateScale, resetAll, width, height, step = 5) {
 	// move
-	onKeydown(['6'], (coeff) => {
+	onKeydown('Numpad6', (coeff) => {
 		updatePosition(0, step * coeff, width)
 	}, 4)
-	onKeydown(['4'], (coeff) => {
+	onKeydown('Numpad4', (coeff) => {
 		updatePosition(0, -1 * step * coeff, width)
 	}, 4)
-	onKeydown(['8'], (coeff) => {
+	onKeydown('Numpad8', (coeff) => {
 		updatePosition(1, -1 * step * coeff, height)
 	}, 4)
-	onKeydown(['2'], (coeff) => {
+	onKeydown('Numpad2', (coeff) => {
 		updatePosition(1, step * coeff, height)
 	}, 4)
-	onKeydown(['5'], (coeff) => {
+	onKeydown('Numpad5', (coeff) => {
 		updatePosition(2, step * coeff, 400)
 	}, -4, 4)
 
 	// rotate
-	// key[1] here is ru keyboard layout
-	onKeydown(['x', 'ч'], (coeff) => {
+	onKeydown('KeyX', (coeff) => {
 		updateRotation(0, 2 * coeff * RAD)
 	}, -10, 10)
-	onKeydown(['y', 'н'], (coeff) => {
+	onKeydown('KeyY', (coeff) => {
 		updateRotation(1, 2 * coeff * RAD)
 	}, -10, 10)
-	onKeydown(['z', 'я'], (coeff) => {
+	onKeydown('KeyZ', (coeff) => {
 		updateRotation(2, 2 * coeff * RAD)
 	}, -10, 10)
 
 	// scale
-	onKeydown(['ArrowLeft'], (coeff) => {
+	onKeydown('ArrowLeft', (coeff) => {
 		updateScale(0, -0.03 * coeff)
 	}, 3)
-	onKeydown(['ArrowRight'], (coeff) => {
+	onKeydown('ArrowRight', (coeff) => {
 		updateScale(0, 0.03 * coeff)
 	}, 3)
-	onKeydown(['ArrowUp'], (coeff) => {
+	onKeydown('ArrowUp', (coeff) => {
 		updateScale(1, -0.03 * coeff)
 	}, 3)
-	onKeydown(['ArrowDown'], (coeff) => {
+	onKeydown('ArrowDown', (coeff) => {
 		updateScale(1, 0.03 * coeff)
 	}, 3)
 
 	// reset
-	onKeydown([' '], () => {
+	onKeydown('Space', () => {
 		resetAll()
 	})
 }
