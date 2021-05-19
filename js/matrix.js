@@ -69,7 +69,7 @@ export const mat4 = {
 			1, 0, 0, 0,
 			0, 1, 0, 0,
 			0, 0, 1, 0,
-			0, 0, 0, 1
+			0, 0, 0, 1,
 		]
 	},
 	orthographic: function(left, right, bottom, top, near, far) {

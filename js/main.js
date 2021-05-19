@@ -83,7 +83,10 @@ async function main() {
 		drawScene();
 	}
 
-	setupListeners(updatePosition, updateRotation, updateScale, resetAll, gl.canvas.width, gl.canvas.height)
+	setupListeners(
+		updatePosition, updateRotation, updateScale,
+		resetAll,
+		gl.canvas.width, gl.canvas.height )
 
 	// Draw the scene.
 	function drawScene() {

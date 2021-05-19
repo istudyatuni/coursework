@@ -54,7 +54,12 @@ function onKeydown(code, action, ctrl_coeff = 1, coeff = 1) {
 	})
 }
 
-export function setupListeners(updatePosition, updateRotation, updateScale, resetAll, width, height, step = 5) {
+export function setupListeners(
+	updatePosition, updateRotation, updateScale,
+	resetAll,
+	width, height,
+	step = 5 )
+{
 	// move
 	onKeydown('Numpad6', (coeff) => {
 		updatePosition(0, step * coeff, width)
@@ -98,14 +103,15 @@ export function setupListeners(updatePosition, updateRotation, updateScale, rese
 	}, 3)
 
 	// reset
-	onKeydown('Space', () => {
-		resetAll()
-	})
+	onKeydown('Space', resetAll)
 }
 
 export function drawTranslationValue(translation) {
 	let translationBox = document.getElementById('translation')
-	translationBox.innerHTML = 'x: ' + translation[0] + '<br>y: ' + translation[1] + '<br>z: ' + translation[2]
+	translationBox.innerHTML =
+		'x: ' + translation[0] + '<br>' +
+		'y: ' + translation[1] + '<br>' +
+		'z: ' + translation[2]
 }
 
 export function setTheme() {
