@@ -1,3 +1,4 @@
+const host_path = '/coursework'
 const shader_path = '/js/shaders/'
 
 /**
@@ -6,7 +7,7 @@ const shader_path = '/js/shaders/'
  * @return {string}      shader source
  */
 export async function getShaderSource(name) {
-	let response = await fetch(/*shader_path +*/ name)
+	let response = await fetch(host_path + shader_path + name)
 	if (response.ok) {
 		return await response.text()
 	}
