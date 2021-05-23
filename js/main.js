@@ -101,7 +101,7 @@ async function main() {
 		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
 		// Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-		gl.vertexAttribPointer(positionLocation, 4, gl.FLOAT, false, 0, 0);
+		gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
 
 		// set the color
 

@@ -28,125 +28,126 @@
  * -1, -1, -1, -1,
  */
 export function setGeometry (gl) {
+	const coeff = 100;
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
 		new Float32Array([
 			// faces
-			// each 3 line is triangle
+			// each 3 lines is triangle
 
 			// c c x x (c is const)
 
 			// 1 1 x x
-			1, 1, 1, 1,
-			1, 1, 1, -1,
-			1, 1, -1, 1,
+			1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+			1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+			1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
 
-			1, 1, 1, -1,
-			1, 1, -1, 1,
-			1, 1, -1, -1,
+			1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+			1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+			1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
 
 			// 1 -1 x x
-			1, -1, 1, 1,
-			1, -1, 1, -1,
-			1, -1, -1, 1,
+			1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+			1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
 
-			1, -1, 1, -1,
-			1, -1, -1, 1,
-			1, -1, -1, -1,
+			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+			1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+			1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
 
 			// -1 1 x x
-			-1, 1, 1, 1,
-			-1, 1, 1, -1,
-			-1, 1, -1, 1,
+			-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+			-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
 
-			-1, 1, 1, -1,
-			-1, 1, -1, 1,
-			-1, 1, -1, -1,
+			-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+			-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
 
 			// -1 -1 x x
-			-1, -1, 1, 1,
-			-1, -1, 1, -1,
-			-1, -1, -1, 1,
+			-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+			-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
 
-			-1, -1, 1, -1,
-			-1, -1, -1, 1,
-			-1, -1, -1, -1,
+			-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+			-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
 
 			// x c c x
 
 			// x 1 1 x
-			1, 1, 1, 1,
-			1, 1, 1, -1,
-			-1, 1, 1, 1,
+			1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+			1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
 
-			1, 1, 1, -1,
-			-1, 1, 1, 1,
-			-1, 1, 1, -1,
+			1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+			-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
 
 			// x 1 -1 x
-			1, 1, -1, 1,
-			1, 1, -1, -1,
-			1, 1, -1, -1,
+			1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+			1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+			1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
 
-			-1, 1, -1, 1,
-			-1, 1, -1, 1,
-			-1, 1, -1, -1,
+			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+			-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
 
 			// x -1 1 x
-			1, -1, 1, 1,
-			1, -1, 1, -1,
-			-1, -1, 1, 1,
+			1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
 
-			1, -1, 1, -1,
-			-1, -1, 1, 1,
-			-1, -1, 1, -1,
+			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+			-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
 
 			// x -1 -1 x
-			1, -1, -1, 1,
-			1, -1, -1, -1,
-			-1, -1, -1, 1,
+			1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+			1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+			-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
 
-			1, -1, -1, -1,
-			-1, -1, -1, 1,
-			-1, -1, -1, -1,
+			1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+			-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+			-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
 
 			// x x c c
 
 			// x x 1 1
-			1, 1, 1, 1,
-			1, -1, 1, 1,
-			-1, 1, 1, 1,
+			1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+			1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+			-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
 
-			1, -1, 1, 1,
-			-1, 1, 1, 1,
-			-1, -1, 1, 1,
+			1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+			-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+			-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
 
 			// x x 1 -1
-			1, 1, 1, -1,
-			1, -1, 1, -1,
-			-1, 1, 1, -1,
+			1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
 
-			1, -1, 1, -1,
-			-1, 1, 1, -1,
-			-1, -1, 1, -1,
+			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+			-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
 
 			// x x -1 1
-			1, 1, -1, 1,
-			1, -1, -1, 1,
-			-1, 1, -1, 1,
+			1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+			1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
 
-			1, -1, -1, 1,
-			-1, 1, -1, 1,
-			-1, -1, -1, 1,
+			1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+			-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
 
 			// x x -1 -1
-			1, 1, -1, -1,
-			1, -1, -1, -1,
-			-1, 1, -1, -1,
+			1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+			1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+			-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
 
-			1, -1, -1, -1,
-			-1, 1, -1, -1,
-			-1, -1, -1, -1,
+			1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+			-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+			-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
 		]),
 		gl.STATIC_DRAW);
 }
