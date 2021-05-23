@@ -1,135 +1,153 @@
-// Fill the buffer with the values that define a letter 'F'.
-export const setGeometry = (gl) => {
+/**
+ * Put 4D cube to gl.ARRAY_BUFFER
+ * Its vertices are the 16 points  (±1,±1,±1,±1)  in  R4;
+ * its edges are the line segments between pairs of points having exactly one coordinate differing;
+ * its faces are the quadruples of points obtained by declaring two coordinates constant;
+ * its cells are the collections of points where one coordinate is declared constant.
+ * There are 8 cells, 24 faces, 32 edges and 16 vertices.
+ * Got from quora: https://qr.ae/pGyiFk
+ * @param  {WebGLRenderingContext} gl Context from canvas for WebGL
+ * @return {void}    [description]
+ *
+ * Only points:
+ * 1, 1, 1, 1,
+ * 1, 1, 1, -1,
+ * 1, 1, -1, 1,
+ * 1, 1, -1, -1,
+ * 1, -1, 1, 1,
+ * 1, -1, 1, -1,
+ * 1, -1, -1, 1,
+ * 1, -1, -1, -1,
+ * -1, 1, 1, 1,
+ * -1, 1, 1, -1,
+ * -1, 1, -1, 1,
+ * -1, 1, -1, -1,
+ * -1, -1, 1, 1,
+ * -1, -1, 1, -1,
+ * -1, -1, -1, 1,
+ * -1, -1, -1, -1,
+ */
+export function setGeometry (gl) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
 		new Float32Array([
-			// left column front
-			0,   0,  0,
-			0, 150,  0,
-			30,   0,  0,
-			0, 150,  0,
-			30, 150,  0,
-			30,   0,  0,
+			// faces
+			// each 3 line is triangle
 
-			// top rung front
-			30,   0,  0,
-			30,  30,  0,
-			100,   0,  0,
-			30,  30,  0,
-			100,  30,  0,
-			100,   0,  0,
+			// c c x x (c is const)
 
-			// middle rung front
-			30,  60,  0,
-			30,  90,  0,
-			67,  60,  0,
-			30,  90,  0,
-			67,  90,  0,
-			67,  60,  0,
+			// 1 1 x x
+			1, 1, 1, 1,
+			1, 1, 1, -1,
+			1, 1, -1, 1,
 
-			// left column back
-			0,   0,  30,
-			30,   0,  30,
-			0, 150,  30,
-			0, 150,  30,
-			30,   0,  30,
-			30, 150,  30,
+			1, 1, 1, -1,
+			1, 1, -1, 1,
+			1, 1, -1, -1,
 
-			// top rung back
-			30,   0,  30,
-			100,   0,  30,
-			30,  30,  30,
-			30,  30,  30,
-			100,   0,  30,
-			100,  30,  30,
+			// 1 -1 x x
+			1, -1, 1, 1,
+			1, -1, 1, -1,
+			1, -1, -1, 1,
 
-			// middle rung back
-			30,  60,  30,
-			67,  60,  30,
-			30,  90,  30,
-			30,  90,  30,
-			67,  60,  30,
-			67,  90,  30,
+			1, -1, 1, -1,
+			1, -1, -1, 1,
+			1, -1, -1, -1,
 
-			// top
-				0,   0,   0,
-			100,   0,   0,
-			100,   0,  30,
-				0,   0,   0,
-			100,   0,  30,
-				0,   0,  30,
+			// -1 1 x x
+			-1, 1, 1, 1,
+			-1, 1, 1, -1,
+			-1, 1, -1, 1,
 
-			// top rung right
-			100,   0,   0,
-			100,  30,   0,
-			100,  30,  30,
-			100,   0,   0,
-			100,  30,  30,
-			100,   0,  30,
+			-1, 1, 1, -1,
+			-1, 1, -1, 1,
+			-1, 1, -1, -1,
 
-			// under top rung
-			30,   30,   0,
-			30,   30,  30,
-			100,  30,  30,
-			30,   30,   0,
-			100,  30,  30,
-			100,  30,   0,
+			// -1 -1 x x
+			-1, -1, 1, 1,
+			-1, -1, 1, -1,
+			-1, -1, -1, 1,
 
-			// between top rung and middle
-			30,   30,   0,
-			30,   60,  30,
-			30,   30,  30,
-			30,   30,   0,
-			30,   60,   0,
-			30,   60,  30,
+			-1, -1, 1, -1,
+			-1, -1, -1, 1,
+			-1, -1, -1, -1,
 
-			// top of middle rung
-			30,   60,   0,
-			67,   60,  30,
-			30,   60,  30,
-			30,   60,   0,
-			67,   60,   0,
-			67,   60,  30,
+			// x c c x
 
-			// right of middle rung
-			67,   60,   0,
-			67,   90,  30,
-			67,   60,  30,
-			67,   60,   0,
-			67,   90,   0,
-			67,   90,  30,
+			// x 1 1 x
+			1, 1, 1, 1,
+			1, 1, 1, -1,
+			-1, 1, 1, 1,
 
-			// bottom of middle rung.
-			30,   90,   0,
-			30,   90,  30,
-			67,   90,  30,
-			30,   90,   0,
-			67,   90,  30,
-			67,   90,   0,
+			1, 1, 1, -1,
+			-1, 1, 1, 1,
+			-1, 1, 1, -1,
 
-			// right of bottom
-			30,   90,   0,
-			30,  150,  30,
-			30,   90,  30,
-			30,   90,   0,
-			30,  150,   0,
-			30,  150,  30,
+			// x 1 -1 x
+			1, 1, -1, 1,
+			1, 1, -1, -1,
+			1, 1, -1, -1,
 
-			// bottom
-			0,   150,   0,
-			0,   150,  30,
-			30,  150,  30,
-			0,   150,   0,
-			30,  150,  30,
-			30,  150,   0,
+			-1, 1, -1, 1,
+			-1, 1, -1, 1,
+			-1, 1, -1, -1,
 
-			// left side
-			0,   0,   0,
-			0,   0,  30,
-			0, 150,  30,
-			0,   0,   0,
-			0, 150,  30,
-			0, 150,   0]),
+			// x -1 1 x
+			1, -1, 1, 1,
+			1, -1, 1, -1,
+			-1, -1, 1, 1,
+
+			1, -1, 1, -1,
+			-1, -1, 1, 1,
+			-1, -1, 1, -1,
+
+			// x -1 -1 x
+			1, -1, -1, 1,
+			1, -1, -1, -1,
+			-1, -1, -1, 1,
+
+			1, -1, -1, -1,
+			-1, -1, -1, 1,
+			-1, -1, -1, -1,
+
+			// x x c c
+
+			// x x 1 1
+			1, 1, 1, 1,
+			1, -1, 1, 1,
+			-1, 1, 1, 1,
+
+			1, -1, 1, 1,
+			-1, 1, 1, 1,
+			-1, -1, 1, 1,
+
+			// x x 1 -1
+			1, 1, 1, -1,
+			1, -1, 1, -1,
+			-1, 1, 1, -1,
+
+			1, -1, 1, -1,
+			-1, 1, 1, -1,
+			-1, -1, 1, -1,
+
+			// x x -1 1
+			1, 1, -1, 1,
+			1, -1, -1, 1,
+			-1, 1, -1, 1,
+
+			1, -1, -1, 1,
+			-1, 1, -1, 1,
+			-1, -1, -1, 1,
+
+			// x x -1 -1
+			1, 1, -1, -1,
+			1, -1, -1, -1,
+			-1, 1, -1, -1,
+
+			1, -1, -1, -1,
+			-1, 1, -1, -1,
+			-1, -1, -1, -1,
+		]),
 		gl.STATIC_DRAW);
 }
 
@@ -138,7 +156,7 @@ export const setColors = (gl) => {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
 		new Uint8Array([
-				// left column front
+			// left column front
 			200,  70, 120,
 			200,  70, 120,
 			200,  70, 120,
@@ -146,7 +164,7 @@ export const setColors = (gl) => {
 			200,  70, 120,
 			200,  70, 120,
 
-				// top rung front
+			// top rung front
 			200,  70, 120,
 			200,  70, 120,
 			200,  70, 120,
@@ -154,7 +172,7 @@ export const setColors = (gl) => {
 			200,  70, 120,
 			200,  70, 120,
 
-				// middle rung front
+			// middle rung front
 			200,  70, 120,
 			200,  70, 120,
 			200,  70, 120,
@@ -162,7 +180,7 @@ export const setColors = (gl) => {
 			200,  70, 120,
 			200,  70, 120,
 
-				// left column back
+			// left column back
 			80, 70, 200,
 			80, 70, 200,
 			80, 70, 200,
@@ -170,7 +188,7 @@ export const setColors = (gl) => {
 			80, 70, 200,
 			80, 70, 200,
 
-				// top rung back
+			// top rung back
 			80, 70, 200,
 			80, 70, 200,
 			80, 70, 200,
@@ -178,7 +196,7 @@ export const setColors = (gl) => {
 			80, 70, 200,
 			80, 70, 200,
 
-				// middle rung back
+			// middle rung back
 			80, 70, 200,
 			80, 70, 200,
 			80, 70, 200,
@@ -186,7 +204,7 @@ export const setColors = (gl) => {
 			80, 70, 200,
 			80, 70, 200,
 
-				// top
+			// top
 			70, 200, 210,
 			70, 200, 210,
 			70, 200, 210,
@@ -194,7 +212,7 @@ export const setColors = (gl) => {
 			70, 200, 210,
 			70, 200, 210,
 
-				// top rung right
+			// top rung right
 			200, 200, 70,
 			200, 200, 70,
 			200, 200, 70,
@@ -202,7 +220,7 @@ export const setColors = (gl) => {
 			200, 200, 70,
 			200, 200, 70,
 
-				// under top rung
+			// under top rung
 			210, 100, 70,
 			210, 100, 70,
 			210, 100, 70,
@@ -210,7 +228,7 @@ export const setColors = (gl) => {
 			210, 100, 70,
 			210, 100, 70,
 
-				// between top rung and middle
+			// between top rung and middle
 			210, 160, 70,
 			210, 160, 70,
 			210, 160, 70,
@@ -218,7 +236,7 @@ export const setColors = (gl) => {
 			210, 160, 70,
 			210, 160, 70,
 
-				// top of middle rung
+			// top of middle rung
 			70, 180, 210,
 			70, 180, 210,
 			70, 180, 210,
@@ -226,7 +244,7 @@ export const setColors = (gl) => {
 			70, 180, 210,
 			70, 180, 210,
 
-				// right of middle rung
+			// right of middle rung
 			100, 70, 210,
 			100, 70, 210,
 			100, 70, 210,
@@ -234,7 +252,7 @@ export const setColors = (gl) => {
 			100, 70, 210,
 			100, 70, 210,
 
-				// bottom of middle rung.
+			// bottom of middle rung.
 			76, 210, 100,
 			76, 210, 100,
 			76, 210, 100,
@@ -242,7 +260,7 @@ export const setColors = (gl) => {
 			76, 210, 100,
 			76, 210, 100,
 
-				// right of bottom
+			// right of bottom
 			140, 210, 80,
 			140, 210, 80,
 			140, 210, 80,
@@ -250,7 +268,7 @@ export const setColors = (gl) => {
 			140, 210, 80,
 			140, 210, 80,
 
-				// bottom
+			// bottom
 			90, 130, 110,
 			90, 130, 110,
 			90, 130, 110,
@@ -258,7 +276,7 @@ export const setColors = (gl) => {
 			90, 130, 110,
 			90, 130, 110,
 
-				// left side
+			// left side
 			160, 160, 220,
 			160, 160, 220,
 			160, 160, 220,

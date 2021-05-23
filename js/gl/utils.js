@@ -77,5 +77,4 @@ export function defaultGLSetup(gl) {
 
 	// Enable the depth buffer
 	gl.enable(gl.DEPTH_TEST);
-	return gl
 }
