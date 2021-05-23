@@ -1,3 +1,6 @@
+/**
+ * Set of functions for work with 4x4 matrices
+ */
 export const mat4 = {
 	translation: function (tx, ty, tz) {
 		return [

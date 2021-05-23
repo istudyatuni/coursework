@@ -1,5 +1,22 @@
-import { getShaderSource } from './shaders/getShader.js'
+import { getShaderSource } from '../shaders/getShader.js'
 
+/**
+ * Get context from canvas HTML element by its id
+ * @param  {string} elementQuery canvas id
+ */
+export function getContext(elementQuery) {
+	// Get A WebGL context
+	/** @type {HTMLCanvasElement} */
+	const canvas = document.querySelector(elementQuery)
+	return canvas.getContext('webgl')
+}
+
+/**
+ * Create shader from context, shader type and source of shader
+ * @param  {WebGLRenderingContext} gl     [description]
+ * @param  {number}                type   [description]
+ * @param  {string}                source [description]
+ */
 export function createShader(gl, type, source) {
 	let shader = gl.createShader(type);   // создание шейдера
 	gl.shaderSource(shader, source);      // устанавливаем шейдеру его программный код
@@ -13,6 +30,13 @@ export function createShader(gl, type, source) {
 	gl.deleteShader(shader);
 }
 
+/**
+ * Load shaders and create WebGLProgram (pair of shaders) from this
+ * @param  {WebGLRenderingContext} gl                 [description]
+ * @param  {string}                vertexShaderName   [description]
+ * @param  {string}                fragmentShaderName [description]
+ * @return {WebGLProgram}
+ */
 export async function createProgram(gl, vertexShaderName, fragmentShaderName) {
 	let vertexShaderSource = await getShaderSource(vertexShaderName)
 	let fragmentShaderSource = await getShaderSource(fragmentShaderName)
@@ -32,4 +56,26 @@ export async function createProgram(gl, vertexShaderName, fragmentShaderName) {
 
 	console.log(gl.getProgramInfoLog(program));
 	gl.deleteProgram(program);
+}
+
+export function defaultGLSetup(gl) {
+	const clientWidth  = gl.canvas.clientWidth
+	const clientHeight = gl.canvas.clientHeight
+	if (gl.canvas.width !== clientWidth || gl.canvas.height !== clientHeight) {
+		gl.canvas.width = clientWidth
+		gl.canvas.height = clientHeight
+	}
+	// Tell WebGL how to convert from clip space to pixels
+	gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+	// Clear the canvas and depth buffer.
+	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+	// Turn on culling. By default backfacing triangles
+	// will be culled.
+	gl.enable(gl.CULL_FACE);
+
+	// Enable the depth buffer
+	gl.enable(gl.DEPTH_TEST);
+	return gl
 }

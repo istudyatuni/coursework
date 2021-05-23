@@ -6,13 +6,7 @@ function drawPressedKey(key) {
 
 /**
  * Wrapper for document keydown listener
- * @param  {String}                  code       code of trigger key
- * @param  {(coeff: Number) => void} action     function for action
- * @param  {Number}                  ctrl_coeff multiplier when ctrl pressed with key
- * @param  {Number}                  coeff      multiplier when pressed only key without ctrl
- * @return {Void}
- *
- * code param:
+ * code parameter:
  *   https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values
  *   Examples:
  *     digits: 'Digit5' or 'Digit9', etc
@@ -39,6 +33,12 @@ function drawPressedKey(key) {
  *   onKeydown('KeyM', () => {
  *     move(5)
  *   })
+ *
+ * @param  {String}                  code       code of trigger key
+ * @param  {(coeff: Number) => void} action     function for action
+ * @param  {Number}                  ctrl_coeff multiplier when ctrl pressed with key
+ * @param  {Number}                  coeff      multiplier when pressed only key without ctrl
+ * @return {Void}
  */
 function onKeydown(code, action, ctrl_coeff = 1, coeff = 1) {
 	document.addEventListener('keydown', (e) => {

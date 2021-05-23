@@ -1,18 +1,21 @@
 "use strict";
-import { createShader, createProgram } from './gl-utils.js'
+import {
+	createShader,
+	createProgram,
+	getContext,
+	defaultGLSetup
+} from './gl/utils.js'
 import { setupListeners, drawTranslationValue, setTheme } from './helper.js'
-import { setGeometry, setColors } from './gl-data.js'
-import { mat4 } from './matrix.js'
+import { setGeometry, setColors } from './gl/data.js'
+import { mat4 } from './matrix4.js'
+import { mat5 } from './matrix5.js'
 import { RAD } from './math.js'
 
 const start_position = 300;
 const center = [-50, -75]
 
 async function main() {
-	// Get A WebGL context
-	/** @type {HTMLCanvasElement} */
-	let canvas = document.getElementById('canvas');
-	let gl = canvas.getContext("webgl");
+	let gl = getContext('#canvas');
 	if (!gl) {
 		document.querySelector('.canvas-bottom').classList.remove('hide')
 		return;
@@ -47,8 +50,9 @@ async function main() {
 
 	let translation = [start_position, start_position, 0];
 	let rotation = [40 * RAD, 25 * RAD, 325 * RAD]
-
 	let scale = [1, 1, 1]
+
+	gl = defaultGLSetup(gl)
 
 	drawScene();
 	drawTranslationValue(translation, center);
@@ -74,9 +78,7 @@ async function main() {
 
 	function resetAll() {
 		translation = [start_position, start_position, 0]
-
 		rotation = [40 * RAD, 25 * RAD, 325 * RAD]
-
 		scale = [1, 1, 1]
 
 		drawTranslationValue(translation)
@@ -90,27 +92,6 @@ async function main() {
 
 	// Draw the scene.
 	function drawScene() {
-		const clientWidth  = gl.canvas.clientWidth
-		const clientHeight = gl.canvas.clientHeight
-		if (gl.canvas.width !== clientWidth || gl.canvas.height !== clientHeight) {
-			gl.canvas.width = clientWidth
-			gl.canvas.height = clientHeight
-		}
-
-		// Tell WebGL how to convert from clip space to pixels
-		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-		// Clear the canvas and depth buffer.
-		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-		// Turn on culling. By default backfacing triangles
-		// will be culled.
-		gl.enable(gl.CULL_FACE);
-
-		// Enable the depth buffer
-		gl.enable(gl.DEPTH_TEST);
-
-		// Tell it to use our program (pair of shaders)
 		gl.useProgram(program);
 
 		// Turn on the attribute
@@ -120,12 +101,7 @@ async function main() {
 		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
 		// Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-		let size = 3;          // 3 components per iteration
-		let type = gl.FLOAT;   // the data is 32bit floats
-		let normalize = false; // don't normalize the data
-		let stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
-		let offset = 0;        // start at the beginning of the buffer
-		gl.vertexAttribPointer(positionLocation, size, type, normalize, stride, offset);
+		gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
 
 		// set the color
 
@@ -136,12 +112,14 @@ async function main() {
 		gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer)
 
 		// Указываем атрибуту, как получать данные от colorBuffer (ARRAY_BUFFER)
-		size = 3;                 // 3 компоненты на итерацию
-		type = gl.UNSIGNED_BYTE;  // данные - 8-битные беззнаковые целые
-		normalize = true;         // нормализовать данные (конвертировать из 0-255 в 0-1)
-		stride = 0;               // 0 = перемещаться на size * sizeof(type) каждую итерацию для получения следующего положения
-		offset = 0;               // начинать с начала буфера
-		gl.vertexAttribPointer(colorLocation, size, type, normalize, stride, offset)
+		gl.vertexAttribPointer(
+			colorLocation,
+			3, // 3 компоненты на итерацию
+			gl.UNSIGNED_BYTE, // данные - 8-битные беззнаковые целые
+			true, // normalized - нормализовать данные (конвертировать из 0-255 в 0-1)
+			0, // stride 0 = перемещаться на size * sizeof(type) каждую итерацию для получения следующего положения
+			0 // offset - начинать с начала буфера
+		)
 
 		// Создаём матрицы
 		let left = 0, right = gl.canvas.width
@@ -159,10 +137,11 @@ async function main() {
 		gl.uniformMatrix4fv(matrixLocation, false, matrix)
 
 		// Draw the geometry.
-		let primitiveType = gl.TRIANGLES;
-		offset = 0;
-		let count = 16 * 6;
-		gl.drawArrays(primitiveType, offset, count);
+		gl.drawArrays(
+			gl.TRIANGLES, // primitive type
+			0, // first
+			16 * 6 // count
+		);
 	}
 }
 

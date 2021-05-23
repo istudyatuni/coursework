@@ -1,5 +1,10 @@
-const shader_path = 'js/shaders/'
+const shader_path = '/js/shaders/'
 
+/**
+ * Load source of shader file asynchronously
+ * @param  {string} name shader path
+ * @return {string}      shader source
+ */
 export async function getShaderSource(name) {
 	let response = await fetch(shader_path + name)
 	if (response.ok) {

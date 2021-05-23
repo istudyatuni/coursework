@@ -4,6 +4,6 @@ services:
     build:
       context: .
     ports:
-      - '80:80'
+      - '10000:80'
     volumes:
       - .:/www

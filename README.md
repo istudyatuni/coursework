@@ -6,4 +6,4 @@ Run with docker:
 docker-compose up --build
 ```
 
-Then open http://localhost/
+Then open http://localhost:10000/
