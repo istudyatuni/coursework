@@ -1,9 +1,10 @@
-import { notImplemented } from './error.js'
+import { badCall, notImplemented } from './error.js'
 
 /**
- * Set of functions for work with 5x5 matrices
+ * Set of functions for work with 5x5 4D homogeneous matrices
  */
 export const mat5 = {
+	size: 5,
 	translation: function (tx, ty, tz, tw) {
 		return [
 			1,  0,  0,  0,  0,
@@ -13,38 +14,53 @@ export const mat5 = {
 			tx, ty, tz, tw, 1,
 		]
 	},
-	xRotation: function (rad) {
-		notImplemented()
-		// let c = Math.cos(rad)
-		// let s = Math.sin(rad)
-		// return [
-		// 	1, 0, 0, 0,
-		// 	0, c, s, 0,
-		// 	0, -s, c, 0,
-		// 	0, 0, 0, 1
-		// ]
-	},
-	yRotation: function (rad) {
-		notImplemented()
-		// let c = Math.cos(rad)
-		// let s = Math.sin(rad)
-		// return [
-		// 	c, 0, -s, 0,
-		// 	0, 1, 0, 0,
-		// 	s, 0, c, 0,
-		// 	0, 0, 0, 1
-		// ]
-	},
-	zRotation: function (rad) {
-		notImplemented()
-		// let c = Math.cos(rad)
-		// let s = Math.sin(rad)
-		// return [
-		// 	c, s, 0, 0,
-		// 	-s, c, 0, 0,
-		// 	0, 0, 1, 0,
-		// 	0, 0, 0, 1
-		// ]
+	/**
+	 * Return homogenius matrix for 4D rotation
+	 * @param  {"x" | "y" | "z"}   a   describe 1st axis
+	 * @param  {"y" | "z" | "w"}   b   describe 2nd axis
+	 * @param  {number}            rad rotation angle in radian
+	 * @return {number[]}              rotation matrix
+	 */
+	rotation: function (a, b, rad) {
+		let c = Math.cos(rad)
+		let s = Math.sin(rad)
+
+		const getCoord = function (str) {
+			switch (str) {
+				case 'x': return 0
+				case 'y': return 1
+				case 'z': return 2
+				case 'w': return 3
+				default: return -1
+			}
+		}
+
+		const i = getCoord(a), j = getCoord(b)
+		if (i === -1 || j === -1) {
+			badCall('incorrect type: ' + a + ' or ' + b)
+		} else if (i >= j) {
+			badCall(a + ' must come after ' + b)
+		}
+
+		/**
+		 * when Rxy or Ryz we have:
+		 * cos  sin
+		 * -sin cos
+		 *
+		 * otherwise:
+		 * cos -sin
+		 * sin  cos
+		 */
+		if (i !== 1 && j !== 2 && i !== 2 && j !== 3) {
+			s *= -1
+		}
+
+		let matrix = this.identity
+		matrix[i * this.size + i] = c
+		matrix[j * this.size + j] = c
+		matrix[i * this.size + j] = s
+		matrix[j * this.size + i] = -1 * s
+		return matrix
 	},
 	scaling: function (sx, sy, sz, sw) {
 		return [
@@ -63,26 +79,23 @@ export const mat5 = {
 	 * 0 <= i, j < 5
 	 */
 	multiply: function(a, b) {
-		let dimemsion = 5
-		let c = Array(dimemsion * dimemsion).fill(0)
-		for (var i = 0; i < dimemsion; i++) {
-			for (var j = 0; j < dimemsion; j++) {
-				for (var k = 0; k < dimemsion; k++) {
-					c[i * dimemsion + j] += a[i * dimemsion + k] * b[k * dimemsion + j]
+		let c = Array(this.size * this.size).fill(0)
+		for (var i = 0; i < this.size; i++) {
+			for (var j = 0; j < this.size; j++) {
+				for (var k = 0; k < this.size; k++) {
+					c[i * this.size + j] += a[i * this.size + k] * b[k * this.size + j]
 				}
 			}
 		}
 		return c
 	},
-	identity: function () {
-		return [
-			1, 0, 0, 0, 0,
-			0, 1, 0, 0, 0,
-			0, 0, 1, 0, 0,
-			0, 0, 0, 1, 0,
-			0, 0, 0, 0, 1,
-		]
-	},
+	identity: [
+		1, 0, 0, 0, 0,
+		0, 1, 0, 0, 0,
+		0, 0, 1, 0, 0,
+		0, 0, 0, 1, 0,
+		0, 0, 0, 0, 1,
+	],
 	orthographic: function(left, right, bottom, top, near, far) {
 		notImplemented()
 		// return [
@@ -100,17 +113,8 @@ export const mat5 = {
 		notImplemented()
 		// return mat4.multiply(mat4.translation(tx, ty, tz), m)
 	},
-	xRotate: function (m, rad) {
-		notImplemented()
-		// return mat4.multiply(mat4.xRotation(rad), m)
-	},
-	yRotate: function (m, rad) {
-		notImplemented()
-		// return mat4.multiply(mat4.yRotation(rad), m)
-	},
-	zRotate: function (m, rad) {
-		notImplemented()
-		// return mat4.multiply(mat4.zRotation(rad), m)
+	rotate: function (m, a, b, rad) {
+		return this.multiply(m, this.rotation(a, b, rad))
 	},
 	scale: function (m, sx, sy, sz) {
 		notImplemented()
