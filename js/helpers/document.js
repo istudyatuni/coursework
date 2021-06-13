@@ -1,4 +1,4 @@
-import { RAD } from './math.js'
+import { RAD } from '../math/constants.js'
 
 function drawPressedKey(key) {
 	document.getElementById('pressed-key').innerHTML = key

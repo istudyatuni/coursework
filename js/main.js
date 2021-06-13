@@ -5,11 +5,11 @@ import {
 	getContext,
 	defaultGLSetup
 } from './gl/utils.js'
-import { setupListeners, drawTranslationValue, setTheme } from './helper.js'
+import { setupListeners, drawTranslationValue, setTheme } from './helpers/document.js'
 import { setGeometry, setColors } from './gl/data.js'
-import { mat4 } from './matrix4.js'
-import { mat5 } from './matrix5.js'
-import { RAD } from './math.js'
+import { mat4 } from './matrix/4.js'
+import { mat5 } from './matrix/5.js'
+import { RAD } from './math/constants.js'
 
 const start_position = 300;
 const center = [-50, -75]
