@@ -9,7 +9,9 @@ import { setupListeners, drawTranslationValue, setTheme } from './helpers/docume
 import { setGeometry, setColors } from './gl/data.js'
 import { mat4 } from './matrix/4.js'
 import { mat5 } from './matrix/5.js'
+
 import { RAD } from './math/constants.js'
+import { PointArrayMultMatrix } from './math/coordinates.js'
 
 const start_position = 300;
 const center = [-50, -75]
@@ -94,23 +96,21 @@ async function main() {
 	function drawScene() {
 		gl.useProgram(program);
 
-		// Turn on the attribute
+		//////////////
+		// Position //
+		//////////////
 		gl.enableVertexAttribArray(positionLocation);
-
-		// Bind the position buffer.
 		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
 		// Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
 		gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
 
 		// set the color
 
-		// Включаем атрибут цвета
+		///////////
+		// Color //
+		///////////
 		gl.enableVertexAttribArray(colorLocation)
-
-		// привязываем буфер цветов
 		gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer)
-
 		// Указываем атрибуту, как получать данные от colorBuffer (ARRAY_BUFFER)
 		gl.vertexAttribPointer(
 			colorLocation,

@@ -22,7 +22,7 @@ export function badCall(err = '') {
 	let stackTrace = (new Error()).stack; // Only tested in latest FF and Chrome
 	let match
 	try {
-		match = stackTrace.match(/at Object\.(\w+) \((\S+)\)/);
+		match = stackTrace.match(/at ((?!badCall)\S+) \((\S+)\)/);
 		match[1] // throw error if match is null
 	} catch {
 		// Firefox

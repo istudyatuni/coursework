@@ -1,14 +1,8 @@
+import { Points4Arrayto3 } from '../math/coordinates.js'
+
 /**
- * Put 4D cube to gl.ARRAY_BUFFER
- * Its vertices are the 16 points (±1,±1,±1,±1) in R4;
- * its edges are the line segments between pairs of points having exactly one coordinate differing;
- * its faces are the quadruples of points obtained by declaring two coordinates constant;
- * its cells are the collections of points where one coordinate is declared constant.
- * There are 8 cells, 24 faces, 32 edges and 16 vertices.
- * Got from quora: https://qr.ae/pGyiFk
- * @param  {WebGLRenderingContext} gl Context from canvas for WebGL
- * @return {void}
- *
+ * matrix with 4D cube's points
+ * @type {Array}
  * Only points:
  * 1, 1, 1, 1,
  * 1, 1, 1, -1,
@@ -27,133 +21,148 @@
  * -1, -1, -1, 1,
  * -1, -1, -1, -1,
  */
+const coeff = 100;
+export const cube4 = [
+	// faces
+	// each 3 lines is triangle
+
+	// c c x x (c is const)
+
+	// 1 1 x x
+	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+
+	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+
+	// 1 -1 x x
+	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+
+	// -1 1 x x
+	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+
+	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+
+	// -1 -1 x x
+	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+
+	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+
+	// x c c x
+
+	// x 1 1 x
+	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+
+	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+
+	// x 1 -1 x
+	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+
+	// x -1 1 x
+	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+
+	// x -1 -1 x
+	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+
+	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+
+	// x x c c
+
+	// x x 1 1
+	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+
+	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+
+	// x x 1 -1
+	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+
+	// x x -1 1
+	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+
+	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+
+	// x x -1 -1
+	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+
+	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+
+	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+]
+
+/**
+ * Put 4D cube to gl.ARRAY_BUFFER
+ * Its vertices are the 16 points (±1,±1,±1,±1) in R4;
+ * its edges are the line segments between pairs of points having exactly one coordinate differing;
+ * its faces are the quadruples of points obtained by declaring two coordinates constant;
+ * its cells are the collections of points where one coordinate is declared constant.
+ * There are 8 cells, 24 faces, 32 edges and 16 vertices.
+ * Got from quora: https://qr.ae/pGyiFk
+ * @param  {WebGLRenderingContext} gl Context from canvas for WebGL
+ * @return {void}
+ */
 export function setGeometry (gl) {
-	const coeff = 100;
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
-		new Float32Array([
-			// faces
-			// each 3 lines is triangle
-
-			// c c x x (c is const)
-
-			// 1 1 x x
-			1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-			1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-			1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-
-			1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-			1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-			1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-
-			// 1 -1 x x
-			1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-			1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-
-			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-			1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-			1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-
-			// -1 1 x x
-			-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-			-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-
-			-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-			-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-
-			// -1 -1 x x
-			-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-			-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-
-			-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-			-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-
-			// x c c x
-
-			// x 1 1 x
-			1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-			1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-
-			1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-			-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-
-			// x 1 -1 x
-			1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-			1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-			1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-
-			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-			-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-
-			// x -1 1 x
-			1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-
-			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-			-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-
-			// x -1 -1 x
-			1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-			1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-			-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-
-			1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-			-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-			-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-
-			// x x c c
-
-			// x x 1 1
-			1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-			1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-			-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-
-			1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-			-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-			-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-
-			// x x 1 -1
-			1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-
-			1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-			-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-
-			// x x -1 1
-			1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-			1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-
-			1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-			-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-			-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-
-			// x x -1 -1
-			1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-			1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-			-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-
-			1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-			-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-			-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-		]),
-		gl.STATIC_DRAW);
+		new Float32Array(Points4Arrayto3(cube4)),
+		gl.STATIC_DRAW
+	);
 }
 
 // Fill the buffer with colors for the 'F'.
-export const setColors = (gl) => {
+export function setColors (gl) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
 		new Uint8Array([
