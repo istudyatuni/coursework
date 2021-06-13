@@ -1,13 +1,13 @@
 /**
  * Put 4D cube to gl.ARRAY_BUFFER
- * Its vertices are the 16 points  (±1,±1,±1,±1)  in  R4;
+ * Its vertices are the 16 points (±1,±1,±1,±1) in R4;
  * its edges are the line segments between pairs of points having exactly one coordinate differing;
  * its faces are the quadruples of points obtained by declaring two coordinates constant;
  * its cells are the collections of points where one coordinate is declared constant.
  * There are 8 cells, 24 faces, 32 edges and 16 vertices.
  * Got from quora: https://qr.ae/pGyiFk
  * @param  {WebGLRenderingContext} gl Context from canvas for WebGL
- * @return {void}    [description]
+ * @return {void}
  *
  * Only points:
  * 1, 1, 1, 1,

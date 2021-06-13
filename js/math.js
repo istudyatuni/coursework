@@ -1,5 +1,5 @@
 /**
- * const for translation between angles and radians
+ * constant to convert between angles and radians
  * Examples:
  *   1. Angle to radian
  *     rad = angle * RAD

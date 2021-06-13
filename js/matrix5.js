@@ -51,15 +51,15 @@ export const mat5 = {
 		 * cos -sin
 		 * sin  cos
 		 */
-		if (i !== 1 && j !== 2 && i !== 2 && j !== 3) {
+		if (i === 0 && j === 1 || i === 1 && j === 2) {
 			s *= -1
 		}
 
 		let matrix = this.identity
 		matrix[i * this.size + i] = c
 		matrix[j * this.size + j] = c
-		matrix[i * this.size + j] = s
-		matrix[j * this.size + i] = -1 * s
+		matrix[i * this.size + j] = -1 * s
+		matrix[j * this.size + i] = s
 		return matrix
 	},
 	scaling: function (sx, sy, sz, sw) {

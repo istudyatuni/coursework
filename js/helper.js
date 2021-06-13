@@ -34,11 +34,11 @@ function drawPressedKey(key) {
  *     move(5)
  *   })
  *
- * @param  {String}                  code       code of trigger key
- * @param  {(coeff: Number) => void} action     function for action
- * @param  {Number}                  ctrl_coeff multiplier when ctrl pressed with key
- * @param  {Number}                  coeff      multiplier when pressed only key without ctrl
- * @return {Void}
+ * @param  {string}                  code       code of trigger key
+ * @param  {(coeff: number) => void} action     function for action
+ * @param  {number}                  ctrl_coeff multiplier when ctrl pressed with key
+ * @param  {number}                  coeff      multiplier when pressed only key without ctrl
+ * @return {void}
  */
 function onKeydown(code, action, ctrl_coeff = 1, coeff = 1) {
 	document.addEventListener('keydown', (e) => {

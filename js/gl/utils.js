@@ -1,11 +1,10 @@
 import { getShaderSource } from '../shaders/getShader.js'
 
 /**
- * Get context from canvas HTML element by its id
+ * Get a WebGL context from canvas HTML element by its id
  * @param  {string} elementQuery canvas id
  */
 export function getContext(elementQuery) {
-	// Get A WebGL context
 	/** @type {HTMLCanvasElement} */
 	const canvas = document.querySelector(elementQuery)
 	return canvas.getContext('webgl')
@@ -13,9 +12,9 @@ export function getContext(elementQuery) {
 
 /**
  * Create shader from context, shader type and source of shader
- * @param  {WebGLRenderingContext} gl     [description]
- * @param  {number}                type   [description]
- * @param  {string}                source [description]
+ * @param  {WebGLRenderingContext} gl
+ * @param  {number}                type
+ * @param  {string}                source
  */
 export function createShader(gl, type, source) {
 	let shader = gl.createShader(type);   // создание шейдера
@@ -32,9 +31,9 @@ export function createShader(gl, type, source) {
 
 /**
  * Load shaders and create WebGLProgram (pair of shaders) from this
- * @param  {WebGLRenderingContext} gl                 [description]
- * @param  {string}                vertexShaderName   [description]
- * @param  {string}                fragmentShaderName [description]
+ * @param  {WebGLRenderingContext} gl
+ * @param  {string}                vertexShaderName
+ * @param  {string}                fragmentShaderName
  * @return {WebGLProgram}
  */
 export async function createProgram(gl, vertexShaderName, fragmentShaderName) {
@@ -58,6 +57,11 @@ export async function createProgram(gl, vertexShaderName, fragmentShaderName) {
 	gl.deleteProgram(program);
 }
 
+/**
+ * Make default (for this program) actions to GL, like set viewport, enable depth buffer, etc
+ * @param  {WebGLRenderingContext} gl
+ * @return {void}
+ */
 export function defaultGLSetup(gl) {
 	const clientWidth  = gl.canvas.clientWidth
 	const clientHeight = gl.canvas.clientHeight
