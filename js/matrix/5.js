@@ -96,22 +96,23 @@ export const mat5 = {
 		0, 0, 0, 1, 0,
 		0, 0, 0, 0, 1,
 	],
-	orthographic: function(left, right, bottom, top, near, far) {
-		notImplemented()
-		// return [
-		// 	2 / (right - left), 0, 0, 0,
-		// 	0, 2 / (top - bottom), 0, 0,
-		// 	0, 0, 2 / (near - far), 0,
+	orthographic: function(left, right, bottom, top, near, far, a, b) {
+		return [
+			2 / (right - left), 0, 0, 0, 0,
+			0, 2 / (top - bottom), 0, 0, 0,
+			0, 0, 2 / (near - far), 0, 0,
+			0, 0, 0, 2 / (a - b), 0,
 
-		// 	(left + right) / (left - right),
-		// 	(bottom + top) / (bottom - top),
-		// 	(near + far) / (near - far),
-		// 	1,
-		// ]
+			(left + right) / (left - right),
+			(bottom + top) / (bottom - top),
+			(near + far) / (near - far),
+			(a + b) / (a - b),
+			1,
+		]
 	},
-	translate: function (m, tx, ty, tz) {
-		notImplemented()
-		// return mat4.multiply(mat4.translation(tx, ty, tz), m)
+	translate: function (tx, ty, tz, tw, m) {
+		// notImplemented()
+		return this.multiply(this.translation(tx, ty, tz, tw), m)
 	},
 	rotate: function (m, a, b, rad) {
 		return this.multiply(m, this.rotation(a, b, rad))

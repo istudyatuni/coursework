@@ -1,48 +1,52 @@
 import { badCall } from '../helpers/error.js'
 
 /**
- * Converting a 4D point to a 3D point (zeroing the 'w' coordinate)
- * @param {number[]} p array with point coordinates, length should be 4
+ * Converting a 4D (5D array in homogeneous coordinates) point to a 3D point (zeroing the 'w' coordinate)
+ * @param {number[]} p array with point coordinates, length should be 5
  * @return {number[]}
  */
-export function Point4to3(p) {
-	if (p.length !== 4) {
-		badCall('point ' + p.toString() + ' should be of size 4')
+export function Point5to4(p) {
+	if (p.length !== 5) {
+		badCall('point ' + p.toString() + ' should be of size 5')
 	}
-	return [p[0], p[1], p[2]]
+	return [p[0], p[1], p[2], p[3]]
 }
 
 /**
  * Converting an array like gl.ARRAY_BUFFER (1D set of coordinates) with 4D points to 3D points
- * @param {number[]} points array with coordinates, where each 4 coordinate is point
+ * Each point is 5 numbers - vector in homogeneous coordinates
+ * @param {number[]} points array with coordinates, where each 5 coordinate is point
  * @return {number[]}
  */
-export function Points4Arrayto3(points) {
+export function Points5Arrayto4(points) {
+	const in_size = 5, skip_index = 4
+
 	let i = 0
 	let res = []
 	for (let c of points) {
-		i = (i + 1) % 4
-		if (i === 3) continue
+		i = (i + 1) % in_size
+		if (i === skip_index) continue
 		res.push(c)
 	}
-	if (i !== 0)
-		badCall('incorrect size of array with 4D points')
+	if (i !== 0) {
+		badCall('incorrect size of array with 4D points: ' + points.length)
+	}
 
 	return res
 }
 
 /**
  * Multiply point and matrix: point * matrix
- * @param {number[]} p point, size should be 3 or 4
- * @param {number[]} m matrix, size should be 3 * 3 or 4 * 4
+ * @param {number[]} p point, size should be 4 or 5
+ * @param {number[]} m matrix, size should be 4 * 4 or 5 * 5
  * @return {number[]} resulting vector
  */
 export function PointMultMatrix(p, m) {
 	let size = p.length
-	if (size !== 3 && size !== 4)
-		badCall('point size should be 3 or 4')
-	if (m.length !== 9 && m.length !== 16)
-		badCall('matrix size should be 9 or 16')
+	if (size !== 4 && size !== 5)
+		badCall('point size should be 4 or 5')
+	if (m.length !== 16 && m.length !== 25)
+		badCall('matrix size should be 16 or 25')
 	if (size * size !== m.length)
 		badCall('sizes of point and matrix does not match')
 
@@ -63,11 +67,11 @@ export function PointMultMatrix(p, m) {
  */
 export function PointArrayMultMatrix(points, m) {
 	let size = 0
-	if (m.length === 9) size = 3
-	else if (m.length === 16) size = 4
+	if (m.length === 16) size = 4
+	else if (m.length === 25) size = 5
 
 	if (size === 0) {
-		badCall('size of matrix is incorrect')
+		badCall('size of matrix is incorrect: ' + m.length)
 	}
 
 	let i = 0

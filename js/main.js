@@ -6,12 +6,12 @@ import {
 	defaultGLSetup
 } from './gl/utils.js'
 import { setupListeners, drawTranslationValue, setTheme } from './helpers/document.js'
-import { setGeometry, setColors } from './gl/data.js'
+import { cube4, setGeometry, setColors } from './gl/data.js'
 import { mat4 } from './matrix/4.js'
 import { mat5 } from './matrix/5.js'
 
 import { RAD } from './math/constants.js'
-import { PointArrayMultMatrix } from './math/coordinates.js'
+import { PointArrayMultMatrix, Points5Arrayto4 } from './math/coordinates.js'
 
 const start_position = 300;
 const center = [-50, -75]
@@ -37,12 +37,13 @@ async function main() {
 
 	// Create a buffer to put positions in
 	let positionBuffer = gl.createBuffer();
+	let points = cube4
 
 	// Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
-	gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+	// gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
 	// Put geometry data into buffer
-	setGeometry(gl)
+	// setGeometry(gl)
 
 	// Создаём буфер для цветов
 	let colorBuffer = gl.createBuffer()
@@ -101,6 +102,9 @@ async function main() {
 		//////////////
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+		setGeometry(gl,
+			PointArrayMultMatrix(points, mat5.translation(100, 100, 400, 345))
+		)
 		// Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
 		gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
 
@@ -121,17 +125,8 @@ async function main() {
 			0 // offset - начинать с начала буфера
 		)
 
-		// Создаём матрицы
-		let left = 0, right = gl.canvas.width
-		let bottom = gl.canvas.height, top = 0
-		let near = 400, far = -400
-		let matrix = mat4.orthographic(left, right, bottom, top, near, far)
-
-		matrix = mat4.translate(matrix, translation[0], translation[1], translation[2])
-		matrix = mat4.xRotate(matrix, rotation[0])
-		matrix = mat4.yRotate(matrix, rotation[1])
-		matrix = mat4.zRotate(matrix, rotation[2])
-		matrix = mat4.scale(matrix, scale[0], scale[1], scale[2])
+		// Создаём матрицу
+		let matrix = mat4.orthographic(0, gl.canvas.width, gl.canvas.height, 0, 400, -400)
 
 		// Set the matrix.
 		gl.uniformMatrix4fv(matrixLocation, false, matrix)

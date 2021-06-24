@@ -1,4 +1,4 @@
-import { Points4Arrayto3 } from '../math/coordinates.js'
+import { Points5Arrayto4 } from '../math/coordinates.js'
 
 /**
  * matrix with 4D cube's points
@@ -29,117 +29,116 @@ export const cube4 = [
 	// c c x x (c is const)
 
 	// 1 1 x x
-	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
+	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
+	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
 
-	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
+	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
+	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
 
 	// 1 -1 x x
-	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
+	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
 
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
+	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
+	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
 
 	// -1 1 x x
-	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
+	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
 
-	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
+	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
 
 	// -1 -1 x x
-	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
+	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
 
-	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
+	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
 
 	// x c c x
 
 	// x 1 1 x
-	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
+	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
 
-	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
+	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
 
 	// x 1 -1 x
-	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
+	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
+	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
 
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
+	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
 
 	// x -1 1 x
-	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
 
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
+	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
 
 	// x -1 -1 x
-	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
+	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
+	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
 
-	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
+	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
+	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
 
 	// x x c c
 
 	// x x 1 1
-	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
+	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
+	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
+	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
 
-	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
-	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff,
-	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
+	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
+	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
 
 	// x x 1 -1
-	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
+	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
 
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff,
-	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff,
+	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
+	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
 
 	// x x -1 1
-	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
+	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
+	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
 
-	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff,
-	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff,
+	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
+	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
+	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
 
 	// x x -1 -1
-	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
+	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
+	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
+	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
 
-	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
-	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff,
-
-	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff,
+	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
+	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
+	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
 ]
 
 /**
@@ -153,10 +152,10 @@ export const cube4 = [
  * @param  {WebGLRenderingContext} gl Context from canvas for WebGL
  * @return {void}
  */
-export function setGeometry (gl) {
+export function setGeometry (gl, data = cube4) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
-		new Float32Array(Points4Arrayto3(cube4)),
+		new Float32Array(Points5Arrayto4(data)),
 		gl.STATIC_DRAW
 	);
 }
@@ -262,7 +261,7 @@ export function setColors (gl) {
 			100, 70, 210,
 			100, 70, 210,
 
-			// bottom of middle rung.
+			/*// bottom of middle rung.
 			76, 210, 100,
 			76, 210, 100,
 			76, 210, 100,
@@ -292,7 +291,7 @@ export function setColors (gl) {
 			160, 160, 220,
 			160, 160, 220,
 			160, 160, 220,
-			160, 160, 220
+			160, 160, 220*/
 		]),
 		gl.STATIC_DRAW);
 }
