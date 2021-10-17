@@ -39,21 +39,15 @@ async function main() {
 	let positionBuffer = gl.createBuffer();
 	let points = cube4
 
-	// Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
-	// gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-	// Put geometry data into buffer
-	// setGeometry(gl)
-
 	// Создаём буфер для цветов
 	let colorBuffer = gl.createBuffer()
 	gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer)
 	// Заполняем буфер цветами
 	setColors(gl)
 
-	let translation = [start_position, start_position, 0];
-	let rotation = [40 * RAD, 25 * RAD, 325 * RAD]
-	let scale = [1, 1, 1]
+	let translation = [start_position, start_position, 0, 500];
+	let rotation = [40 * RAD, 25 * RAD, 325 * RAD, 60 * RAD]
+	let scale = [1, 1, 1, 1]
 
 	defaultGLSetup(gl)
 
@@ -108,13 +102,13 @@ async function main() {
 		//////////////
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-		setGeometry(gl,
-			PointArrayMultMatrix(points, mat5.translation(100, 100, 400, 345))
-		)
+
+		let matrix = mat5.orthographic(0, gl.canvas.width, gl.canvas.height, 0, 400, -400, 0, 0)
+		// matrix = mat5.translate(...translation, matrix)
+		setGeometry(gl, PointArrayMultMatrix(points, matrix))
+
 		// Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
 		gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
-
-		// set the color
 
 		///////////
 		// Color //
@@ -131,11 +125,18 @@ async function main() {
 			0 // offset - начинать с начала буфера
 		)
 
-		// Создаём матрицу
-		let matrix = mat4.orthographic(0, gl.canvas.width, gl.canvas.height, 0, 400, -400)
+		let proj_matrix = mat4.orthographic(0, gl.canvas.width, gl.canvas.height, 0, 400, -400)
+		// proj_matrix = mat4.translate(proj_matrix, translation[0], translation[1], translation[2])
+		// proj_matrix = mat4.xRotate(proj_matrix, rotation[0])
+		// proj_matrix = mat4.yRotate(proj_matrix, rotation[1])
+		// proj_matrix = mat4.zRotate(proj_matrix, rotation[2])
+		// proj_matrix = mat4.scale(proj_matrix, scale[0], scale[1], scale[2])
 
 		// Set the matrix.
-		gl.uniformMatrix4fv(matrixLocation, false, matrix)
+		gl.uniformMatrix4fv(matrixLocation, false, proj_matrix
+			// create matrix to normalize projection
+			// mat4.orthographic(0, gl.canvas.width, gl.canvas.height, 0, 400, -400)
+		)
 
 		// Draw the geometry.
 		gl.drawArrays(
