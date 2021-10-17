@@ -19,7 +19,8 @@ export function Point5to4(p) {
  * @return {number[]}
  */
 export function Points5Arrayto4(points) {
-	const in_size = 5, skip_index = 4
+	const in_size = 5,
+		skip_index = 4
 
 	let i = 0
 	let res = []
@@ -43,8 +44,7 @@ export function Points5Arrayto4(points) {
  */
 export function PointMultMatrix(p, m) {
 	let size = p.length
-	if (size !== 4 && size !== 5)
-		badCall('point size should be 4 or 5')
+	if (size !== 4 && size !== 5) badCall('point size should be 4 or 5')
 	if (m.length !== 16 && m.length !== 25)
 		badCall('matrix size should be 16 or 25')
 	if (size * size !== m.length)
@@ -75,7 +75,8 @@ export function PointArrayMultMatrix(points, m) {
 	}
 
 	let i = 0
-	let arr = [], res = []
+	let arr = [],
+		res = []
 	for (let c of points) {
 		i = (i + 1) % size
 		arr.push(c)

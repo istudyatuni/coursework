@@ -1,0 +1,13 @@
+{
+  "name": "coursework",
+  "description": "My coursework",
+  "scripts": {
+    "format": "prettier --write js './**/*.js'",
+    "start": "python -m http.server"
+  },
+  "author": "Ilia",
+  "devDependencies": {
+    "prettier": "^2.4.1"
+  },
+  "license": "MIT"
+}

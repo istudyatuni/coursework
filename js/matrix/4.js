@@ -3,6 +3,7 @@
  */
 export const mat4 = {
 	translation: function (tx, ty, tz) {
+		// prettier-ignore
 		return [
 			1, 0, 0, 0,
 			0, 1, 0, 0,
@@ -13,6 +14,7 @@ export const mat4 = {
 	xRotation: function (rad) {
 		let c = Math.cos(rad)
 		let s = Math.sin(rad)
+		// prettier-ignore
 		return [
 			1, 0, 0, 0,
 			0, c, s, 0,
@@ -23,6 +25,7 @@ export const mat4 = {
 	yRotation: function (rad) {
 		let c = Math.cos(rad)
 		let s = Math.sin(rad)
+		// prettier-ignore
 		return [
 			c, 0, -s, 0,
 			0, 1, 0, 0,
@@ -33,6 +36,7 @@ export const mat4 = {
 	zRotation: function (rad) {
 		let c = Math.cos(rad)
 		let s = Math.sin(rad)
+		// prettier-ignore
 		return [
 			c, s, 0, 0,
 			-s, c, 0, 0,
@@ -41,6 +45,7 @@ export const mat4 = {
 		]
 	},
 	scaling: function (sx, sy, sz) {
+		// prettier-ignore
 		return [
 			sx, 0, 0, 0,
 			0, sy, 0, 0,
@@ -55,7 +60,7 @@ export const mat4 = {
 	 * C[i][j] = sum(A[i][k] * B[k][j], k=0..3)
 	 * 0 <= i, j < 4
 	 */
-	multiply: function(a, b) {
+	multiply: function (a, b) {
 		let dimemsion = 4
 		let c = Array(dimemsion * dimemsion).fill(0)
 		for (var i = 0; i < dimemsion; i++) {
@@ -68,6 +73,7 @@ export const mat4 = {
 		return c
 	},
 	identity: function () {
+		// prettier-ignore
 		return [
 			1, 0, 0, 0,
 			0, 1, 0, 0,
@@ -75,7 +81,8 @@ export const mat4 = {
 			0, 0, 0, 1,
 		]
 	},
-	orthographic: function(left, right, bottom, top, near, far) {
+	orthographic: function (left, right, bottom, top, near, far) {
+		// prettier-ignore
 		return [
 			2 / (right - left), 0, 0, 0,
 			0, 2 / (top - bottom), 0, 0,
@@ -101,5 +108,5 @@ export const mat4 = {
 	},
 	scale: function (m, sx, sy, sz) {
 		return mat4.multiply(mat4.scaling(sx, sy, sz), m)
-	}
+	},
 }

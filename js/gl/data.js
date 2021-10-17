@@ -21,7 +21,9 @@ import { Points5Arrayto4 } from '../math/coordinates.js'
  * -1, -1, -1, 1,
  * -1, -1, -1, -1,
  */
-const coeff = 100;
+const coeff = 100
+
+// prettier-ignore
 export const cube4 = [
 	// faces
 	// each 3 lines is triangle
@@ -152,18 +154,19 @@ export const cube4 = [
  * @param  {WebGLRenderingContext} gl Context from canvas for WebGL
  * @return {void}
  */
-export function setGeometry (gl, data = cube4) {
+export function setGeometry(gl, data = cube4) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
 		new Float32Array(Points5Arrayto4(data)),
 		gl.STATIC_DRAW
-	);
+	)
 }
 
 // Fill the buffer with colors for the 'F'.
-export function setColors (gl) {
+export function setColors(gl) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
+		// prettier-ignore
 		new Uint8Array([
 			// left column front
 			200,  70, 120,
@@ -293,5 +296,6 @@ export function setColors (gl) {
 			160, 160, 220,
 			160, 160, 220*/
 		]),
-		gl.STATIC_DRAW);
+		gl.STATIC_DRAW
+	)
 }

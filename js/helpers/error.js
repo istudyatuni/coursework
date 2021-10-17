@@ -3,11 +3,11 @@
  * improved https://gist.github.com/irisli/716b6dacd3f151ce2b7e
  * @return {void}
  */
-export function notImplemented () {
-	let stackTrace = (new Error()).stack; // Only tested in latest FF and Chrome
+export function notImplemented() {
+	let stackTrace = new Error().stack // Only tested in latest FF and Chrome
 	let match
 	try {
-		match = stackTrace.match(/at Object\.(\w+) \((\S+)\)/);
+		match = stackTrace.match(/at Object\.(\w+) \((\S+)\)/)
 		match[1] // throw error if match is null
 	} catch {
 		// Firefox
@@ -15,14 +15,16 @@ export function notImplemented () {
 	}
 	let [callerName, callerPlace] = [match[1], match[2]]
 
-	throw 'Function ' + callerName + ' at ' + callerPlace + ' is not implemented yet';
+	throw (
+		'Function ' + callerName + ' at ' + callerPlace + ' is not implemented yet'
+	)
 }
 
 export function badCall(err = '') {
-	let stackTrace = (new Error()).stack; // Only tested in latest FF and Chrome
+	let stackTrace = new Error().stack // Only tested in latest FF and Chrome
 	let match
 	try {
-		match = stackTrace.match(/at ((?!badCall)\S+) \((\S+)\)/);
+		match = stackTrace.match(/at ((?!badCall)\S+) \((\S+)\)/)
 		match[1] // throw error if match is null
 	} catch {
 		// Firefox
@@ -30,5 +32,5 @@ export function badCall(err = '') {
 	}
 	let [callerName, callerPlace] = [match[1], match[2]]
 
-	throw 'Bad call of ' + callerName + ' at ' + callerPlace + ': ' + err;
+	throw 'Bad call of ' + callerName + ' at ' + callerPlace + ': ' + err
 }

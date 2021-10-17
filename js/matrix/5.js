@@ -6,6 +6,7 @@ import { badCall, notImplemented } from '../helpers/error.js'
 export const mat5 = {
 	size: 5,
 	translation: function (tx, ty, tz, tw) {
+		// prettier-ignore
 		return [
 			1,  0,  0,  0,  0,
 			0,  1,  0,  0,  0,
@@ -27,15 +28,21 @@ export const mat5 = {
 
 		const getCoord = function (str) {
 			switch (str) {
-				case 'x': return 0
-				case 'y': return 1
-				case 'z': return 2
-				case 'w': return 3
-				default: return -1
+				case 'x':
+					return 0
+				case 'y':
+					return 1
+				case 'z':
+					return 2
+				case 'w':
+					return 3
+				default:
+					return -1
 			}
 		}
 
-		const i = getCoord(a), j = getCoord(b)
+		const i = getCoord(a),
+			j = getCoord(b)
 		if (i === -1 || j === -1) {
 			badCall('incorrect type: ' + a + ' or ' + b)
 		} else if (i >= j) {
@@ -51,7 +58,7 @@ export const mat5 = {
 		 * cos -sin
 		 * sin  cos
 		 */
-		if (i === 0 && j === 1 || i === 1 && j === 2) {
+		if ((i === 0 && j === 1) || (i === 1 && j === 2)) {
 			s *= -1
 		}
 
@@ -63,6 +70,7 @@ export const mat5 = {
 		return matrix
 	},
 	scaling: function (sx, sy, sz, sw) {
+		// prettier-ignore
 		return [
 			sx, 0, 0, 0, 0,
 			0, sy, 0, 0, 0,
@@ -78,7 +86,7 @@ export const mat5 = {
 	 * C[i][j] = sum(A[i][k] * B[k][j], k=0..4)
 	 * 0 <= i, j < 5
 	 */
-	multiply: function(a, b) {
+	multiply: function (a, b) {
 		let c = Array(this.size * this.size).fill(0)
 		for (var i = 0; i < this.size; i++) {
 			for (var j = 0; j < this.size; j++) {
@@ -89,6 +97,7 @@ export const mat5 = {
 		}
 		return c
 	},
+	// prettier-ignore
 	identity: [
 		1, 0, 0, 0, 0,
 		0, 1, 0, 0, 0,
@@ -96,7 +105,8 @@ export const mat5 = {
 		0, 0, 0, 1, 0,
 		0, 0, 0, 0, 1,
 	],
-	orthographic: function(left, right, bottom, top, near, far, a, b) {
+	orthographic: function (left, right, bottom, top, near, far, a, b) {
+		// prettier-ignore
 		return [
 			2 / (right - left), 0, 0, 0, 0,
 			0, 2 / (top - bottom), 0, 0, 0,
@@ -118,5 +128,5 @@ export const mat5 = {
 	},
 	scale: function (m, sx, sy, sz) {
 		return this.multiply(m, this.scaling(sx, sy, sz), m)
-	}
+	},
 }
