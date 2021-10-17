@@ -3,11 +3,14 @@ files:
   - js/main.js
   - js/math/constants.js
   - js/math/coordinates.js
-  - js/matrix/4.js
+  # - js/matrix/4.js
   - js/matrix/5.js
   - js/helpers/document.js
   - js/helpers/error.js
   - js/gl/utils.js
+  - js/shaders/fragment.glsl
+  - js/shaders/vertex.glsl
+  - js/shaders/getShader.js
   # - js/gl/data.js
   # - style/style.css
 
@@ -15,3 +18,4 @@ add_file_names: true
 code_in_md: true
 file_label: "Файл: "
 output: result.txt
+remove_folder: true

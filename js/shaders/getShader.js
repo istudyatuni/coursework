@@ -1,4 +1,10 @@
-let host_path = '/coursework'
+import config from '../config.js'
+
+let host_path = ''
+if (!config.localHost) {
+	host_path = '/coursework'
+}
+
 const shader_path = '/js/shaders/'
 
 /**
@@ -11,14 +17,5 @@ export async function getShaderSource(name) {
 	if (response.ok) {
 		console.log('Loaded ' + response.url)
 		return await response.text()
-	} else {
-		host_path = ''
-		return getShaderSource(name)
 	}
-	// code below not work, it execute without waiting
-	// fetch(shader_path + name + '.glsl')
-	// .then(response => response.text())
-	// .then((data) => {
-	// 	return data
-	// })
 }

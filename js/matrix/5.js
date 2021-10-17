@@ -110,15 +110,13 @@ export const mat5 = {
 			1,
 		]
 	},
-	translate: function (tx, ty, tz, tw, m) {
-		// notImplemented()
-		return this.multiply(this.translation(tx, ty, tz, tw), m)
+	translate: function (m, tx, ty, tz, tw) {
+		return this.multiply(m, this.translation(tx, ty, tz, tw))
 	},
 	rotate: function (m, a, b, rad) {
 		return this.multiply(m, this.rotation(a, b, rad))
 	},
 	scale: function (m, sx, sy, sz) {
-		notImplemented()
-		// return mat4.multiply(mat4.scaling(sx, sy, sz), m)
+		return this.multiply(m, this.scaling(sx, sy, sz), m)
 	}
 }

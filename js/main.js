@@ -69,18 +69,21 @@ async function main() {
 		drawScene();
 	}
 
+	// todo
 	function updateRotation(index, value) {
 		rotation[index] += value * 0.1
 		drawScene();
 	}
 
+	// todo
 	function updateScale(index, value) {
 		scale[index] += value
 		drawScene()
 	}
 
+	// todo
 	function resetAll() {
-		translation = [start_position, start_position, 0]
+		translation = [start_position, start_position, 0, 500]
 		rotation = [40 * RAD, 25 * RAD, 325 * RAD]
 		scale = [1, 1, 1]
 
@@ -96,6 +99,9 @@ async function main() {
 	// Draw the scene.
 	function drawScene() {
 		gl.useProgram(program);
+		let log = gl.getProgramInfoLog(program)
+		if (log !== '')
+			console.log(log)
 
 		//////////////
 		// Position //

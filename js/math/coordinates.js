@@ -9,7 +9,7 @@ export function Point5to4(p) {
 	if (p.length !== 5) {
 		badCall('point ' + p.toString() + ' should be of size 5')
 	}
-	return [p[0], p[1], p[2], p[3]]
+	return [p[0], p[1], p[2], p[4]]
 }
 
 /**
