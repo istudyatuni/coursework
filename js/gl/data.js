@@ -2,146 +2,71 @@ import { Points5Arrayto4 } from '../math/coordinates.js'
 
 /**
  * matrix with 4D cube's points
- * @type {Array}
- * Only points:
- * 1, 1, 1, 1,
- * 1, 1, 1, -1,
- * 1, 1, -1, 1,
- * 1, 1, -1, -1,
- * 1, -1, 1, 1,
- * 1, -1, 1, -1,
- * 1, -1, -1, 1,
- * 1, -1, -1, -1,
- * -1, 1, 1, 1,
- * -1, 1, 1, -1,
- * -1, 1, -1, 1,
- * -1, 1, -1, -1,
- * -1, -1, 1, 1,
- * -1, -1, 1, -1,
- * -1, -1, -1, 1,
- * -1, -1, -1, -1,
+ * @type {number[][]}
  */
-const coeff = 100
-
 // prettier-ignore
-export const cube4 = [
-	// faces
-	// each 3 lines is triangle
-
-	// c c x x (c is const)
-
-	// 1 1 x x
-	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
-	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
-	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
-
-	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
-	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
-	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
-
-	// 1 -1 x x
-	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
-	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
-
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
-	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
-	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
-
-	// -1 1 x x
-	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
-	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
-
-	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
-	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
-
-	// -1 -1 x x
-	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
-	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
-
-	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
-	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
-
-	// x c c x
-
-	// x 1 1 x
-	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
-	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
-
-	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
-	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
-
-	// x 1 -1 x
-	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
-	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
-	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
-
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
-	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
-
-	// x -1 1 x
-	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
-
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
-	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
-
-	// x -1 -1 x
-	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
-	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
-	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
-
-	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
-	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
-	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
-
-	// x x c c
-
-	// x x 1 1
-	1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
-	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
-	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
-
-	1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
-	-1 * coeff, 1 * coeff, 1 * coeff, 1 * coeff, 1,
-	-1 * coeff, -1 * coeff, 1 * coeff, 1 * coeff, 1,
-
-	// x x 1 -1
-	1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
-
-	1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, 1 * coeff, 1 * coeff, -1 * coeff, 1,
-	-1 * coeff, -1 * coeff, 1 * coeff, -1 * coeff, 1,
-
-	// x x -1 1
-	1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
-	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
-
-	1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
-	-1 * coeff, 1 * coeff, -1 * coeff, 1 * coeff, 1,
-	-1 * coeff, -1 * coeff, -1 * coeff, 1 * coeff, 1,
-
-	// x x -1 -1
-	1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
-	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
-	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
-
-	1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
-	-1 * coeff, 1 * coeff, -1 * coeff, -1 * coeff, 1,
-	-1 * coeff, -1 * coeff, -1 * coeff, -1 * coeff, 1,
+const cube4points = [
+	[ 1,  1,  1,  1],
+	[ 1,  1,  1, -1],
+	[ 1,  1, -1,  1],
+	[ 1,  1, -1, -1],
+	[ 1, -1,  1,  1],
+	[ 1, -1,  1, -1],
+	[ 1, -1, -1,  1],
+	[ 1, -1, -1, -1],
+	[-1,  1,  1,  1],
+	[-1,  1,  1, -1],
+	[-1,  1, -1,  1],
+	[-1,  1, -1, -1],
+	[-1, -1,  1,  1],
+	[-1, -1,  1, -1],
+	[-1, -1, -1,  1],
+	[-1, -1, -1, -1],
 ]
+
+/**
+ * Faces are the quadruples of points obtained by declaring two coordinates constant
+ * @type {number[]} Array with faces
+ */
+const cube4faces = (function () {
+	let result = []
+	for (let [i, j] of [
+		[0, 1],
+		[0, 2],
+		[0, 3],
+		[1, 2],
+		[1, 3],
+		[2, 3],
+	]) {
+		for (let [a, b] of [
+			[ 1,  1],
+			[ 1, -1],
+			[-1,  1],
+			[-1, -1],
+		]) {
+			result.push(cube4points.filter((e) => e[i] === a && e[j] === b))
+		}
+	}
+	return result
+})()
+
+/**
+ * 4D cube, each 2 triples of points (each point is 4 numbers) is triangles of one face
+ *
+ * e.g.
+ * ```
+ * [
+ *   1 1 1 1
+ *   1 1 -1 1
+ *   1 1 1 -1
+ * ]
+ * ```
+ * is one triangle
+ * @type {number[]}
+ */
+export const cube4gl = cube4faces
+	.map((e) => [e[0], e[1], e[2], e[1], e[2], e[3]])
+	.flat(2)
 
 /**
  * Put 4D cube to gl.ARRAY_BUFFER
@@ -162,7 +87,10 @@ export function setGeometry(gl, data = cube4) {
 	)
 }
 
-// Fill the buffer with colors for the 'F'.
+/**
+ * Fill the buffer with colors for the 'F'.
+ * @param {WebGLRenderingContext} gl
+ */
 export function setColors(gl) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,

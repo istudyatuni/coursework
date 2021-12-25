@@ -10,7 +10,7 @@ import {
 	drawTranslationValue,
 	setTheme,
 } from './helpers/document.js'
-import { cube4, setGeometry, setColors } from './gl/data.js'
+import { cube4gl, setGeometry, setColors } from './gl/data.js'
 import { mat4 } from './matrix/4.js'
 import { mat5 } from './matrix/5.js'
 
@@ -41,7 +41,6 @@ async function main() {
 
 	// Create a buffer to put positions in
 	let positionBuffer = gl.createBuffer()
-	let points = cube4
 
 	// Создаём буфер для цветов
 	let colorBuffer = gl.createBuffer()
@@ -121,7 +120,7 @@ async function main() {
 			0
 		)
 		// matrix = mat5.translate(...translation, matrix)
-		setGeometry(gl, PointArrayMultMatrix(points, matrix))
+		setGeometry(gl, PointArrayMultMatrix(cube4gl, matrix))
 
 		// Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
 		gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0)

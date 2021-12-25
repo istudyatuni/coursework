@@ -14,6 +14,7 @@ export function Point5to4(p) {
 
 /**
  * Converting an array like gl.ARRAY_BUFFER (1D set of coordinates) with 4D points to 3D points
+ *
  * Each point is 5 numbers - vector in homogeneous coordinates
  * @param {number[]} points array with coordinates, where each 5 coordinate is point
  * @return {number[]}
