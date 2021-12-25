@@ -6,34 +6,46 @@ function drawPressedKey(key) {
 
 /**
  * Wrapper for document keydown listener
- * code parameter:
- *   https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values
- *   Examples:
- *     digits: 'Digit5' or 'Digit9', etc
- *     keys: 'KeyM' or 'KeyQ', etc
- *     numpad digits: 'Numpad7'
  *
- * Examples:
- *   // move faster when ctrl key pressed
- *   onKeydown('KeyM', (coeff) => {
- *     move(5 * coeff)
- *   }, 5)
+ * ## `code` parameter
  *
- *   // move slower when ctrl key pressed
- *   onKeydown('KeyM', (coeff) => {
- *     move(5 * coeff)
- *   }, 1, 5)
+ * Documentation https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code/code_values
  *
- *   // move only when ctrl key pressed
- *   onKeydown('KeyM', (coeff) => {
- *     move(5 * coeff)
- *   }, 1, null)
+ * For example:
  *
- *   // without multiplier
- *   onKeydown('KeyM', () => {
- *     move(5)
- *   })
+ * - *digits*: `Digit5`, `Digit9`, etc
+ * - *keys*: `KeyM`, `KeyQ`, etc
+ * - *numpad digits*: `Numpad7`
  *
+ * ## Usage examples
+ *
+ * ```js
+ * // move faster when ctrl key pressed
+ * onKeydown('KeyM', (coeff) => {
+ *   move(5 * coeff)
+ * }, 5)
+ * ```
+ *
+ * ```js
+ * // move slower when ctrl key pressed
+ * onKeydown('KeyM', (coeff) => {
+ *   move(5 * coeff)
+ * }, 1, 5)
+ * ```
+ *
+ * ```js
+ * // move only when ctrl key pressed
+ * onKeydown('KeyM', (coeff) => {
+ *   move(5 * coeff)
+ * }, 1, null)
+ * ```
+ *
+ * ```js
+ * // without multiplier
+ * onKeydown('KeyM', () => {
+ *   move(5)
+ * })
+ * ```
  * @param  {string}                  code       code of trigger key
  * @param  {(coeff: number) => void} action     function for action
  * @param  {number}                  ctrl_coeff multiplier when ctrl pressed with key

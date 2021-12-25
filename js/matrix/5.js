@@ -17,6 +17,7 @@ export const mat5 = {
 	},
 	/**
 	 * Return homogenius matrix for 4D rotation
+	 *
 	 * @param  {"x" | "y" | "z"}   a   describe 1st axis
 	 * @param  {"y" | "z" | "w"}   b   describe 2nd axis
 	 * @param  {number}            rad rotation angle in radian
@@ -82,9 +83,11 @@ export const mat5 = {
 	/**
 	 * Matrix multiplication
 	 *
+	 * ```
 	 * A * B = C
 	 * C[i][j] = sum(A[i][k] * B[k][j], k=0..4)
 	 * 0 <= i, j < 5
+	 * ```
 	 */
 	multiply: function (a, b) {
 		let c = Array(this.size * this.size).fill(0)

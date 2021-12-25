@@ -1,7 +1,8 @@
 import { Points5Arrayto4 } from '../math/coordinates.js'
 
 /**
- * matrix with 4D cube's points
+ * Matrix with 4D cube's points
+ *
  * @type {number[][]}
  */
 // prettier-ignore
@@ -26,6 +27,7 @@ const cube4points = [
 
 /**
  * Faces are the quadruples of points obtained by declaring two coordinates constant
+ *
  * @type {number[]} Array with faces
  */
 const cube4faces = (function () {
@@ -56,12 +58,13 @@ const cube4faces = (function () {
  * e.g.
  * ```
  * [
- *   1 1 1 1
- *   1 1 -1 1
- *   1 1 1 -1
+ *   1, 1, 1, 1,
+ *   1, 1, -1, 1,
+ *   1, 1, 1, -1,
  * ]
  * ```
  * is one triangle
+ *
  * @type {number[]}
  */
 export const cube4gl = cube4faces
@@ -70,12 +73,19 @@ export const cube4gl = cube4faces
 
 /**
  * Put 4D cube to gl.ARRAY_BUFFER
+ *
  * Its vertices are the 16 points (±1,±1,±1,±1) in R4;
+ *
  * its edges are the line segments between pairs of points having exactly one coordinate differing;
+ *
  * its faces are the quadruples of points obtained by declaring two coordinates constant;
+ *
  * its cells are the collections of points where one coordinate is declared constant.
+ *
  * There are 8 cells, 24 faces, 32 edges and 16 vertices.
+ *
  * Got from quora: https://qr.ae/pGyiFk
+ *
  * @param  {WebGLRenderingContext} gl Context from canvas for WebGL
  * @return {void}
  */
@@ -89,6 +99,7 @@ export function setGeometry(gl, data = cube4) {
 
 /**
  * Fill the buffer with colors for the 'F'.
+ *
  * @param {WebGLRenderingContext} gl
  */
 export function setColors(gl) {

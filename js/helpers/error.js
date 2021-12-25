@@ -1,6 +1,8 @@
 /**
  * throw error and show function name and path
+ *
  * improved https://gist.github.com/irisli/716b6dacd3f151ce2b7e
+ *
  * @return {void}
  */
 export function notImplemented() {

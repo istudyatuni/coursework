@@ -2,6 +2,7 @@ import { getShaderSource } from '../shaders/getShader.js'
 
 /**
  * Get a WebGL context from canvas HTML element by its id
+ *
  * @param  {string} elementQuery canvas id
  */
 export function getContext(elementQuery) {
@@ -12,6 +13,7 @@ export function getContext(elementQuery) {
 
 /**
  * Create shader from context, shader type and source of shader
+ *
  * @param  {WebGLRenderingContext} gl
  * @param  {number}                type
  * @param  {string}                source
@@ -32,10 +34,11 @@ export function createShader(gl, type, source) {
 
 /**
  * Load shaders and create WebGLProgram (pair of shaders) from this
+ *
  * @param  {WebGLRenderingContext} gl
  * @param  {string}                vertexShaderName
  * @param  {string}                fragmentShaderName
- * @return {WebGLProgram}
+ * @return {Promise<WebGLProgram>}
  */
 export async function createProgram(gl, vertexShaderName, fragmentShaderName) {
 	let vertexShaderSource = await getShaderSource(vertexShaderName)
@@ -64,6 +67,7 @@ export async function createProgram(gl, vertexShaderName, fragmentShaderName) {
 
 /**
  * Make default (for this program) actions to GL, like set viewport, enable depth buffer, etc
+ *
  * @param  {WebGLRenderingContext} gl
  * @return {void}
  */
