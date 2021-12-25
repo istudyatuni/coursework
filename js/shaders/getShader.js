@@ -1,7 +1,7 @@
-import config from '../config.js'
+import { isLocalhost } from '../helpers/host.js'
 
 let host_path = ''
-if (!config.localHost) {
+if (!isLocalhost()) {
 	host_path = '/coursework'
 }
 

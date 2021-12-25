@@ -1,5 +1,3 @@
-const config = {
-	localHost: true,
-}
+const config = {}
 
 export default config
