@@ -5,7 +5,7 @@ import {
 	drawTranslationValue,
 	setTheme,
 } from './helpers/document.js'
-import { cube4gl, cube4glVertices, setGeometry, setColors } from './gl/data.js'
+import { cube4glTriangles, cube4glVertices, cube4glEdges, setGeometry, setColors } from './gl/data.js'
 import { mat4 } from './matrix/4.js'
 import { mat5 } from './matrix/5.js'
 
@@ -47,7 +47,8 @@ async function main() {
 	setColors(gl)
 
 	let translation = [...start_position, 0, 500]
-	let rotation = [40 * RAD, 25 * RAD, 325 * RAD, 60 * RAD]
+	// let rotation = [40 * RAD, 25 * RAD, 325 * RAD, 60 * RAD]
+	let rotation = [0, 0, 0, 0]
 	let scale = [1, 1, 1, 1]
 
 	defaultGLSetup(gl)
@@ -154,8 +155,8 @@ async function main() {
 		gl.uniformMatrix4fv(matrixLocation, false, proj_matrix)
 
 		// Draw the geometry.
-		let count = 5 * 4
-		gl.drawArrays(gl.LINE_STRIP, 0, count)
+		let count = cube4glEdges.length /** 4 / 5*/
+		// gl.drawArrays(gl.LINE_LOOP, 0, count)
 		gl.drawArrays(gl.POINTS, 0, count)
 	}
 }
