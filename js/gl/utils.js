@@ -73,7 +73,7 @@ export async function createProgram(gl, vertexShaderName, fragmentShaderName) {
  */
 export function defaultGLSetup(gl) {
 	const clientWidth = gl.canvas.clientWidth
-	const clientHeight = gl.canvas.clientHeight
+	const clientHeight = window.innerHeight // gl.canvas.clientHeight
 	if (gl.canvas.width !== clientWidth || gl.canvas.height !== clientHeight) {
 		gl.canvas.width = clientWidth
 		gl.canvas.height = clientHeight

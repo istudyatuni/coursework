@@ -11,11 +11,10 @@ files:
   - js/shaders/fragment.glsl
   - js/shaders/vertex.glsl
   - js/shaders/getShader.js
-  # - js/gl/data.js
+  - js/gl/data.js
   # - style/style.css
 
 add_file_names: true
 code_in_md: true
 file_label: "Файл: "
 output: result.txt
-remove_folder: true

@@ -9,7 +9,7 @@ import { badCall } from '../helpers/error.js'
  */
 export function Point5to4(p) {
 	if (p.length !== 5) {
-		badCall('point ' + p.toString() + ' should be of size 5')
+		badCall('point ' + p + ' should be of size 5')
 	}
 	return [p[0], p[1], p[2], p[4]]
 }
@@ -49,12 +49,15 @@ export function Points5Arrayto4(points) {
  */
 export function PointMultMatrix(p, m) {
 	let size = p.length
-	if (size !== 4 && size !== 5)
+	if (size !== 4 && size !== 5) {
 		badCall('point size should be 4 or 5')
-	if (m.length !== 16 && m.length !== 25)
+	}
+	if (m.length !== 16 && m.length !== 25) {
 		badCall('matrix size should be 16 or 25')
-	if (size * size !== m.length)
+	}
+	if (size * size !== m.length) {
 		badCall('sizes of point and matrix does not match')
+	}
 
 	let c = Array(size).fill(0)
 	for (var i = 0; i < size; i++) {

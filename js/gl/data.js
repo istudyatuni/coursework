@@ -6,7 +6,7 @@ import { Points5Arrayto4 } from '../math/coordinates.js'
  * @type {number[][]}
  */
 // prettier-ignore
-const cube4points = [
+const cube4vertices = [
 	[ 1,  1,  1,  1],
 	[ 1,  1,  1, -1],
 	[ 1,  1, -1,  1],
@@ -41,16 +41,18 @@ const cube4faces = (function () {
 		[2, 3],
 	]) {
 		for (let [a, b] of [
-			[ 1,  1],
-			[ 1, -1],
-			[-1,  1],
+			[1, 1],
+			[1, -1],
+			[-1, 1],
 			[-1, -1],
 		]) {
-			result.push(cube4points.filter((e) => e[i] === a && e[j] === b))
+			result.push(cube4vertices.filter((e) => e[i] === a && e[j] === b))
 		}
 	}
 	return result
 })()
+
+const coeff = 50000
 
 /**
  * 4D cube, each 2 triples of points (each point is 4 numbers) is triangles of one face
@@ -67,9 +69,25 @@ const cube4faces = (function () {
  *
  * @type {number[]}
  */
-export const cube4gl = cube4faces
-	.map((e) => [e[0], e[1], e[2], e[1], e[2], e[3]])
-	.flat(2)
+export const cube4glTriangles = cube4faces
+	.map((v) => [v[0], v[1], v[2], v[1], v[2], v[3]])
+	.flat()
+	.map((v) => v.map((p) => p * coeff))
+	.flat()
+
+export const cube4glVertices = cube4vertices
+	.map((v) => [...v.map((p) => p * coeff), 1])
+	.flat()
+
+/**
+ * Array to dray edges
+ * @type {number[]}
+ */
+export const cube4glEdges = cube4faces
+	.map((v) => [v[0], v[1], v[1], v[2], v[2], v[3], v[0], v[3]])
+	.flat()
+	.map((v) => v.map((p) => p * coeff))
+	.flat()
 
 /**
  * Put 4D cube to gl.ARRAY_BUFFER
@@ -89,7 +107,7 @@ export const cube4gl = cube4faces
  * @param  {WebGLRenderingContext} gl Context from canvas for WebGL
  * @return {void}
  */
-export function setGeometry(gl, data = cube4) {
+export function setGeometry(gl, data = cube4glTriangles) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
 		new Float32Array(Points5Arrayto4(data)),
@@ -105,136 +123,12 @@ export function setGeometry(gl, data = cube4) {
 export function setColors(gl) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
-		// prettier-ignore
-		new Uint8Array([
-			// left column front
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-
-			// top rung front
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-
-			// middle rung front
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-			200,  70, 120,
-
-			// left column back
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-
-			// top rung back
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-
-			// middle rung back
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-			80, 70, 200,
-
-			// top
-			70, 200, 210,
-			70, 200, 210,
-			70, 200, 210,
-			70, 200, 210,
-			70, 200, 210,
-			70, 200, 210,
-
-			// top rung right
-			200, 200, 70,
-			200, 200, 70,
-			200, 200, 70,
-			200, 200, 70,
-			200, 200, 70,
-			200, 200, 70,
-
-			// under top rung
-			210, 100, 70,
-			210, 100, 70,
-			210, 100, 70,
-			210, 100, 70,
-			210, 100, 70,
-			210, 100, 70,
-
-			// between top rung and middle
-			210, 160, 70,
-			210, 160, 70,
-			210, 160, 70,
-			210, 160, 70,
-			210, 160, 70,
-			210, 160, 70,
-
-			// top of middle rung
-			70, 180, 210,
-			70, 180, 210,
-			70, 180, 210,
-			70, 180, 210,
-			70, 180, 210,
-			70, 180, 210,
-
-			// right of middle rung
-			100, 70, 210,
-			100, 70, 210,
-			100, 70, 210,
-			100, 70, 210,
-			100, 70, 210,
-			100, 70, 210,
-
-			/*// bottom of middle rung.
-			76, 210, 100,
-			76, 210, 100,
-			76, 210, 100,
-			76, 210, 100,
-			76, 210, 100,
-			76, 210, 100,
-
-			// right of bottom
-			140, 210, 80,
-			140, 210, 80,
-			140, 210, 80,
-			140, 210, 80,
-			140, 210, 80,
-			140, 210, 80,
-
-			// bottom
-			90, 130, 110,
-			90, 130, 110,
-			90, 130, 110,
-			90, 130, 110,
-			90, 130, 110,
-			90, 130, 110,
-
-			// left side
-			160, 160, 220,
-			160, 160, 220,
-			160, 160, 220,
-			160, 160, 220,
-			160, 160, 220,
-			160, 160, 220*/
-		]),
+		new Uint8Array(
+			cube4faces
+				.flat()
+				.map((p) => [...p.map(() => Math.random() * 256), 1])
+				.flat()
+		),
 		gl.STATIC_DRAW
 	)
 }

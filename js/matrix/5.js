@@ -1,4 +1,4 @@
-import { badCall, notImplemented } from '../helpers/error.js'
+import { badCall } from '../helpers/error.js'
 
 /**
  * Set of functions for work with 5x5 4D homogeneous matrices

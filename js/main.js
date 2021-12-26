@@ -1,24 +1,22 @@
 'use strict'
-import {
-	createShader,
-	createProgram,
-	getContext,
-	defaultGLSetup,
-} from './gl/utils.js'
+import { createProgram, getContext, defaultGLSetup } from './gl/utils.js'
 import {
 	setupListeners,
 	drawTranslationValue,
 	setTheme,
 } from './helpers/document.js'
-import { cube4gl, setGeometry, setColors } from './gl/data.js'
+import { cube4gl, cube4glVertices, setGeometry, setColors } from './gl/data.js'
 import { mat4 } from './matrix/4.js'
 import { mat5 } from './matrix/5.js'
 
 import { RAD } from './math/constants.js'
-import { PointArrayMultMatrix, Points5Arrayto4 } from './math/coordinates.js'
+import {
+	PointArrayMultMatrix,
+	// Points5Arrayto4,
+} from './math/coordinates.js'
 
-const start_position = 300
-const center = [-50, -75]
+const start_position = [900, 400]
+const center = [50, 75]
 
 async function main() {
 	let gl = getContext('#canvas')
@@ -48,7 +46,7 @@ async function main() {
 	// Заполняем буфер цветами
 	setColors(gl)
 
-	let translation = [start_position, start_position, 0, 500]
+	let translation = [...start_position, 0, 500]
 	let rotation = [40 * RAD, 25 * RAD, 325 * RAD, 60 * RAD]
 	let scale = [1, 1, 1, 1]
 
@@ -80,7 +78,7 @@ async function main() {
 
 	// todo
 	function resetAll() {
-		translation = [start_position, start_position, 0, 500]
+		translation = [start_position, start_position, 0, 10]
 		rotation = [40 * RAD, 25 * RAD, 325 * RAD]
 		scale = [1, 1, 1]
 
@@ -99,6 +97,8 @@ async function main() {
 
 	// Draw the scene.
 	function drawScene() {
+		// console.log(rotation)
+
 		gl.useProgram(program)
 		let log = gl.getProgramInfoLog(program)
 		if (log !== '') console.log(log)
@@ -109,18 +109,12 @@ async function main() {
 		gl.enableVertexAttribArray(positionLocation)
 		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
 
-		let matrix = mat5.orthographic(
-			0,
-			gl.canvas.width,
-			gl.canvas.height,
-			0,
-			400,
-			-400,
-			0,
-			0
-		)
+		// mat5.translation(100, 100, 400, 345)
+		// prettier-ignore
+		let matrix = mat5.orthographic(100, gl.canvas.width, gl.canvas.height, 0, 400, -400, 0, 0)
 		// matrix = mat5.translate(...translation, matrix)
-		setGeometry(gl, PointArrayMultMatrix(cube4gl, matrix))
+		let geometry = PointArrayMultMatrix(cube4glVertices, matrix)
+		setGeometry(gl, geometry)
 
 		// Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
 		gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0)
@@ -140,35 +134,29 @@ async function main() {
 			0 // offset - начинать с начала буфера
 		)
 
-		let proj_matrix = mat4.orthographic(
-			0,
-			gl.canvas.width,
-			gl.canvas.height,
-			0,
-			400,
-			-400
-		)
-		// proj_matrix = mat4.translate(proj_matrix, translation[0], translation[1], translation[2])
-		// proj_matrix = mat4.xRotate(proj_matrix, rotation[0])
-		// proj_matrix = mat4.yRotate(proj_matrix, rotation[1])
-		// proj_matrix = mat4.zRotate(proj_matrix, rotation[2])
-		// proj_matrix = mat4.scale(proj_matrix, scale[0], scale[1], scale[2])
-
 		// Set the matrix.
-		gl.uniformMatrix4fv(
-			matrixLocation,
-			false,
-			proj_matrix
-			// create matrix to normalize projection
-			// mat4.orthographic(0, gl.canvas.width, gl.canvas.height, 0, 400, -400)
-		)
+
+		// create matrix to normalize projection
+		// prettier-ignore
+		let proj_matrix = mat4.orthographic(0, gl.canvas.width, gl.canvas.height, 0, 400, -400)
+		// prettier-ignore
+		proj_matrix = mat4.translate(proj_matrix, translation[0], translation[1], translation[2])
+		proj_matrix = mat4.xRotate(proj_matrix, rotation[0])
+		proj_matrix = mat4.yRotate(proj_matrix, rotation[1])
+		proj_matrix = mat4.zRotate(proj_matrix, rotation[2])
+		/*
+		proj_matrix = mat5.rotate(proj_matrix, 'x', 'y', rotation[0])
+		proj_matrix = mat5.rotate(proj_matrix, 'x', 'z', rotation[1])
+		proj_matrix = mat5.rotate(proj_matrix, 'x', 'w', rotation[2])
+		 */
+		proj_matrix = mat4.scale(proj_matrix, scale[0], scale[1], scale[2])
+
+		gl.uniformMatrix4fv(matrixLocation, false, proj_matrix)
 
 		// Draw the geometry.
-		gl.drawArrays(
-			gl.TRIANGLES, // primitive type
-			0, // first
-			16 * 6 // count
-		)
+		let count = 5 * 4
+		gl.drawArrays(gl.LINE_STRIP, 0, count)
+		gl.drawArrays(gl.POINTS, 0, count)
 	}
 }
 

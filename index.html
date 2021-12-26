@@ -8,9 +8,9 @@
 </head>
 <body>
 	<canvas id="canvas"></canvas>
-	<div class="canvas-name">CANVAS</div>
+	<div class="canvas-name hide">CANVAS</div>
 	<div class="canvas-bottom hide">WebGL NOT SUPPORTED</div>
-	<div class="infobox">
+	<div class="infobox hide">
 		<div id="translation">x:<br>y:<br>z:</div>
 		<ol>
 			<li><code>Arrows</code> - scale x, y</li>
@@ -28,6 +28,10 @@
 		<a href="https://github.com/istudyatuni/coursework" class="gh-link" title="GitHub">Source code</a>
 		<p>Pressed key: <span id="pressed-key"></span></p>
 	</div>
+	<button onclick="
+		document.querySelector('.canvas-name').classList.toggle('hide')
+		document.querySelector('.infobox').classList.toggle('hide')
+	" style="position: absolute; bottom: 1em; left: 1em;">hide/show interface</button>
 </body>
 <script type="module" src="js/main.js"></script>
 </html>
