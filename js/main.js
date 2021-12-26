@@ -79,6 +79,7 @@ async function main() {
 
 	// todo
 	function resetAll() {
+		return
 		translation = [start_position, start_position, 0, 10]
 		rotation = [40 * RAD, 25 * RAD, 325 * RAD]
 		scale = [1, 1, 1]
