@@ -5,7 +5,14 @@ import {
 	drawTranslationValue,
 	setTheme,
 } from './helpers/document.js'
-import { cube4glTriangles, cube4glVertices, cube4glEdges, setGeometry, setColors } from './gl/data.js'
+import {
+	// cube4glTriangles,
+	cube4cells,
+	// cube4glVertices,
+	cube4glEdges,
+	setGeometry,
+	setColors,
+} from './gl/data.js'
 import { mat4 } from './matrix/4.js'
 import { mat5 } from './matrix/5.js'
 
@@ -115,7 +122,7 @@ async function main() {
 		// prettier-ignore
 		let matrix = mat5.orthographic(100, gl.canvas.width, gl.canvas.height, 0, 400, -400, 0, 0)
 		// matrix = mat5.translate(...translation, matrix)
-		let geometry = PointArrayMultMatrix(cube4glVertices, matrix)
+		let geometry = PointArrayMultMatrix(cube4glEdges, matrix)
 		setGeometry(gl, geometry)
 
 		// Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
@@ -156,7 +163,7 @@ async function main() {
 		gl.uniformMatrix4fv(matrixLocation, false, proj_matrix)
 
 		// Draw the geometry.
-		let count = cube4glEdges.length /** 4 / 5*/
+		let count = cube4glEdges.length
 		if (document.getElementById('show-lines').checked) {
 			gl.drawArrays(gl.LINE_LOOP, 0, count)
 		}

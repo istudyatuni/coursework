@@ -1,7 +1,7 @@
 import { Points5Arrayto4 } from '../math/coordinates.js'
 
 /**
- * Matrix with 4D cube's points
+ * Matrix with 4D cube's vertices
  *
  * @type {number[][]}
  */
@@ -26,33 +26,23 @@ const cube4vertices = [
 ]
 
 /**
- * Faces are the quadruples of points obtained by declaring two coordinates constant
+ * Cells are the sets of 8 vertices obtained by declaring one coordinate constant
  *
- * @type {number[]} Array with faces
+ * Each cell is 3D cube
+ *
+ * @type {number[]} Array with cells
  */
-const cube4faces = (function () {
+export const cube4cells = (function () {
 	let result = []
-	for (let [i, j] of [
-		[0, 1],
-		[0, 2],
-		[0, 3],
-		[1, 2],
-		[1, 3],
-		[2, 3],
-	]) {
-		for (let [a, b] of [
-			[1, 1],
-			[1, -1],
-			[-1, 1],
-			[-1, -1],
-		]) {
-			result.push(cube4vertices.filter((e) => e[i] === a && e[j] === b))
+	for (let i of [0, 1, 2, 3]) {
+		for (let a of [1, -1]) {
+			result.push(cube4vertices.filter((e) => e[i] === a))
 		}
 	}
 	return result
 })()
 
-const coeff = 50000
+const coeff = 100
 
 /**
  * 4D cube, each 2 triples of points (each point is 4 numbers) is triangles of one face
@@ -69,8 +59,17 @@ const coeff = 50000
  *
  * @type {number[]}
  */
-export const cube4glTriangles = cube4faces
-	.map((v) => [v[0], v[1], v[2], v[1], v[2], v[3]])
+export const cube4glTriangles = cube4cells
+	.map((v) => {
+		let res = []
+		// split 3D cube to triangles
+		for (let i of [0, 1, 2]) {
+			for (let a of [1, -1]) {
+				res.push(v.filter((e) => e[i] === a))
+			}
+		}
+		return res
+	})
 	.flat()
 	.map((v) => v.map((p) => p * coeff))
 	.flat()
@@ -79,14 +78,34 @@ export const cube4glVertices = cube4vertices
 	.map((v) => [...v.map((p) => p * coeff), 1])
 	.flat()
 
+const edgesCoeff = 100
+
 /**
  * Array to dray edges
  * @type {number[]}
  */
-export const cube4glEdges = cube4faces
-	.map((v) => [v[0], v[1], v[1], v[2], v[2], v[3], v[0], v[3]])
-	.flat()
-	.map((v) => v.map((p) => p * coeff))
+export const cube4glEdges = cube4cells
+	.map((v) => {
+		let res = []
+		// find 3D cube edges
+		for (let [i, j] of [
+			[0, 1],
+			[0, 2],
+			[1, 2],
+		]) {
+			for (let [a, b] of [
+				[1, 1],
+				[1, -1],
+				[-1, 1],
+				[-1, -1],
+			]) {
+				res.push(v.filter((e) => e[i] === a && e[j] === b))
+			}
+		}
+		return res
+	})
+	.flat(2)
+	.map((v) => v.map((p) => p * edgesCoeff))
 	.flat()
 
 /**
@@ -101,6 +120,8 @@ export const cube4glEdges = cube4faces
  * its cells are the collections of points where one coordinate is declared constant.
  *
  * There are 8 cells, 24 faces, 32 edges and 16 vertices.
+ *
+ * Тессеракт обладает 8 трёхмерными гранями, 24 двумерными, 32 рёбрами и 16 вершинами
  *
  * Got from quora: https://qr.ae/pGyiFk
  *
@@ -124,7 +145,7 @@ export function setColors(gl) {
 	gl.bufferData(
 		gl.ARRAY_BUFFER,
 		new Uint8Array(
-			cube4faces
+			cube4cells
 				.flat()
 				.map((p) => [...p.map(() => Math.random() * 256), 1])
 				.flat()
