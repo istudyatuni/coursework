@@ -147,7 +147,7 @@ export function setColors(gl) {
 		new Uint8Array(
 			cube4cells
 				.flat()
-				.map((p) => [...p.map(() => Math.random() * 256), 1])
+				.map((p) => [200, 70, 180, 1])
 				.flat()
 		),
 		gl.STATIC_DRAW
