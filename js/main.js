@@ -157,7 +157,9 @@ async function main() {
 
 		// Draw the geometry.
 		let count = cube4glEdges.length /** 4 / 5*/
-		// gl.drawArrays(gl.LINE_LOOP, 0, count)
+		if (document.getElementById('show-lines').checked) {
+			gl.drawArrays(gl.LINE_LOOP, 0, count)
+		}
 		gl.drawArrays(gl.POINTS, 0, count)
 	}
 }
