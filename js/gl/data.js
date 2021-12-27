@@ -78,7 +78,7 @@ export const cube4glVertices = cube4vertices
 	.map((v) => [...v.map((p) => p * coeff), 1])
 	.flat()
 
-const edgesCoeff = 100
+const edgesCoeff = 50000
 
 /**
  * Array to dray edges
@@ -105,7 +105,7 @@ export const cube4glEdges = cube4cells
 		return res
 	})
 	.flat(2)
-	.map((v) => v.map((p) => p * edgesCoeff))
+	.map((v) => [...v.map((p) => p * edgesCoeff), 1])
 	.flat()
 
 /**

@@ -163,7 +163,7 @@ async function main() {
 		gl.uniformMatrix4fv(matrixLocation, false, proj_matrix)
 
 		// Draw the geometry.
-		let count = cube4glEdges.length
+		let count = geometry.length
 		if (document.getElementById('show-lines').checked) {
 			gl.drawArrays(gl.LINE_LOOP, 0, count)
 		}
