@@ -7,7 +7,7 @@ import {
 } from './helpers/document.js'
 import {
 	// cube4glTriangles,
-	cube4cells,
+	// cube4cells,
 	// cube4glVertices,
 	cube4glEdges,
 	setGeometry,

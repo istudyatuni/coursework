@@ -1,13 +1,15 @@
 {
   "name": "coursework",
   "description": "My coursework",
+  "private": true,
   "scripts": {
     "format": "prettier --write js './**/*.js'",
-    "start": "python -m http.server"
+    "start": "sirv . --no-clear --dev"
   },
   "author": "Ilia",
   "devDependencies": {
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "sirv-cli": "^2.0.2"
   },
   "license": "MIT"
 }

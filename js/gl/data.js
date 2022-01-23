@@ -89,8 +89,8 @@ export const cube4glEdges = cube4cells
 		let res = []
 		// find 3D cube edges
 		for (let [i, j] of [
-			[0, 1],
-			[0, 2],
+			// [0, 1],
+			// [0, 2],
 			[1, 2],
 		]) {
 			for (let [a, b] of [

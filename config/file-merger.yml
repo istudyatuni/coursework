@@ -18,3 +18,4 @@ add_file_names: true
 code_in_md: true
 file_label: "Файл: "
 output: result.txt
+file_name_as_code: true
