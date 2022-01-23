@@ -73,43 +73,7 @@ export const cube4cells = (function () {
 	return result
 })()
 
-const coeff = 100
-
-/**
- * 4D cube, each 2 triples of points (each point is 4 numbers) is triangles of one face
- *
- * e.g.
- * ```
- * [
- *   1, 1, 1, 1,
- *   1, 1, -1, 1,
- *   1, 1, 1, -1,
- * ]
- * ```
- * is one triangle
- *
- * @type {number[]}
- */
-/*export const cube4glTriangles = cube4cells
-	.map((v) => {
-		let res = []
-		// split 3D cube to triangles
-		for (let i of [0, 1, 2]) {
-			for (let a of [1, -1]) {
-				res.push(v.filter((e) => e[i] === a))
-			}
-		}
-		return res
-	})
-	.flat()
-	.map((v) => v.map((p) => p * coeff))
-	.flat()*/
-
-/*export const cube4glVertices = cube4vertices
-	.map((v) => [...v.map((p) => p * coeff), 1])
-	.flat()*/
-
-const edgesCoeff = 30000
+const coeff = 30000
 
 /**
  * Array to dray edges
@@ -117,32 +81,8 @@ const edgesCoeff = 30000
  */
 export const cube4glEdges = cube4cells
 	.flat()
-	.map((v) => [...v.map((p) => p * edgesCoeff), 1])
+	.map((v) => [...v.map((p) => p * coeff), 1])
 	.flat()
-
-/*export const cube4glEdges = cube4cells
-	.map((v) => {
-		let res = []
-		// find 3D cube edges
-		for (let [i, j] of [
-			// [0, 1],
-			// [0, 2],
-			[1, 2],
-		]) {
-			for (let [a, b] of [
-				[1, 1],
-				[1, -1],
-				[-1, 1],
-				[-1, -1],
-			]) {
-				res.push(v.filter((e) => e[i] === a && e[j] === b))
-			}
-		}
-		return res
-	})
-	.flat(2)
-	.map((v) => [...v.map((p) => p * edgesCoeff), 1])
-	.flat()*/
 
 /**
  * Put 4D cube to gl.ARRAY_BUFFER
