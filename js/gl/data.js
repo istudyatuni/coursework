@@ -33,11 +33,42 @@ const cube4vertices = [
  * @type {number[]} Array with cells
  */
 export const cube4cells = (function () {
+	// now here generated edges, not cells
+
 	let result = []
-	for (let i of [0, 1, 2, 3]) {
-		for (let a of [1, -1]) {
-			result.push(cube4vertices.filter((e) => e[i] === a))
+
+	// get two cells
+	// const cells = []
+	for (let x of [1, -1]) {
+		const cell = cube4vertices.filter((v) => v[0] === x)
+		// cells.push(cell)
+
+		// get two faces for each cell
+		const faces = []
+		for (let y of [1, -1]) {
+			const face = cell.filter((v) => v[1] === y)
+			faces.push(face)
+
+			// get two edges for each face
+			for (let z of [1, -1]) {
+				const edge = face.filter((v) => v[2] === z)
+
+				result.push(edge)
+			}
 		}
+
+		// connect opposite points
+		for (let z of [1, -1]) {
+			faces.forEach((f) => {
+				result.push(f.filter((v) => v[2] === z))
+			})
+		}
+		for (let w of [1, -1]) {
+			faces.forEach((f) => {
+				result.push(f.filter((v) => v[3] === w))
+			})
+		}
+
 	}
 	return result
 })()
@@ -59,7 +90,7 @@ const coeff = 100
  *
  * @type {number[]}
  */
-export const cube4glTriangles = cube4cells
+/*export const cube4glTriangles = cube4cells
 	.map((v) => {
 		let res = []
 		// split 3D cube to triangles
@@ -72,11 +103,11 @@ export const cube4glTriangles = cube4cells
 	})
 	.flat()
 	.map((v) => v.map((p) => p * coeff))
-	.flat()
+	.flat()*/
 
-export const cube4glVertices = cube4vertices
+/*export const cube4glVertices = cube4vertices
 	.map((v) => [...v.map((p) => p * coeff), 1])
-	.flat()
+	.flat()*/
 
 const edgesCoeff = 50000
 
@@ -85,6 +116,11 @@ const edgesCoeff = 50000
  * @type {number[]}
  */
 export const cube4glEdges = cube4cells
+	.flat()
+	.map((v) => [...v.map((p) => p * edgesCoeff), 1])
+	.flat()
+
+/*export const cube4glEdges = cube4cells
 	.map((v) => {
 		let res = []
 		// find 3D cube edges
@@ -106,7 +142,7 @@ export const cube4glEdges = cube4cells
 	})
 	.flat(2)
 	.map((v) => [...v.map((p) => p * edgesCoeff), 1])
-	.flat()
+	.flat()*/
 
 /**
  * Put 4D cube to gl.ARRAY_BUFFER

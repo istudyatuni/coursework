@@ -138,6 +138,14 @@ export function setupListeners(
 		-10,
 		10
 	)
+	onKeydown(
+		'KeyW',
+		(coeff) => {
+			updateRotation(3, 2 * coeff * RAD)
+		},
+		-100,
+		100
+	)
 
 	// scale
 	onKeydown(
