@@ -1,7 +1,12 @@
 import { RAD } from '../math/constants.js'
 
+let timer
+let keyEl = document.getElementById('pressed-key')
+
 function drawPressedKey(key) {
-	document.getElementById('pressed-key').innerHTML = key
+	clearTimeout(timer)
+	keyEl.innerHTML = key
+	timer = setTimeout(() => { keyEl.innerHTML = '' }, 100)
 }
 
 /**
@@ -143,8 +148,8 @@ export function setupListeners(
 		(coeff) => {
 			updateRotation(3, 2 * coeff * RAD)
 		},
-		-100,
-		100
+		-10,
+		10
 	)
 
 	// scale

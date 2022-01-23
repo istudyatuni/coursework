@@ -109,7 +109,7 @@ const coeff = 100
 	.map((v) => [...v.map((p) => p * coeff), 1])
 	.flat()*/
 
-const edgesCoeff = 50000
+const edgesCoeff = 30000
 
 /**
  * Array to dray edges
