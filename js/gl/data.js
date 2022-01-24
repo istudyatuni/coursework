@@ -35,9 +35,31 @@ const cube4vertices = [
 export const cube4cells = (function () {
 	let result = []
 
-	for (let i of [0, 1, 2, 3]) {
-		for (let a of [1, -1]) {
-			result.push(cube4vertices.filter((e) => e[i] === a))
+	// find vertice perpendicular to vert (by ind coordinate)
+	function findOpposite(ind, vert) {
+		// find indexes other than ind
+		let others = [0, 1, 2, 3]
+		others.splice(ind, 1)
+		let a = others[0], b = others[1], c = others[2]
+
+		let res = cube4vertices.find((v) => (
+			v[ind] !== vert[ind] &&
+			v[a] === vert[a] &&
+			v[b] === vert[b] &&
+			v[c] === vert[c]
+		))
+		return res
+	}
+
+	let opposite
+	// for first half of vertices
+	// it's wrong to select vertices from first half
+	for (let vertice of cube4vertices/*.slice(0, 8)*/) {
+		for (let ind of [0, 1, 2, 3]) {
+			// find opposite vertice, where ind changes, and other coordinates are const
+			opposite = findOpposite(ind, vertice)
+
+			result.push([[...vertice], [...opposite]])
 		}
 	}
 
