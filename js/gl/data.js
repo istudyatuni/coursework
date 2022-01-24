@@ -33,43 +33,14 @@ const cube4vertices = [
  * @type {number[]} Array with cells
  */
 export const cube4cells = (function () {
-	// now here generated edges, not cells
-
 	let result = []
 
-	// get two cells
-	// const cells = []
-	for (let x of [1, -1]) {
-		const cell = cube4vertices.filter((v) => v[0] === x)
-		// cells.push(cell)
-
-		// get two faces for each cell
-		const faces = []
-		for (let y of [1, -1]) {
-			const face = cell.filter((v) => v[1] === y)
-			faces.push(face)
-
-			// get two edges for each face
-			for (let z of [1, -1]) {
-				const edge = face.filter((v) => v[2] === z)
-
-				result.push(edge)
-			}
+	for (let i of [0, 1, 2, 3]) {
+		for (let a of [1, -1]) {
+			result.push(cube4vertices.filter((e) => e[i] === a))
 		}
-
-		// connect opposite points
-		for (let z of [1, -1]) {
-			faces.forEach((f) => {
-				result.push(f.filter((v) => v[2] === z))
-			})
-		}
-		for (let w of [1, -1]) {
-			faces.forEach((f) => {
-				result.push(f.filter((v) => v[3] === w))
-			})
-		}
-
 	}
+
 	return result
 })()
 
