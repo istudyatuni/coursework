@@ -64,3 +64,11 @@ body {
 	text-decoration: none;
 	margin-top: 2em;
 }
+
+.bottom {
+	bottom: 1em;
+	color: var(--text-color);
+	display: inline;
+	left: 1em;
+	position: absolute;
+}

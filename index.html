@@ -8,27 +8,27 @@
 </head>
 <body>
 	<canvas id="canvas"></canvas>
-	<div class="canvas-name hide">CANVAS</div>
+	<!-- <div class="canvas-name hide">CANVAS</div> -->
 	<div class="canvas-bottom hide">WebGL NOT SUPPORTED</div>
-	<div class="infobox hide">
-		<div id="translation">x:<br>y:<br>z:</div>
+	<div class="infobox">
+		<div id="translation" class="hide">x:<br>y:<br>z:</div>
 		<ol>
-			<li><code>Arrows</code> - scale x, y</li>
-			<li><code>x y z</code> - rotation about the corresponding axis</li>
-			<li><code>Numpad</code> - move</li>
-			<ul>
+			<!-- <li><code>Arrows</code> - scale x, y</li> -->
+			<li><code>x y z w</code> - rotation</li>
+			<!-- <li><code>Numpad</code> - move</li> -->
+			<!-- <ul>
 				<li><code>8, 2</code> - up, down</li>
 				<li><code>4, 6</code> - left, right</li>
 				<li><code>5, ctrl+5</code> - axis Z+, Z-</li>
-			</ul>
-			<li>press <code>Ctrl</code> for fast move</li>
+			</ul> -->
+			<li>press <code>Ctrl</code> for reverse rotation</li>
 			<!-- <li><code>space</code> - reset position</li> -->
 		</ol>
 		<p>Orthographic projection is used<br>(without perspective)</p>
 		<a href="https://github.com/istudyatuni/coursework" class="gh-link" title="GitHub">Source code</a>
-	</div>
-	<div class="bottom" style="position: absolute; bottom: 1em; left: 1em; display: inline;">
 		<p>Pressed key: <span id="pressed-key"></span></p>
+	</div>
+	<div class="bottom">
 
 		<label for="lines">
 			<input type="checkbox" name="lines" id="show-lines" checked>
