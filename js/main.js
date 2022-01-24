@@ -167,9 +167,9 @@ async function main() {
 		gl.uniformMatrix4fv(matrixLocation, false, proj_matrix)
 
 		// Draw the geometry.
-		let count = geometry.length
+		let count = geometry.length / 4
 		if (document.getElementById('show-lines').checked) {
-			gl.drawArrays(gl.LINE_LOOP, 0, count)
+			gl.drawArrays(gl.LINES, 0, count)
 		}
 		gl.drawArrays(gl.POINTS, 0, count)
 	}

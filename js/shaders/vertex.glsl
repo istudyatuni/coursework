@@ -9,7 +9,7 @@ varying vec4 v_color;
 void main() {
 	// умножаем коородинаты на матрицу
 	gl_Position = u_matrix * a_position;
-	gl_PointSize = 10.0;
+	// gl_PointSize = 10.0;
 
 	// передаем во фрагментный шейдер
 	v_color = a_color;
