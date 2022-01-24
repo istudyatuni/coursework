@@ -122,8 +122,12 @@ async function main() {
 		gl.canvas.height
 	)
 
-	// Draw the scene.
 	function drawScene() {
+		requestAnimationFrame(drawSceneInner)
+	}
+
+	// Draw the scene.
+	function drawSceneInner() {
 		gl.useProgram(program)
 		let log = gl.getProgramInfoLog(program)
 		if (log !== '') console.log(log)
